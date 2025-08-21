@@ -1,0 +1,26 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: Content/1-intro
+options:
+  numbered: true
+  
+chapters:
+- file: Content/2-Python
+- file: Content/3-Basic-Python
+- file: Content/4-Supervised-Unsupervised
+- file: Content/5-Linear-regression
+- file: Content/6-Lab-Cars
+- file: Content/7-Learning-outside-training
+- file: Content/8-Lab2-train-test
+- file: Content/9-BLUE
+- file: Content/10-Lab3-gradient-descent
+- file: Content/11-Shrinkage-methods
+- file: Content/12-Model-selection
+- file: Content/13-Lab4-lasso
+- file: Content/14-Computing-lasso
+- file: Content/15-Lab5-coordinate-descent
+- file: Content/16-LASSO-theoretical
+- file: Content/17-categorical-data
+- file: Content/18-Lab6-nearest-neighbors
