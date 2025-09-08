@@ -111,7 +111,7 @@ width: 300 px
 ---
 ```
 
-Notice that the original data points have no labels. Nevertheless, the cluster structure can reaveal a lot of information about the data. For example, in a database containing customers' information, customers with similar characteristics or behavior may create clusters. One can then try to identify what are the common characteristics of customers in a given cluster. This can yield significant insights about customer behavior. 
+Notice that the original data points have no labels. Nevertheless, the cluster structure can reveal a lot of information about the data. For example, in a database containing customers' information, customers with similar characteristics or behavior may create clusters. One can then try to identify what are the common characteristics of customers in a given cluster. This can yield significant insights about customer behavior. 
 
 Another nice application of clustering is image segmentation, where the goal is to divide an image into meaningful parts (e.g., separate objects). 
 

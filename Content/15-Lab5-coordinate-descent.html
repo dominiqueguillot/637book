@@ -28,13 +28,24 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -60,6 +71,21 @@
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Content/15-Lab5-coordinate-descent';</script>
+    <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/searchtools.js?v=d24376de"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="15. Theoretical guarantees for the LASSO" href="16-LASSO-theoretical.html" />
@@ -490,98 +516,77 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 	 Grad 	 Err
-1 	 1.392123 	 0.996686
-2 	 0.923619 	 0.905546
-3 	 0.615443 	 0.862639
-4 	 0.412447 	 0.843040
-5 	 0.278488 	 0.834176
-6 	 0.189874 	 0.830153
-7 	 0.131067 	 0.828304
-8 	 0.091876 	 0.827437
-9 	 0.065608 	 0.827020
-10 	 0.047867 	 0.826811
-11 	 0.035759 	 0.826703
-12 	 0.027383 	 0.826643
-13 	 0.021486 	 0.826609
-14 	 0.017246 	 0.826588
-15 	 0.014123 	 0.826574
-16 	 0.011763 	 0.826565
-17 	 0.009935 	 0.826559
-18 	 0.008483 	 0.826555
-19 	 0.007306 	 0.826552
-20 	 0.006333 	 0.826549
-21 	 0.005518 	 0.826547
-22 	 0.004826 	 0.826546
-23 	 0.004232 	 0.826545
-24 	 0.003719 	 0.826544
-25 	 0.003274 	 0.826543
-26 	 0.002885 	 0.826543
-27 	 0.002545 	 0.826543
-28 	 0.002246 	 0.826542
-29 	 0.001983 	 0.826542
-30 	 0.001752 	 0.826542
-31 	 0.001548 	 0.826542
-32 	 0.001368 	 0.826542
-33 	 0.001209 	 0.826542
-34 	 0.001069 	 0.826541
-35 	 0.000945 	 0.826541
-36 	 0.000835 	 0.826541
-37 	 0.000738 	 0.826541
-38 	 0.000653 	 0.826541
-39 	 0.000577 	 0.826541
-40 	 0.000510 	 0.826541
-41 	 0.000451 	 0.826541
-42 	 0.000399 	 0.826541
-43 	 0.000353 	 0.826541
-44 	 0.000312 	 0.826541
-45 	 0.000276 	 0.826541
-46 	 0.000244 	 0.826541
-47 	 0.000216 	 0.826541
-48 	 0.000191 	 0.826541
-49 	 0.000169 	 0.826541
-50 	 0.000149 	 0.826541
-51 	 0.000132 	 0.826541
-52 	 0.000117 	 0.826541
-53 	 0.000103 	 0.826541
-54 	 0.000091 	 0.826541
-55 	 0.000081 	 0.826541
-56 	 0.000071 	 0.826541
-57 	 0.000063 	 0.826541
-58 	 0.000056 	 0.826541
-59 	 0.000049 	 0.826541
-60 	 0.000044 	 0.826541
-61 	 0.000039 	 0.826541
-62 	 0.000034 	 0.826541
-63 	 0.000030 	 0.826541
-64 	 0.000027 	 0.826541
-65 	 0.000024 	 0.826541
-66 	 0.000021 	 0.826541
-67 	 0.000018 	 0.826541
-68 	 0.000016 	 0.826541
-69 	 0.000014 	 0.826541
-70 	 0.000013 	 0.826541
-71 	 0.000011 	 0.826541
-72 	 0.000010 	 0.826541
-73 	 0.000009 	 0.826541
-74 	 0.000008 	 0.826541
-75 	 0.000007 	 0.826541
-76 	 0.000006 	 0.826541
-77 	 0.000005 	 0.826541
-78 	 0.000005 	 0.826541
-79 	 0.000004 	 0.826541
-80 	 0.000004 	 0.826541
-81 	 0.000003 	 0.826541
-82 	 0.000003 	 0.826541
-83 	 0.000003 	 0.826541
-84 	 0.000002 	 0.826541
-85 	 0.000002 	 0.826541
-86 	 0.000002 	 0.826541
-87 	 0.000002 	 0.826541
-88 	 0.000001 	 0.826541
-89 	 0.000001 	 0.826541
-90 	 0.000001 	 0.826541
-91 	 0.000001 	 0.826541
-[-7.98802829e-07 -2.04612488e-07  1.03062240e-06]
+1 	 0.309298 	 1.055316
+2 	 0.256704 	 1.046956
+3 	 0.213073 	 1.041160
+4 	 0.176873 	 1.037149
+5 	 0.146835 	 1.034377
+6 	 0.121908 	 1.032462
+7 	 0.101220 	 1.031141
+8 	 0.084049 	 1.030229
+9 	 0.069795 	 1.029600
+10 	 0.057963 	 1.029166
+11 	 0.048139 	 1.028867
+12 	 0.039983 	 1.028661
+13 	 0.033210 	 1.028518
+14 	 0.027586 	 1.028420
+15 	 0.022916 	 1.028352
+16 	 0.019037 	 1.028306
+17 	 0.015815 	 1.028273
+18 	 0.013140 	 1.028251
+19 	 0.010917 	 1.028236
+20 	 0.009071 	 1.028225
+21 	 0.007537 	 1.028218
+22 	 0.006263 	 1.028213
+23 	 0.005204 	 1.028209
+24 	 0.004324 	 1.028207
+25 	 0.003594 	 1.028205
+26 	 0.002986 	 1.028204
+27 	 0.002482 	 1.028203
+28 	 0.002063 	 1.028203
+29 	 0.001714 	 1.028202
+30 	 0.001425 	 1.028202
+31 	 0.001184 	 1.028202
+32 	 0.000984 	 1.028202
+33 	 0.000818 	 1.028202
+34 	 0.000680 	 1.028202
+35 	 0.000565 	 1.028202
+36 	 0.000470 	 1.028201
+37 	 0.000391 	 1.028201
+38 	 0.000325 	 1.028201
+39 	 0.000270 	 1.028201
+40 	 0.000224 	 1.028201
+41 	 0.000186 	 1.028201
+42 	 0.000155 	 1.028201
+43 	 0.000129 	 1.028201
+44 	 0.000107 	 1.028201
+45 	 0.000089 	 1.028201
+46 	 0.000074 	 1.028201
+47 	 0.000062 	 1.028201
+48 	 0.000051 	 1.028201
+49 	 0.000043 	 1.028201
+50 	 0.000035 	 1.028201
+51 	 0.000029 	 1.028201
+52 	 0.000024 	 1.028201
+53 	 0.000020 	 1.028201
+54 	 0.000017 	 1.028201
+55 	 0.000014 	 1.028201
+56 	 0.000012 	 1.028201
+57 	 0.000010 	 1.028201
+58 	 0.000008 	 1.028201
+59 	 0.000007 	 1.028201
+60 	 0.000006 	 1.028201
+61 	 0.000005 	 1.028201
+62 	 0.000004 	 1.028201
+63 	 0.000003 	 1.028201
+64 	 0.000003 	 1.028201
+65 	 0.000002 	 1.028201
+66 	 0.000002 	 1.028201
+67 	 0.000002 	 1.028201
+68 	 0.000001 	 1.028201
+69 	 0.000001 	 1.028201
+70 	 0.000001 	 1.028201
+[-2.07386682e-07  1.02334431e-06 -6.02362011e-07]
 </pre></div>
 </div>
 </div>
