@@ -161,7 +161,7 @@ So far, we have only looked at the linear regression model. We will examine many
 Averaged over all possible data-generating distribution, every classification algorithm has the same error rate when classifying previously unobserved points.
 ```
 
-We are not going to rigorously define what it means to "average over all possible data-generating distribution", but roughly speaking, the theorem says that if you generate data accoding to a very large number of probability distributions, then the average test error of all models is about the same. Hence, given **any** learning algorithm, there is at least one dataset where it will not perform well. There is thus no *universal* learning algorithm that performs well in all situations.
+We are not going to rigorously define what it means to "average over all possible data-generating distribution", but roughly speaking, the theorem says that if you generate data according to a very large number of probability distributions, then the average test error of all models is about the same. Hence, given **any** learning algorithm, there is at least one dataset where it will not perform well. There is thus no *universal* learning algorithm that performs well in all situations.
 
 In practice, however, we do not care about doing well on **all** datasets. A more reasonable goal is to understand what kind of data distributions are
 relevant to the "real world" or in a certain field of study, and find learning algorithms that perform well on such datasets. For example, one can look for learning algorithms that work well for detecting objects in images. 
