@@ -72,6 +72,7 @@ When $\lambda = 0$, we recover the least squares model, while as $\lambda$ incre
 
 In theory, the above solves our problem of identifying relevant subsets of variables. However, unfortunately, the above optimization problem is a combinatorial optimization problem that cannot be solved efficiently. We therefore need to look for alternatives. 
 
+(S-ridge)=
 ### Ridge regression/Tikhonov regularization: 
 
 Ridge regression solves the following problem: 

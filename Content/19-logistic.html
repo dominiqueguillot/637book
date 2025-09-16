@@ -1,0 +1,742 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>18. Logistic regression &#8212; Math 637 Mathematical Techniques in Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Content/19-logistic';</script>
+    <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/searchtools.js?v=d24376de"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="19. Support vector machines" href="20-SVM.html" />
+    <link rel="prev" title="17. Lab 6: nearest neighbors" href="18-Lab6-nearest-neighbors.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="1-intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/637-logo.png" class="logo__image only-light" alt="Math 637 Mathematical Techniques in Data Science - Home"/>
+    <script>document.write(`<img src="../_static/637-logo.png" class="logo__image only-dark" alt="Math 637 Mathematical Techniques in Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="1-intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-Linear-regression.html">4. Linear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6-Lab-Cars.html">5. Lab 1: Linear regression and the cars data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7-Learning-outside-training.html">6. Learning outside the training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-Lab2-train-test.html">7. Lab 2: Training vs testing error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9-BLUE.html">8. Best linear unbiased estimator and the bias-variance decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10-Lab3-gradient-descent.html">9. Lab 3: Gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11-Shrinkage-methods.html">10. Improving linear regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Model-selection.html">11. Model selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13-Lab4-lasso.html">12. Lab 4: using the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14-Computing-lasso.html">13. Computing the LASSO solution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15-Lab5-coordinate-descent.html">14. Lab 5: Coordinate descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16-LASSO-theoretical.html">15. Theoretical guarantees for the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17-categorical-data.html">16. Analyzing categorical data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18-Lab6-nearest-neighbors.html">17. Lab 6: nearest neighbors</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">18. Logistic regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20-SVM.html">19. Support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21-SVM-kernel.html">20. SVM: the kernel trick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Content/19-logistic.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Logistic regression</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bernoulli-distribution-and-the-sigmoid-function">18.1. Bernoulli distribution and the sigmoid function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimating-the-regression-coefficients">18.2. Estimating the regression coefficients</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#digression-the-mle-for-the-bernouilli-distribution">18.2.1. Digression: the MLE for the Bernouilli distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-logistic-regression">18.2.2. Back to logistic regression</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-with-more-than-two-classes">18.3. Logistic regression with more than two classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generalized-linear-models">18.4. Generalized linear models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penalized-logistic-regression">18.5. Penalized logistic regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-with-scikit-learn">18.6. Logistic regression with Scikit-learn</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="logistic-regression">
+<h1><span class="section-number">18. </span>Logistic regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h1>
+<p>Consider a problem where we attempt to predict a <em>binary</em> output, i.e., the output variable <span class="math notranslate nohighlight">\(Y\)</span> can only take two possible values, say <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>. For example, we may want to determine if a customer should be approved for a loan using various information (e.g., current amount of debt, credit score, etc.). Here, a linear regression model is likely to yield poor results. Even if we interpret the linear model as outputing a probability of approving the customer for the loan, observe that doubling the value of all predictors doubles the predicted probability (assuming the model has no intercept). This does not seem like an appropriate behavior in our context.</p>
+<p>Logistic regression provides a different approach to the problem, with a focus on predicting the probability that <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<section id="bernoulli-distribution-and-the-sigmoid-function">
+<h2><span class="section-number">18.1. </span>Bernoulli distribution and the sigmoid function<a class="headerlink" href="#bernoulli-distribution-and-the-sigmoid-function" title="Link to this heading">#</a></h2>
+<p>Recall that a random variable <span class="math notranslate nohighlight">\(Y\)</span> has a Bernouilli distribution with parameter <span class="math notranslate nohighlight">\(p \in [0,1]\)</span>, denoted <span class="math notranslate nohighlight">\(Y \sim \textrm{Bernouilli}(p)\)</span>, if</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+P(Y = y) = \begin{cases}
+p &amp; \textrm{ if } y = 1\\
+1-p &amp; \textrm{ if } y = 0.
+\end{cases}. 
+\end{split}\]</div>
+<p>A more concise way to write the above is</p>
+<div class="math notranslate nohighlight">
+\[
+P(Y=y) = p^y(1-p)^{1-y} \qquad (y \in \{0,1\}).
+\]</div>
+<p>In <strong>logistic regression</strong>, we model the random variable <span class="math notranslate nohighlight">\(Y | X =x\)</span> (i.e., <span class="math notranslate nohighlight">\(Y\)</span> given that <span class="math notranslate nohighlight">\(X\)</span> is equal to <span class="math notranslate nohighlight">\(x\)</span>) as a <span class="math notranslate nohighlight">\(\textrm{Bernouilli}(p)\)</span> probability distribution, where <span class="math notranslate nohighlight">\(p\)</span> is a function of <span class="math notranslate nohighlight">\(x\)</span>. The link between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(p(x)\)</span> is provided by the <em>logistic function</em> (also called <em>sigmoid function</em>):</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma(x) = \frac{e^x}{1+e^x} = \frac{1}{1+e^{-x}}. 
+\]</div>
+<p>Observe that <span class="math notranslate nohighlight">\(\sigma(x) \to 1\)</span> as <span class="math notranslate nohighlight">\(x \to \infty\)</span> and <span class="math notranslate nohighlight">\(\sigma(x) \to 0\)</span> as <span class="math notranslate nohighlight">\(x \to -\infty\)</span>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/Logistic-curve.png"><img alt="../_images/Logistic-curve.png" src="../_images/Logistic-curve.png" style="width: 350px;" />
+</a>
+</figure>
+<p>In logistic regression, we make the assumption that</p>
+<div class="math notranslate nohighlight">
+\[
+P(Y = 1 | X = x) = \sigma(x^T \beta), 
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta \in \mathbb{R}^p\)</span> is a vector of regression coefficients, and <span class="math notranslate nohighlight">\(x \in \mathbb{R}^p\)</span> is a vector of predictors. Since the probabilities need to add up to <span class="math notranslate nohighlight">\(1\)</span>, we set <span class="math notranslate nohighlight">\(P(Y=0 | X=x) = 1-P(Y=1|X=x)\)</span>. We therefore have</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+P(Y=1 | X = x) &amp;= \frac{e^{x^T \beta}}{1+e^{x^T\beta}} \\
+P(Y=0 | X = x) &amp;= 1-P(Y=1 | X = x) = \frac{1}{1+e^{x^T\beta}}.
+\end{align*}\]</div>
+<p>As a result, <span class="math notranslate nohighlight">\(P(Y=1 | X = x) \approx 1\)</span> when <span class="math notranslate nohighlight">\(x^T \beta\)</span> is large and positive, whereas <span class="math notranslate nohighlight">\(P(Y=1 | X = x) \approx 0\)</span> when <span class="math notranslate nohighlight">\(x^T \beta\)</span> is large and negative.</p>
+<p>Using basic algebra, we can find the inverse of the logistic function: for <span class="math notranslate nohighlight">\(y \in (0,1)\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+y = \sigma(x) = \frac{e^x}{1+e^x} \iff x = \log\left(\frac{y}{1-y}\right).
+\]</div>
+<p>Here “log” is the logarithm in base <span class="math notranslate nohighlight">\(e\)</span>. Define the <em>logit</em> function by</p>
+<div class="math notranslate nohighlight">
+\[
+\textrm{logit}(y) = \log\left(\frac{y}{1-y}\right).
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\textrm{logit}\)</span> is the inverse of <span class="math notranslate nohighlight">\(\sigma\)</span> and since <span class="math notranslate nohighlight">\(P(Y=1 | X=x) = \sigma(x^T \beta)\)</span>, we therefore have</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\textrm{logit}P(Y=1 | X=x) &amp;= \log\left(\frac{P(Y=1 | X=x)}{1-P(Y=1 | X=x)}\right)\\
+&amp;=\log\left(\frac{P(Y=1 | X=x)}{P(Y=0 | X=x)}\right)\\ 
+&amp;= \textrm{logit}(\sigma(x^T \beta))\\ 
+&amp;= x^T\beta. 
+\end{align*}\]</div>
+<p>In “gambling language”, the ratio</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{P(Y=1 | X=x)}{P(Y=0 | X=x)}
+\]</div>
+<p>is the “odds” that <span class="math notranslate nohighlight">\(Y=1\)</span> against <span class="math notranslate nohighlight">\(Y=0\)</span>. Thus, in logistic regression, the “log-odds” of <span class="math notranslate nohighlight">\(Y=1\)</span> depend on <span class="math notranslate nohighlight">\(x\)</span> linearly, i.e., <span class="math notranslate nohighlight">\(\textrm{log-odds} = x^T\beta\)</span>.</p>
+</section>
+<section id="estimating-the-regression-coefficients">
+<h2><span class="section-number">18.2. </span>Estimating the regression coefficients<a class="headerlink" href="#estimating-the-regression-coefficients" title="Link to this heading">#</a></h2>
+<p>Since in logistic regression, we are assuming we have a probability model for <span class="math notranslate nohighlight">\(Y\)</span>, it is natural to estimate the parameter <span class="math notranslate nohighlight">\(\beta\)</span> using <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation" target="_blank">maximum likelihood</a>.</p>
+<div class="admonition-maximum-likelihood-estimation-mle admonition">
+<p class="admonition-title">Maximum likelihood estimation (MLE)</p>
+<p>Suppose <span class="math notranslate nohighlight">\(X_1, X_2, \dots, X_n\)</span> are observations of a probability distribution that depends on a parameter <span class="math notranslate nohighlight">\(\theta\)</span>. For example, <span class="math notranslate nohighlight">\(X_1, X_2, \dots, X_n\)</span> could be the outcomes of flipping a coin. In that case, we would have <span class="math notranslate nohighlight">\(X_i \sim \textrm{Bernouilli}(p)\)</span>, where <span class="math notranslate nohighlight">\(\theta = p\)</span> is the parameter (the probability that the coin lands on heads). The likelihood function it the probability of observing the data that was observed:</p>
+<div class="math notranslate nohighlight">
+\[
+L(\theta) = P(X_1 = x_1, X_2 = x_2, \dots, X_n = x_n), 
+\]</div>
+<p>i.e., the probability that <span class="math notranslate nohighlight">\(X_1=x_1\)</span> and <span class="math notranslate nohighlight">\(X_2 = x_2\)</span> and <span class="math notranslate nohighlight">\(\dots\)</span> and <span class="math notranslate nohighlight">\(X_n = x_n\)</span>, where <span class="math notranslate nohighlight">\(x_1, x_2, \dots, x_n\)</span> is the actual data that was observed when the experiment was performed. Notice that this is a function of theta. For example, if the <span class="math notranslate nohighlight">\(X_i\)</span>s represent <span class="math notranslate nohighlight">\(n=100\)</span> coin flips, the probability of observing <span class="math notranslate nohighlight">\(49\)</span> heads and <span class="math notranslate nohighlight">\(51\)</span> tails is very low when <span class="math notranslate nohighlight">\(p\)</span> is close to <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>, but is very high when <span class="math notranslate nohighlight">\(p \approx 1/2\)</span>.</p>
+<p>The idea of the maximum likelihood estimation (MLE) method is to choose <span class="math notranslate nohighlight">\(\theta\)</span> to maximize the likelihood function, i.e., <span class="math notranslate nohighlight">\(\theta\)</span> is the value of the parameter that makes it the most likely to observe the data that was observed.</p>
+<p>In the case of the coin flip, it is not hard to show that the MLE for <span class="math notranslate nohighlight">\(p\)</span> is the ratio of the number of heads observed by the number of coin flips. This is, of course, very natural. For other probability distributions where an estimator may not be obvious to guess though, the MLE approach provides a rigorous and systematic way to estimate the parameters of a probability model.</p>
+</div>
+<section id="digression-the-mle-for-the-bernouilli-distribution">
+<h3><span class="section-number">18.2.1. </span>Digression: the MLE for the Bernouilli distribution<a class="headerlink" href="#digression-the-mle-for-the-bernouilli-distribution" title="Link to this heading">#</a></h3>
+<p>Recall that if <span class="math notranslate nohighlight">\(Y \sim \textrm{Bernouilli}(p)\)</span>, then <span class="math notranslate nohighlight">\(P(Y=y) = p^y(1-p)^{1-y}\)</span> for <span class="math notranslate nohighlight">\(y=0,1\)</span>. Hence, if <span class="math notranslate nohighlight">\(Y_1, \dots, Y_n \sim \textrm{Bernouilli}(p)\)</span> are independent and identically distributed, then the associated likelihood function is</p>
+<div class="math notranslate nohighlight">
+\[
+L(p) = P(Y_1 = y_1, \dots, Y_n = y_n) = \prod_{i=1}^n p^{y_i}(1-p)^{1-y_i} = p^{\sum_{i=1}^n y_i} (1-p)^{n-\sum_{i=1}^n y_i}. 
+\]</div>
+<p>Observe that <span class="math notranslate nohighlight">\(L(p)\)</span> and <span class="math notranslate nohighlight">\(l(p) := \log L(p)\)</span> are maximized at the same point since <span class="math notranslate nohighlight">\(\log\)</span> is an increasing function. The function <span class="math notranslate nohighlight">\(l(p)\)</span> is called the <em>log-likelihood</em> function. When working out the MLE, it is usually easier to maximze <span class="math notranslate nohighlight">\(l(p)\)</span> as logarithms convert products into sums. Here, we have</p>
+<div class="math notranslate nohighlight">
+\[
+l(p) = \left(\sum_{i=1}^n y_i\right) \log p + \left(n-\sum_{i=1}^n y_i \right) \log (1-p). 
+\]</div>
+<p>Computing the derivative <span class="math notranslate nohighlight">\(l'(p)\)</span> and setting it to zero, it is not hard to show that <span class="math notranslate nohighlight">\(l(p)\)</span>, and thus <span class="math notranslate nohighlight">\(L(p)\)</span>, is maximized at</p>
+<div class="math notranslate nohighlight">
+\[
+\widehat{p}_\textrm{MLE} = \frac{1}{n} \sum_{i=1}^n y_i. 
+\]</div>
+<p>In other words, in the coin flip problem, the MLE for the probability of getting heads is the number of heads obtained divided by the number of coin flips, as expected.</p>
+</section>
+<section id="back-to-logistic-regression">
+<h3><span class="section-number">18.2.2. </span>Back to logistic regression<a class="headerlink" href="#back-to-logistic-regression" title="Link to this heading">#</a></h3>
+<p>To estimate the regression coefficients <span class="math notranslate nohighlight">\(\beta\)</span> in logistic regression, we can use a similar approach as above. Here, however, <span class="math notranslate nohighlight">\(p\)</span> depends on <span class="math notranslate nohighlight">\(\beta\)</span>. For each observation <span class="math notranslate nohighlight">\(x_i\)</span>, we have</p>
+<div class="math notranslate nohighlight">
+\[
+p = p(x_i, \beta) = \frac{e^{x_i^T \beta}}{1+e^{x_i^T \beta}}. 
+\]</div>
+<p>The likelihood function for <span class="math notranslate nohighlight">\(\beta\)</span> is thus:</p>
+<div class="math notranslate nohighlight">
+\[
+L(\beta) = \prod_{i=1}^n p(x_i, \beta)^{y_i} (1-p(x_i,\beta))^{1-y_i},  
+\]</div>
+<p>and the log-likelihood is:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+l(\beta) &amp;= \sum_{i=1}^n y_i \log p(x_i, \beta) + (1-y_i) \log(1-p(x_i, \beta)) \\
+&amp;=\sum_{i=1}^n y_i (x_i^T \beta - \log(1+e^{x_i^T \beta})) - (1-y_i) \log(1+e^{x_i^T \beta}) \\
+&amp;= \sum_{i=1}^n [y_i x_i^T \beta -  \log(1+e^{x_i^T \beta})].
+\end{align*}\]</div>
+<p>This is the function that we need to maximize with respect to <span class="math notranslate nohighlight">\(\beta\)</span>. Taking the derivative with respect to <span class="math notranslate nohighlight">\(\beta_j\)</span>, we obtain:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial}{\partial \beta_j} l(\beta) = \sum_{i=1}^n \left[y_i x_{ij}  - x_{ij} \frac{e^{x_i^T \beta}}{1+e^{x_i^T \beta}}\right].
+\]</div>
+<p>Unfortunately, setting the derivatives to <span class="math notranslate nohighlight">\(0\)</span> does not yield a nice closed-form expression for <span class="math notranslate nohighlight">\(\beta\)</span> as before. We therefore need to use numerical methods (e.g., <a href="https://en.wikipedia.org/wiki/Newton%27s_method" target="_blank">Newton’s method</a>) to maximize the log-likelihood function and obtain the MLE for <span class="math notranslate nohighlight">\(\beta\)</span>. This is implemented for us in packages such as scikit-learn.</p>
+</section>
+</section>
+<section id="logistic-regression-with-more-than-two-classes">
+<h2><span class="section-number">18.3. </span>Logistic regression with more than two classes<a class="headerlink" href="#logistic-regression-with-more-than-two-classes" title="Link to this heading">#</a></h2>
+<p>So far in this chapter, we assumed the response variable is binary (i.e., it takes only two values). Logistic regression can be generalized when the response can take any of <span class="math notranslate nohighlight">\(\{1,\dots, K\}\)</span> values. In that case, we simply replace the Bernoulli distributio by the <a href="https://en.wikipedia.org/wiki/Categorical_distribution" target="_blank">categorical distribution</a>:</p>
+<div class="math notranslate nohighlight">
+\[
+P(Y=i | X=x) = p_i, \qquad 0 \leq p_i \leq 1, \quad \sum_{i=1}^K p_i = 1
+\]</div>
+<p>Each category has its own set of coefficients:</p>
+<div class="math notranslate nohighlight">
+\[
+P(Y=i | X=x) = \frac{e^{x^T \beta^{(i)}}}{\sum_{i=1}^K e^{x^T \beta^{(i)}}}.
+\]</div>
+<p>The regression coefficients can be estimated using maximum likelihood as in the binary case.</p>
+</section>
+<section id="generalized-linear-models">
+<h2><span class="section-number">18.4. </span>Generalized linear models<a class="headerlink" href="#generalized-linear-models" title="Link to this heading">#</a></h2>
+<p>Logistic regression can be significantly generalized. When <span class="math notranslate nohighlight">\(Y \sim \textrm{Bernoulli}(p)\)</span>, observe that the expected value of <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(E(Y) = p\)</span>. Thus, in logistic regression, we assume</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(Y | X=x \sim \textrm{Bernouilli}(p)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\textrm{logit}(p) = \textrm{logit}(E(Y|X=x)) = x^T\beta\)</span>.</p></li>
+</ol>
+<p>A whole class of models can be built using a similar construction. A <em>generalized linear model</em> (GLM) consists of</p>
+<ol class="arabic simple">
+<li><p>A probability distribution for <span class="math notranslate nohighlight">\(Y | X=x\)</span> from the <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank">exponential family</a>.</p></li>
+<li><p>A <em>link</em> function <span class="math notranslate nohighlight">\(g\)</span> such that <span class="math notranslate nohighlight">\(g(E(Y|X=x)) = x^T \beta\)</span>.</p></li>
+</ol>
+<p>Note that the exponential family is a large family of probability distributions. It includes most of the familiar probability distributions encountered in an undergraduate probability theory or statistics course (e.g., normal, exponential, log-normal, gamma, chi-squared, beta, Dirichlet, Bernoulli, categorical, Poisson, geometric, etc.). Generalized linear models can thus be used to construct models for data coming from all kind of distributions.</p>
+</section>
+<section id="penalized-logistic-regression">
+<h2><span class="section-number">18.5. </span>Penalized logistic regression<a class="headerlink" href="#penalized-logistic-regression" title="Link to this heading">#</a></h2>
+<p>As for linear regression, penalized version (e.g., with <span class="math notranslate nohighlight">\(\ell_1\)</span> or <span class="math notranslate nohighlight">\(\ell_2\)</span> penalties) can be constructed for logistic regression in the same spirit as Ridge and LASSO regression. In that case, instead of maximizing the log-likelihood function, we can solve one of the following optimization problems:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\min_\beta -l(\beta) + \alpha \|\beta\|_1 \\
+&amp;\min_\beta -l(\beta) + \alpha \|\beta\|_2.
+\end{align*}\]</div>
+</section>
+<section id="logistic-regression-with-scikit-learn">
+<h2><span class="section-number">18.6. </span>Logistic regression with Scikit-learn<a class="headerlink" href="#logistic-regression-with-scikit-learn" title="Link to this heading">#</a></h2>
+<p>Constructing logistic regression models with Scikit-learn is very straightforward.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html" target="_blank">LogisticRegression</a> object behaves in a similar manner as the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html" target="_blank">LinearRegression</a> object (fit, predict, score, etc.).</p>
+<p>To illustrate, let us construct a logistic regression model for the classical <a href="https://scikit-learn.org/stable/datasets/toy_dataset.html#iris-dataset" target="_blank">Iris dataset</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="c1"># Load iris dataset</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Scale the features</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Create logistic regression model and fit it to data</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Predict the labels and measure the model fit</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:])</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:])</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9733333333333334
+</pre></div>
+</div>
+</div>
+</div>
+<p>We obtain a very good training accuracy.</p>
+<div class="admonition-exercise admonition">
+<p class="admonition-title">Exercise</p>
+<p>Repeat the above exercise with the Iris dataset, but first split the data into training and test sets. Train a logistic regression model on the training set and measure its accuracy on the test set.</p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="18-Lab6-nearest-neighbors.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">17. </span>Lab 6: nearest neighbors</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="20-SVM.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">19. </span>Support vector machines</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bernoulli-distribution-and-the-sigmoid-function">18.1. Bernoulli distribution and the sigmoid function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimating-the-regression-coefficients">18.2. Estimating the regression coefficients</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#digression-the-mle-for-the-bernouilli-distribution">18.2.1. Digression: the MLE for the Bernouilli distribution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-logistic-regression">18.2.2. Back to logistic regression</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-with-more-than-two-classes">18.3. Logistic regression with more than two classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generalized-linear-models">18.4. Generalized linear models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penalized-logistic-regression">18.5. Penalized logistic regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-with-scikit-learn">18.6. Logistic regression with Scikit-learn</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dominique Guillot
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

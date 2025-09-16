@@ -225,6 +225,10 @@
 <li class="toctree-l1"><a class="reference internal" href="16-LASSO-theoretical.html">15. Theoretical guarantees for the LASSO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="17-categorical-data.html">16. Analyzing categorical data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="18-Lab6-nearest-neighbors.html">17. Lab 6: nearest neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19-logistic.html">18. Logistic regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20-SVM.html">19. Support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21-SVM-kernel.html">20. SVM: the kernel trick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
 </ul>
 
     </div>
@@ -3270,7 +3274,7 @@ v = \frac{\nabla f(x)}{\|\nabla f(x)\|}.
 </div>
 </section>
 <section id="using-pytorch">
-<h2><span class="section-number">9.4. </span>Using PyTorch<a class="headerlink" href="#using-pytorch" title="Link to this heading">#</a></h2>
+<span id="s-pytorch"></span><h2><span class="section-number">9.4. </span>Using PyTorch<a class="headerlink" href="#using-pytorch" title="Link to this heading">#</a></h2>
 <p>A popular Python package that can be used to construct models for data is <strong>PyTorch</strong>. The package was developed by Facebook AI Research lab. One of its main strenghts is that it automatically computes the gradient of functions <em>symbolically</em> . This greatly simplify optimizing functions such as loss functions. As we perform calculations, PyTorch keeps track of all the operations performed in the form of a <em>computational graph</em>.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/f_x_y_graph.png"><img alt="../_images/f_x_y_graph.png" src="../_images/f_x_y_graph.png" style="width: 500px;" />

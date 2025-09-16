@@ -1,0 +1,663 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>20. SVM: the kernel trick &#8212; Math 637 Mathematical Techniques in Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Content/21-SVM-kernel';</script>
+    <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/searchtools.js?v=d24376de"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="21. Lab 7: support vector machines" href="22-Lab7-SVM.html" />
+    <link rel="prev" title="19. Support vector machines" href="20-SVM.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="1-intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/637-logo.png" class="logo__image only-light" alt="Math 637 Mathematical Techniques in Data Science - Home"/>
+    <script>document.write(`<img src="../_static/637-logo.png" class="logo__image only-dark" alt="Math 637 Mathematical Techniques in Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="1-intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-Linear-regression.html">4. Linear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6-Lab-Cars.html">5. Lab 1: Linear regression and the cars data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7-Learning-outside-training.html">6. Learning outside the training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-Lab2-train-test.html">7. Lab 2: Training vs testing error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9-BLUE.html">8. Best linear unbiased estimator and the bias-variance decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10-Lab3-gradient-descent.html">9. Lab 3: Gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11-Shrinkage-methods.html">10. Improving linear regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Model-selection.html">11. Model selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13-Lab4-lasso.html">12. Lab 4: using the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14-Computing-lasso.html">13. Computing the LASSO solution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15-Lab5-coordinate-descent.html">14. Lab 5: Coordinate descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16-LASSO-theoretical.html">15. Theoretical guarantees for the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17-categorical-data.html">16. Analyzing categorical data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18-Lab6-nearest-neighbors.html">17. Lab 6: nearest neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19-logistic.html">18. Logistic regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20-SVM.html">19. Support vector machines</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">20. SVM: the kernel trick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Content/21-SVM-kernel.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>SVM: the kernel trick</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#digression-a-brief-introduction-to-duality-in-optimization">20.1. Digression: a brief introduction to duality in optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-svms">20.2. Back to SVMs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transforming-data-and-the-kernel-trick">20.3. Transforming data and the kernel trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#positive-definite-kernels">20.4. Positive definite kernels</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="svm-the-kernel-trick">
+<h1><span class="section-number">20. </span>SVM: the kernel trick<a class="headerlink" href="#svm-the-kernel-trick" title="Link to this heading">#</a></h1>
+<p>We saw in the previous chapter how support vector machines provide a robust way of separating data using hyperplanes. Sometimes, when data is not linearly separable, we can map them into higher-dimensional space, where they become separable.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/mapping.png"><img alt="../_images/mapping.png" src="../_images/mapping.png" style="width: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 20.1 </span><span class="caption-text">Illustration of how a non-linearly separable dataset becomes separable when mapped into higher-dimensional space.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>We will now examine a powerful approach to improve support vector machine that is commonly called the <em>kernel trick</em>. As we will see, this approach involves a minimal modification of our previous SVM approach, but provides more complicated non-linear decision boundaries. The approach is also equivalent to mapping data into a higher-dimensional space, and performing the classification there.</p>
+<p>Before we explain the kernel trick, we make a short digression into the concept of <em>duality</em> in convex optimization.</p>
+<section id="digression-a-brief-introduction-to-duality-in-optimization">
+<h2><span class="section-number">20.1. </span>Digression: a brief introduction to duality in optimization<a class="headerlink" href="#digression-a-brief-introduction-to-duality-in-optimization" title="Link to this heading">#</a></h2>
+<div class="admonition-infimum-and-supremum admonition">
+<p class="admonition-title">Infimum and Supremum</p>
+<p>In this section, we will use the notions of infimum (<span class="math notranslate nohighlight">\(\inf\)</span>) and supremum (<span class="math notranslate nohighlight">\(\sup\)</span>) of a set of real numbers. If you are not familiar with these notions, you can just think of <span class="math notranslate nohighlight">\(\inf\)</span> as <span class="math notranslate nohighlight">\(\min\)</span> and <span class="math notranslate nohighlight">\(\sup\)</span> as <span class="math notranslate nohighlight">\(\max\)</span>.</p>
+<p>The difference between <span class="math notranslate nohighlight">\(\min\)</span> and <span class="math notranslate nohighlight">\(\inf\)</span> is the following: in mathematics, when we say <span class="math notranslate nohighlight">\(\min S = 0\)</span>, we mean that <span class="math notranslate nohighlight">\(0 \in S\)</span> and <span class="math notranslate nohighlight">\(0\)</span> is the smallest element of of the set <span class="math notranslate nohighlight">\(S\)</span>. In contrast, consider the set <span class="math notranslate nohighlight">\(S = \{1/n : n \geq 1\} = \{1,1/2,1/3,1/4, \dots\}\)</span>. Observe that <span class="math notranslate nohighlight">\(S\)</span> contains elements that are as close as we want to <span class="math notranslate nohighlight">\(0\)</span>. However, <span class="math notranslate nohighlight">\(0 \not\in S\)</span>. As a resul, <span class="math notranslate nohighlight">\(\min S\)</span> is not defined as the set does not contain a minimal element. However, we say <span class="math notranslate nohighlight">\(\inf S = 0\)</span> since <span class="math notranslate nohighlight">\(0\)</span> is the best “lower bound” on <span class="math notranslate nohighlight">\(S\)</span> (i.e., it is the <em>greatest lower bound</em>). We define <span class="math notranslate nohighlight">\(\sup\)</span> similarly as the <em>least upper bound</em> of the set. See <a href="https://en.wikipedia.org/wiki/Infimum_and_supremum" target="_blank">Wikipedia</a> for more details.</p>
+</div>
+<p>Consider the following standard optimization problem, where a function needs to be minimized on some domain <span class="math notranslate nohighlight">\(\mathcal{D} \subseteq \mathbb{R}^d\)</span>, under some inequality and some equality constraints:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\min_{x \in \mathcal{D} \subseteq \mathbb{R}^n} \quad &amp;f_0(x) \\
+\textrm{subject to}\quad &amp;f_i(x) \leq 0, \qquad i=1,\dots, m \\
+&amp;h_i(x) = 0, \qquad i=1,\dots,p.
+\end{align*}\]</div>
+<p>We call this problem the <em>primal</em> problem and denote its optimal value by <span class="math notranslate nohighlight">\(p^\star\)</span>, i.e., the minimal value of <span class="math notranslate nohighlight">\(f_0\)</span> on <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> under the given inequality and equality constraints is <span class="math notranslate nohighlight">\(p^\star\)</span>.</p>
+<p>Consider the <em>Lagrangian function</em> <span class="math notranslate nohighlight">\(L: \mathcal{D} \times \mathbb{R}^m \times \mathbb{R}^p \to \mathbb{R}\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+L(x, \lambda, \nu) := f_0(x) + \sum_{i=1}^m \lambda_i f_i(x) + \sum_{i=1}^p \nu_i h_i(x).
+\]</div>
+<p>This may reminisce you of the method of Lagrange multipliers, which is related. We then define the <em>Lagrange dual function</em> <span class="math notranslate nohighlight">\(g: \mathbb{R}^m \times \mathbb{R}^p \to \mathbb{R}\)</span> by</p>
+<div class="math notranslate nohighlight">
+\[
+g(\lambda, \nu) := \inf_{x \in \mathcal{D}} L(x, \lambda, \nu).
+\]</div>
+<p>We claim that for every <span class="math notranslate nohighlight">\(\lambda \geq 0\)</span> (i.e., <span class="math notranslate nohighlight">\(\lambda_i \geq 0\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>), we have</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{g(\lambda, \nu) \leq p^\star.}
+\]</div>
+<div class="admonition-proof admonition">
+<p class="admonition-title">Proof.</p>
+<p>Assume <span class="math notranslate nohighlight">\(\tilde{x}\)</span> satisfies the constraints (i.e., <span class="math notranslate nohighlight">\(f_i(\tilde{x}) \leq 0\)</span> and <span class="math notranslate nohighlight">\(h_i(\tilde{x}) = 0\)</span>) and <span class="math notranslate nohighlight">\(\lambda \geq 0\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[
+f_0(\tilde{x}) \geq L(\tilde{x}, \lambda, \mu) \geq \inf_{x \in \mathcal{D}} L(x, \lambda, \nu) = g(\lambda, \mu).
+\]</div>
+<p>The result follows by optimizing over <span class="math notranslate nohighlight">\(\tilde{x}\)</span>.</p>
+</div>
+<p>Since, for any <span class="math notranslate nohighlight">\(\lambda \geq 0\)</span>, the function <span class="math notranslate nohighlight">\(g(\lambda,\mu)\)</span> provides a lower bound on the desired value <span class="math notranslate nohighlight">\(p^*\)</span> of our primal optimization problem, it is natural to optimize that function over <span class="math notranslate nohighlight">\(\lambda \geq 0\)</span> to get the best possible lower bound. This is called the <em>dual problem</em> associated to our primal problem:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\max_{\lambda \in \mathbb{R}^m,\ \nu \in \mathbb{R}^p} g(\lambda, \nu) \\
+\textrm{subject to } \lambda \geq 0.
+\end{align*}\]</div>
+<p>Denote by <span class="math notranslate nohighlight">\(d^\star\)</span> the optimal value of the dual problem (i.e., the maximal value of <span class="math notranslate nohighlight">\(g(\lambda, \nu)\)</span> under the given constraints). Since <span class="math notranslate nohighlight">\(g(\lambda, \nu) \leq p^\star\)</span> for all <span class="math notranslate nohighlight">\(\lambda \geq 0\)</span>, we immediately obtain</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{d^\star \leq p^\star.}
+\]</div>
+<p>This above inequality is called <em>weak duality</em>. In other words, solving the dual problem always gives you a lower bound on the optimal value of the primal problem. What is interesting is that, while <span class="math notranslate nohighlight">\(d^\star\)</span> and <span class="math notranslate nohighlight">\(p^\star\)</span> are not always equal, they often are in practice. When <span class="math notranslate nohighlight">\(d^\star = p^\star\)</span>, we say <strong>strong duality holds</strong>. In that case, one can solve the dual problem instead of the primal problem and still get the optimal value <span class="math notranslate nohighlight">\(p^\star\)</span>. This is particularly interesting when the dual problem is easier to solve than the primal problem.</p>
+<p>Many, additional assumptions that guarantee strong duality holds are known (see e.g., <a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank">Slater’s constraint qualification</a>).</p>
+</section>
+<section id="back-to-svms">
+<h2><span class="section-number">20.2. </span>Back to SVMs<a class="headerlink" href="#back-to-svms" title="Link to this heading">#</a></h2>
+<p>Recall the SVM optimization problem:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\min_{\beta_0, \beta, \xi} \frac{1}{2}\|\beta\|^2  \\
+&amp;\textrm{subject to } y_i(x_i^T \beta + \beta_0) \geq 1-\xi_i \\
+&amp;\sum_{i=1}^n \xi _i= C, \quad\xi_i \geq 0.
+\end{align*}\]</div>
+<p>Let us derive the dual problem. The associated Lagrangian is</p>
+<div class="math notranslate nohighlight">
+\[
+L_P = \frac{1}{2} \|\beta\|^2 + C \sum_{i=1}^n \xi_i - \sum_{i=1}^n \alpha_i [y_i(x_i^T \beta + \beta_0) - (1-\xi_i)] - \sum_{i=1}^n \mu_i \xi_i, 
+\]</div>
+<p>which we minimize with respect to <span class="math notranslate nohighlight">\(\beta, \beta_0, \xi\)</span>. Setting the respective derivatives to <span class="math notranslate nohighlight">\(0\)</span>, we obtain:</p>
+<div class="math notranslate nohighlight">
+\[
+\beta = \sum_{i=1}^n \alpha_i y_i x_i, \quad 0 = \sum_{i=1}^n \alpha_i y_i, \quad \alpha_i = C - \mu_i \quad (i=1, \dots, n).
+\]</div>
+<p>Substituting into <span class="math notranslate nohighlight">\(L_P\)</span>, we obtain the Lagrange (dual) objective function:</p>
+<div class="math notranslate nohighlight">
+\[
+L_D = g(\alpha) = \sum_{i=1}^n \alpha_i - \frac{1}{2} \sum_{i,j=1}^n \alpha_i \alpha_j y_i y_j x_i^T x_j.
+\]</div>
+<p>The function <span class="math notranslate nohighlight">\(L_D\)</span> provides a lower bound on the original objective function at any feasible point (weak duality). In this particular case, one can show strong duality holds. The solution of the original SVM problem can then be obtained by maximizing <span class="math notranslate nohighlight">\(L_D\)</span> under the previous constraints.</p>
+</section>
+<section id="transforming-data-and-the-kernel-trick">
+<h2><span class="section-number">20.3. </span>Transforming data and the kernel trick<a class="headerlink" href="#transforming-data-and-the-kernel-trick" title="Link to this heading">#</a></h2>
+<p>Going back to our original motivation, suppose our data is not linearly separable and consider a transformation <span class="math notranslate nohighlight">\(h: \mathbb{R}^p \to \mathbb{R}^m\)</span>, transforming our features into</p>
+<div class="math notranslate nohighlight">
+\[
+h(x_i) = (h_1(x_i), \dots, h_m(x_i)) \in \mathbb{R}^m.
+\]</div>
+<p>After performing this transformation, the Lagrange dual function becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+L_D = \sum_{i=1}^n \alpha_i - \frac{1}{2} \sum_{i,j=1}^n \alpha_i \alpha_j y_i y_j \mathbf{h(x_i)^T h(x_j)}.
+\]</div>
+<p><strong>Important observation:</strong> <span class="math notranslate nohighlight">\(L_D\)</span> only depends on <span class="math notranslate nohighlight">\(\langle h(x_i), h(x_j)\rangle\)</span>, the inner product between <span class="math notranslate nohighlight">\(h(x_i)\)</span> and <span class="math notranslate nohighlight">\(h(x_j)\)</span>.</p>
+<p>In fact, we don’t even need to specify <span class="math notranslate nohighlight">\(h\)</span> to solve the optimization problem, we only need to know:</p>
+<div class="math notranslate nohighlight">
+\[
+K(x,x') = \langle h(x), h(x')\rangle.
+\]</div>
+<p>In mathematics, we often call such a function <span class="math notranslate nohighlight">\(K(x,x')\)</span> of two variables a <strong>kernel</strong>. The <em>kernel trick</em> for SVM involves specifying a kernel <span class="math notranslate nohighlight">\(K\)</span> and solving the above dual problem with that kernel. If you look at the scikit-learn <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" target="_blank">documentation</a>, the “kernel” argument is the kernel <span class="math notranslate nohighlight">\(K\)</span> above. As we will explain below, when the kernel is <em>positive semidefinite</em>, using a kernel is equivalent to mapping the data into a higher-dimensional space, and performing the usual SVM classification in that space. Doing so provides more flexibility to the SVM classifier and can yield an important increase in performance.</p>
+</section>
+<section id="positive-definite-kernels">
+<h2><span class="section-number">20.4. </span>Positive definite kernels<a class="headerlink" href="#positive-definite-kernels" title="Link to this heading">#</a></h2>
+<p>We saw above that if the features are mapped into higher-dimensional space using a transformation <span class="math notranslate nohighlight">\(h(x_i) = (h_1(x_i), \dots, h_m(x_i))\)</span>, then solving the dual SVM problem is equivalent to introducing a kernel <span class="math notranslate nohighlight">\(K(x_i, x_j) = \langle h(x_i), h(x_j)\rangle\)</span> into the dual objective function. It is natural to ask if conversely, any kernel arises as</p>
+<div class="math notranslate nohighlight">
+\[
+K(x,x') = \langle h(x), h(x')\rangle
+\]</div>
+<p>for some function <span class="math notranslate nohighlight">\(h\)</span>. In other words, if we solve the dual SVM problem with an arbitrary kernel, is this process equivalent to mapping the data into a higher-dimensional space using a function <span class="math notranslate nohighlight">\(h\)</span>, and then performing SVM in the high-dimensional space? One can show that this is the case precisely when the kernel <span class="math notranslate nohighlight">\(K\)</span> is positive definite. Recall the notion of a positive semidefinite matrix, as discuss in the <a class="reference internal" href="11-Shrinkage-methods.html#s-ridge"><span class="std std-ref">Ridge regression section</span></a>.</p>
+<div class="admonition-definition-positive-semidefinite-kernel admonition">
+<p class="admonition-title">Definition (Positive semidefinite kernel)</p>
+<p>A kernel <span class="math notranslate nohighlight">\(K: \mathbb{R}^d \times \mathbb{R}^d \to \mathbb{R}\)</span> is said to be <em>positive semidefinite</em> if for any <span class="math notranslate nohighlight">\(n \geq 1\)</span> and any <span class="math notranslate nohighlight">\(x_1, \dots, x_n \in \mathbb{R}^d\)</span>, the matrix</p>
+<div class="math notranslate nohighlight">
+\[
+(K(x_i,x_j))_{i,j=1}^n
+\]</div>
+<p>is positive semidefinite.</p>
+</div>
+<p>First observe that if <span class="math notranslate nohighlight">\(K(x,x') = \langle h(x), h(x')\rangle\)</span> for some function <span class="math notranslate nohighlight">\(h: \mathbb{R}^d \to \mathbb{R}^m\)</span>, then <span class="math notranslate nohighlight">\(K\)</span> is positive semidefinite. Indeed, in that case, let <span class="math notranslate nohighlight">\(v_i = h(x_i) \in \mathbb{R}^m\)</span> and let <span class="math notranslate nohighlight">\(V\)</span> be the matrix whose columns are <span class="math notranslate nohighlight">\(v_1, v_2, \dots, v_n\)</span>. Then we have</p>
+<div class="math notranslate nohighlight">
+\[
+(K(x_i, x_j))_{i,j=1}^n = V^T V
+\]</div>
+<p>and so that matrix is positive semidefinite for any choice of <span class="math notranslate nohighlight">\(x_1, x_2, \dots, x_n \in \mathbb{R}^d\)</span> and any <span class="math notranslate nohighlight">\(n \geq 1\)</span>. Interestingly, there is a converse to that construction.</p>
+<div class="admonition-theorem-moore-aronszajn admonition">
+<p class="admonition-title">Theorem (Moore–Aronszajn)</p>
+<p>Let <span class="math notranslate nohighlight">\(\mathcal{X}\)</span> be a set and let <span class="math notranslate nohighlight">\(K: \mathcal{X} \times \mathcal{X} \to \mathbb{R}\)</span> be a positive semidefinite kernel on <span class="math notranslate nohighlight">\(\mathcal{X}\)</span>. Then there exists a <a href="https://en.wikipedia.org/wiki/Hilbert_space" target="_blank">Hilbert space</a> <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> and a map <span class="math notranslate nohighlight">\(h: \mathcal{X} \to \mathcal{H}\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+K(x,x') = \langle h(x), h(x')\rangle_\mathcal{H}.
+\]</div>
+</div>
+<p>In conclusion, positive semidefinite kernels arise from “taking the inner product” after mapping the data into a Hilbert space. It thus makes sense to use any positive semidefinite kernels in the SVM framework. As you can see in the scikit-learn <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" target="_blank">documentation</a>, several options are available for the kernel of the SVC object. Each kernel corresponds to mapping data in different spaces and can considerably improve the performance of the basic SVM classifier.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="20-SVM.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">19. </span>Support vector machines</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="22-Lab7-SVM.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">21. </span>Lab 7: support vector machines</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#digression-a-brief-introduction-to-duality-in-optimization">20.1. Digression: a brief introduction to duality in optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-svms">20.2. Back to SVMs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transforming-data-and-the-kernel-trick">20.3. Transforming data and the kernel trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#positive-definite-kernels">20.4. Positive definite kernels</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dominique Guillot
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

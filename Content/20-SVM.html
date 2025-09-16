@@ -1,0 +1,758 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>19. Support vector machines &#8212; Math 637 Mathematical Techniques in Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Content/20-SVM';</script>
+    <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/searchtools.js?v=d24376de"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="20. SVM: the kernel trick" href="21-SVM-kernel.html" />
+    <link rel="prev" title="18. Logistic regression" href="19-logistic.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="1-intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/637-logo.png" class="logo__image only-light" alt="Math 637 Mathematical Techniques in Data Science - Home"/>
+    <script>document.write(`<img src="../_static/637-logo.png" class="logo__image only-dark" alt="Math 637 Mathematical Techniques in Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="1-intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-Linear-regression.html">4. Linear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6-Lab-Cars.html">5. Lab 1: Linear regression and the cars data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7-Learning-outside-training.html">6. Learning outside the training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-Lab2-train-test.html">7. Lab 2: Training vs testing error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9-BLUE.html">8. Best linear unbiased estimator and the bias-variance decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10-Lab3-gradient-descent.html">9. Lab 3: Gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11-Shrinkage-methods.html">10. Improving linear regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Model-selection.html">11. Model selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13-Lab4-lasso.html">12. Lab 4: using the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14-Computing-lasso.html">13. Computing the LASSO solution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15-Lab5-coordinate-descent.html">14. Lab 5: Coordinate descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16-LASSO-theoretical.html">15. Theoretical guarantees for the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17-categorical-data.html">16. Analyzing categorical data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18-Lab6-nearest-neighbors.html">17. Lab 6: nearest neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19-logistic.html">18. Logistic regression</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">19. Support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21-SVM-kernel.html">20. SVM: the kernel trick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Content/20-SVM.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Support vector machines</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperplanes">19.1. Hyperplanes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-distance-from-a-point-to-a-hyperplane">19.2. Computing the distance from a point to a hyperplane</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearly-separable-data">19.3. Linearly separable data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#separating-data-with-the-largest-margin">19.4. Separating data with the largest margin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-separable-data">19.5. Non-separable data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-multiple-classes">19.6. Working with multiple classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-vs-all">19.6.1. One vs all</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-vs-one">19.6.2. One vs one</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="support-vector-machines">
+<h1><span class="section-number">19. </span>Support vector machines<a class="headerlink" href="#support-vector-machines" title="Link to this heading">#</a></h1>
+<p>When working with discrete data, we often want to build a classifier that separates data points of different classes.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/class-separation.png"><img alt="../_images/class-separation.png" src="../_images/class-separation.png" style="width: 300px;" />
+</a>
+</figure>
+<p>Support vector machines (SVM) were developed with the idea that the best separation boundary is the one that not only separates the classes but does so with the largest margin - the maximum possible distance to the closest data points. As we will see, SVMs look for a hyperplane that separates two classes of data while keeping the biggest possible separation (or margin) between the two classes.</p>
+<section id="hyperplanes">
+<h2><span class="section-number">19.1. </span>Hyperplanes<a class="headerlink" href="#hyperplanes" title="Link to this heading">#</a></h2>
+<p>A <em>hyperplane</em> <span class="math notranslate nohighlight">\(H\)</span> in <span class="math notranslate nohighlight">\(V = \mathbb{R}^n\)</span> is a subspace of <span class="math notranslate nohighlight">\(V\)</span> of dimension <span class="math notranslate nohighlight">\(n-1\)</span> (i.e., a subspace of codimension <span class="math notranslate nohighlight">\(1\)</span>). Notice that each hyperplane is determined by a nonzero vector <span class="math notranslate nohighlight">\(\beta \in \mathbb{R}^n\)</span> via:</p>
+<div class="math notranslate nohighlight">
+\[
+H = \{x \in \mathbb{R}^n : \beta^T x = 0\} = \textrm{span}(\beta)^\perp.
+\]</div>
+<p>An <em>affine hyperplane</em> is a hyperplane that has been possibly translated:</p>
+<div class="math notranslate nohighlight">
+\[
+H = \{x \in \mathbb{R}^m : \beta_0 + \beta^T x = 0\}, 
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta_0 \in \mathbb{R}\)</span>, and <span class="math notranslate nohighlight">\(\beta \in \mathbb{R}^n\)</span>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/aff_hyperplane.png"><img alt="../_images/aff_hyperplane.png" src="../_images/aff_hyperplane.png" style="width: 400px;" />
+</a>
+</figure>
+<p>In practice, people often use the term “hyperplane” to mean “affine hyperplane”.</p>
+</section>
+<section id="computing-the-distance-from-a-point-to-a-hyperplane">
+<h2><span class="section-number">19.2. </span>Computing the distance from a point to a hyperplane<a class="headerlink" href="#computing-the-distance-from-a-point-to-a-hyperplane" title="Link to this heading">#</a></h2>
+<p>In order to construct the optimization problem that we need to solve in SVM, we begin by computing the distance between a point and an affine hyperplane. Let</p>
+<div class="math notranslate nohighlight">
+\[
+H = \{x \in \mathbb{R} : \beta_0 + \beta^T x = 0\}.
+\]</div>
+<p>The figure below illustrates the hyperplane <span class="math notranslate nohighlight">\(H\)</span> in dimension <span class="math notranslate nohighlight">\(2\)</span> (green). We would like to compute the shortest distance between some point <span class="math notranslate nohighlight">\(x\)</span> and a point in the hyperplane <span class="math notranslate nohighlight">\(H\)</span>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/ESL_Fig4p15.png"><img alt="../_images/ESL_Fig4p15.png" src="../_images/ESL_Fig4p15.png" style="width: 400px;" />
+</a>
+</figure>
+<p>Observe that if <span class="math notranslate nohighlight">\(x_0, x_1 \in H\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[
+\beta^T (x_0-x_1) = 0.
+\]</div>
+<p>Thus, the vector <span class="math notranslate nohighlight">\(\beta\)</span> is perpendicular to <span class="math notranslate nohighlight">\(H\)</span>. The distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(H\)</span> is therefore equal to the length of the projection of <span class="math notranslate nohighlight">\(x-x_0\)</span> onto the line generated by <span class="math notranslate nohighlight">\(\beta\)</span>. On the figure below, the distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(H\)</span> is the length of the thick blue segment.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/projection.png"><img alt="../_images/projection.png" src="../_images/projection.png" style="width: 300px;" />
+</a>
+</figure>
+<p>That distance can easily be computed using the dot product. Recall that for two vectors <span class="math notranslate nohighlight">\(u, v \in \mathbb{R}^n\)</span> forming an angle <span class="math notranslate nohighlight">\(\theta\)</span>, we have</p>
+<div class="math notranslate nohighlight">
+\[
+u \cdot v = u^T v = \sum_{i=1}^n u_i v_i = \|u\| \cdot \|v\| \cdot \cos \theta.
+\]</div>
+<p>The distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(H\)</span>, denoted <span class="math notranslate nohighlight">\(d(x,H)\)</span>, is therefore given by the dot product of <span class="math notranslate nohighlight">\(x-x_0\)</span> with a vector of length <span class="math notranslate nohighlight">\(1\)</span> pointing in the direction of <span class="math notranslate nohighlight">\(\beta\)</span>, i.e., <span class="math notranslate nohighlight">\(\beta/\|\beta\|\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+d(x,H) = \frac{\beta^T}{\|\beta\|} (x-x_0).
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(x_0 \in H\)</span>, we have <span class="math notranslate nohighlight">\(\beta_0 + \beta^T x_0 = 0\)</span>. Substituting in the above equation, we obtain:</p>
+<div class="math notranslate nohighlight">
+\[
+\boxed{d(x,H) = \frac{\beta_0 + \beta^T x}{\|\beta\|} = \frac{\beta_0 + x^T \beta}{\|\beta\|}.} \qquad \textrm{(Signed distance between $x$ and hyperplane $H$)} 
+\]</div>
+<p>Notice that in the above calculation, we implicitly made the assumption that <span class="math notranslate nohighlight">\(x-x_0\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> point in the same direction (i.e., they are on the same side of the line). When this is not the case, we get the same expression, but with a negative sign. Thus, the above formula gives us the “signed distance” between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(H\)</span>, i.e., the distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(H\)</span> if <span class="math notranslate nohighlight">\(x\)</span> is on the side of <span class="math notranslate nohighlight">\(H\)</span> where <span class="math notranslate nohighlight">\(\beta\)</span> points to, and negative the distance if <span class="math notranslate nohighlight">\(x\)</span> is at the same distance, but on the other side of <span class="math notranslate nohighlight">\(H\)</span>.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>In dimension <span class="math notranslate nohighlight">\(2\)</span>, set <span class="math notranslate nohighlight">\(\beta_0 = 1\)</span>, <span class="math notranslate nohighlight">\(\beta = (0,1)^T\)</span>, and consider</p>
+<div class="math notranslate nohighlight">
+\[
+H = \{x = (x_1, x_2) \in \mathbb{R}^2 : \beta_0 + \beta^T x = 0\}. 
+\]</div>
+<p>We have</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta^T x = 0 \iff 1 + (0,1)^T (x_1, x_2) = 0 \iff 1 + x_2 = 0 \iff x_2 = -1. 
+\]</div>
+<p>This is the line “<span class="math notranslate nohighlight">\(y=-1\)</span>” in the usual cartesian plane. Consider the point x = (0,2). Clearly, it is at distance <span class="math notranslate nohighlight">\(3\)</span> from the line. Let us verify using the formula:</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta^T(0,2) = 1 + 2 = 3. 
+\]</div>
+<p>Notice that <span class="math notranslate nohighlight">\((0,2)\)</span> is on the side of the line towards which <span class="math notranslate nohighlight">\(\beta = (0,1)\)</span> points to. Now, consider the point <span class="math notranslate nohighlight">\((0,-2)\)</span> at distance <span class="math notranslate nohighlight">\(1\)</span> from <span class="math notranslate nohighlight">\(H\)</span>. We have</p>
+<div class="math notranslate nohighlight">
+\[
+\beta_0 + \beta^T (0,-2) = 1-2 = -1. 
+\]</div>
+<p>Here, we get the correct distance, but with a minus sign since <span class="math notranslate nohighlight">\(x\)</span> is on the side of <span class="math notranslate nohighlight">\(H\)</span> that is opposite to the direction of <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+</div>
+</section>
+<section id="linearly-separable-data">
+<h2><span class="section-number">19.3. </span>Linearly separable data<a class="headerlink" href="#linearly-separable-data" title="Link to this heading">#</a></h2>
+<p>Consider the binary classification problem that we examined in the context of logistic regression. We are given data points <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> with <span class="math notranslate nohighlight">\(x_i \in \mathbb{R}^p\)</span> and <span class="math notranslate nohighlight">\(y_i \in \{0,1\}\)</span>. We say that the data is <strong>linearly separable</strong> if there exists a hyperplane <span class="math notranslate nohighlight">\(H\)</span> such that points of one category are all one one side of <span class="math notranslate nohighlight">\(H\)</span>, and points from the other category are all on the other side.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/lin-sep.png"><img alt="../_images/lin-sep.png" src="../_images/lin-sep.png" style="width: 300px;" />
+</a>
+</figure>
+<p>Suppose we relabel our data so that so that <span class="math notranslate nohighlight">\(y \in \{-1,1\}\)</span> instead of <span class="math notranslate nohighlight">\(\{0,1\}\)</span> (e.g., replace labels “0” by “-1”). If the data is linearly separable, there exists a hyperplane <span class="math notranslate nohighlight">\(H = \{x \in \mathbb{R}^p : \beta_0 + \beta^T x = 0\}\)</span> such that all data points with label <span class="math notranslate nohighlight">\(1\)</span> are on one side of <span class="math notranslate nohighlight">\(H\)</span>, and all data points with label <span class="math notranslate nohighlight">\(-1\)</span> are on the other side of <span class="math notranslate nohighlight">\(H\)</span>. Thus,</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \mathop{\rm sign} (\beta_0 + \beta^T x)
+\]</div>
+<p>perfectly classifies the data, where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathop{\rm sign}(x) = \begin{cases}
+1 &amp; \textrm{if } x &gt; 0 \\
+-1 &amp; \textrm{if } x &lt; 0 \\
+0 &amp; \textrm{if } x = 0
+\end{cases}
+\end{split}\]</div>
+<p>is the sign function.</p>
+</section>
+<section id="separating-data-with-the-largest-margin">
+<h2><span class="section-number">19.4. </span>Separating data with the largest margin<a class="headerlink" href="#separating-data-with-the-largest-margin" title="Link to this heading">#</a></h2>
+<p>When data is linearly separable, observe that a separating hyperplane is not unique.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/ESL_Fig12p1_1.png"><img alt="../_images/ESL_Fig12p1_1.png" src="../_images/ESL_Fig12p1_1.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 19.1 </span><span class="caption-text">ESL, Figure 12.1</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In that case, it makes sense to look for the hyperplane that separates the data with the largest possible <em>margin</em> (the size of the region with no data, or “no man’s land”).</p>
+<p>Recall that our data is of the form <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> with <span class="math notranslate nohighlight">\(x_i \in \mathbb{R}^p\)</span> and <span class="math notranslate nohighlight">\(y_i \{-1,1\}\)</span>. We want to classify points using <span class="math notranslate nohighlight">\(f(x) = \mathop{\rm sign}(\beta_0 + \beta^T x)\)</span> for some hyperplane <span class="math notranslate nohighlight">\(H\)</span> determined by <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. Without loss of generality, we can assume <span class="math notranslate nohighlight">\(\|\beta\| = 1\)</span>. Observe that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+y_i(\beta_0 + \beta^T x) &gt; 0 \implies \textrm{ the classification of $x_i$ is correct} \\
+y_i(\beta_0 + \beta^T x) &lt; 0 \implies \textrm{ the classification of $x_i$ incorrect} \\
+\end{align*}\]</div>
+<p>This is because the sign of <span class="math notranslate nohighlight">\(y_i\)</span> needs to match the sign of <span class="math notranslate nohighlight">\(f(x_i)\)</span> for the classification to be correct. Also, recall from our above calculations that</p>
+<div class="math notranslate nohighlight">
+\[
+|y_i(\beta_0 + \beta^T x)| = \textrm{ distance between } x_i \textrm{ and } H.
+\]</div>
+<p>Thus, when the data is linearly separable, we can find the largest margin by solving the optimization problem:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\max_{
+\substack{
+\beta_0 \in \mathbb{R} \\
+\beta \in \mathbb{R}^p, \|\beta\| = 1}} M \qquad \textrm{ such that } y_i(\beta_0 + \beta^T x) \geq M \qquad (i=1,\dots,n). 
+\end{align*}\]</div>
+<p>We will transform this problem into its usual form used in optimization. First, we can remove <span class="math notranslate nohighlight">\(\|\beta\|=1\)</span> by replacing the constraint by</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{\|\beta\|} y_i(x_i^T \beta + \beta_0) \geq M, \quad \textrm{or equivalently, } \quad y_i(x_i^T \beta + \beta_0) \geq M \|\beta\|.
+\]</div>
+<p>Next, we can always rescale <span class="math notranslate nohighlight">\((\beta, \beta_0)\)</span> so that <span class="math notranslate nohighlight">\(\|\beta\| = 1/M\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\max_{\beta_0, \beta \in \mathbb{R}^p} \frac{1}{\|\beta\|} \quad \textrm{s.t.}\quad y_i(x_i^T \beta + \beta_0) \geq 1 \qquad (i=1,\dots,n).
+\]</div>
+<p>This problem is equivalent to:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{\beta_0, \beta \in \mathbb{R}^p} \frac{1}{2}\|\beta\|^2 \quad \textrm{s.t.}\quad y_i(x_i^T \beta + \beta_0) \geq 1 \qquad (i=1,\dots,n).
+\]</div>
+<p>We now recognize the problem as a standard <a href="https://en.wikipedia.org/wiki/Convex_optimization" target="_blank">convex optimization problem</a> with a quadratic objective and linear inequality constraints. This can be solved using standard optimization packages.</p>
+</section>
+<section id="non-separable-data">
+<h2><span class="section-number">19.5. </span>Non-separable data<a class="headerlink" href="#non-separable-data" title="Link to this heading">#</a></h2>
+<p>We now examine a possible approach to generalize the above ideas when the data is not linearly separable. In that case, we will allow some points to be misclassified, while keeping some control over the error.</p>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../_images/ESL_Fig12p1_2.png"><img alt="../_images/ESL_Fig12p1_2.png" src="../_images/ESL_Fig12p1_2.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 19.2 </span><span class="caption-text">ESL, Figure 12.1</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>More specifically, let us replace the constraint <span class="math notranslate nohighlight">\(y_i(\beta_0 + \beta^T x) \geq M\)</span> by</p>
+<div class="math notranslate nohighlight">
+\[
+y_i(\beta_0 + \beta^T x) \geq M(1-\xi_i), \quad \xi_i \geq 0.
+\]</div>
+<p>Notice how the right-hand term relaxes the previous constraint. Instead of having each point at distance at least <span class="math notranslate nohighlight">\(M\)</span> from the hyperplane <span class="math notranslate nohighlight">\(H\)</span>, some points can now fall into the <span class="math notranslate nohighlight">\(M\)</span>-margin when <span class="math notranslate nohighlight">\(\xi_i &gt; 0\)</span>. For example, when <span class="math notranslate nohighlight">\(\xi_i = 1/2\)</span>, the <span class="math notranslate nohighlight">\(i\)</span>-th point is allowed to fall in the middle of the margin. When <span class="math notranslate nohighlight">\(\xi_i &gt; 1\)</span>, the sign of <span class="math notranslate nohighlight">\(M(1-\xi_i)\)</span> becomes negative and the point is allowed to be misclassified (i.e., to be on the wrong side of the hyperplane). In order to limit that kind of behavior, we add a supplementary constraint on how large the <span class="math notranslate nohighlight">\(\xi_i\)</span>s can be:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{i=1}^n \xi_i \leq C \qquad \textrm{for some fixed constant } C &gt; 0.
+\]</div>
+<p>Our new optimization problem is therefore:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\tiny
+&amp;\max_{\substack{\beta_0 \in \mathbb{R} \\ \beta \in \mathbb{R}^p, \|\beta\|=1}} M \\
+&amp;\textrm{subject to } y_i(x_i^T \beta + \beta_0) \geq M(1-\xi_i) \\
+&amp;\xi_i \geq 0, \qquad \sum_{i=1}^n \xi_i \leq C.
+\end{align*}\]</div>
+<p>As before, we can transform the problem into its “standard” form:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\tiny
+&amp;\min_{\beta_0, \beta} \frac{1}{2}\|\beta\|^2 \\
+&amp;\textrm{subject to } y_i(x_i^T \beta + \beta_0) \geq 1-\xi_i \\
+&amp;\xi_i \geq 0, \qquad \sum_{i=1}^n \xi_i \leq C, 
+\end{align*}\]</div>
+<p>which can be solved using standard optimization solvers. This is the problem solved by <strong>support vector machines</strong>.</p>
+</section>
+<section id="working-with-multiple-classes">
+<h2><span class="section-number">19.6. </span>Working with multiple classes<a class="headerlink" href="#working-with-multiple-classes" title="Link to this heading">#</a></h2>
+<p>So far, we have only discussed how SVM can be used to classify data coming from two categories. Several general approaches can be used to classify data coming from an arbitrary number of classes.</p>
+<section id="one-vs-all">
+<h3><span class="section-number">19.6.1. </span>One vs all<a class="headerlink" href="#one-vs-all" title="Link to this heading">#</a></h3>
+<p>In the <em>one versus all</em> (or <em>one versus the rest</em>) approach, we fit the model to separate each class against the remaining classes. If we have <span class="math notranslate nohighlight">\(K\)</span> labels, we therefore construct <span class="math notranslate nohighlight">\(K\)</span> models. We label a new point <span class="math notranslate nohighlight">\(x\)</span> according to the model for which <span class="math notranslate nohighlight">\(\beta_0 + x^T \beta\)</span> is the largest.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/1vsall.png"><img alt="../_images/1vsall.png" src="../_images/1vsall.png" style="width: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 19.3 </span><span class="caption-text">The one vs all approach.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>For example, if our data has three possible labels (say <span class="math notranslate nohighlight">\(A, B, C\)</span>), we examine if the point to classify looks more like category <span class="math notranslate nohighlight">\(A\)</span> or not, more like category <span class="math notranslate nohighlight">\(B\)</span> or not, or more like category <span class="math notranslate nohighlight">\(C\)</span> or not.</p>
+</section>
+<section id="one-vs-one">
+<h3><span class="section-number">19.6.2. </span>One vs one<a class="headerlink" href="#one-vs-one" title="Link to this heading">#</a></h3>
+<p>In the one vs one approach, we train a classifier for each possible <strong>pair</strong> of classes. We thus have to train <span class="math notranslate nohighlight">\(\binom{K}{2}\)</span> models. A new point can then be classified using a majority vote.</p>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../_images/1vs1.png"><img alt="../_images/1vs1.png" src="../_images/1vs1.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 19.4 </span><span class="caption-text">The one vs one approach.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>For example, in the above example, we need to train a model for “0 against 1”, “0 against 2”, and “1 against 2”. In each case, we restrict the data to the given pair and train a SVM. We then classify the new point according to each model. In the figure above, two of the three models classify the new point as “2”. We therefore label the point “2”.</p>
+<p>Instead of a majority vote, one can also use the distance between the new point and the hyperplane to make the classification. For example, suppose the model associated to class <span class="math notranslate nohighlight">\(i\)</span> vs class <span class="math notranslate nohighlight">\(j\)</span> is <span class="math notranslate nohighlight">\(f_{ij}(x) = \beta_0^{ij} + \beta_{ij}^T x\)</span>. For each <span class="math notranslate nohighlight">\(i\)</span>, we can add the value of <span class="math notranslate nohighlight">\(f_{ij}(x)\)</span> for all <span class="math notranslate nohighlight">\(j\)</span>’s that classify <span class="math notranslate nohighlight">\(x\)</span> as class <span class="math notranslate nohighlight">\(i\)</span>. The final classification is the category <span class="math notranslate nohighlight">\(i\)</span> that has the largest score. Many other variants can also be considered.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="19-logistic.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">18. </span>Logistic regression</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="21-SVM-kernel.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">20. </span>SVM: the kernel trick</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperplanes">19.1. Hyperplanes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-distance-from-a-point-to-a-hyperplane">19.2. Computing the distance from a point to a hyperplane</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linearly-separable-data">19.3. Linearly separable data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#separating-data-with-the-largest-margin">19.4. Separating data with the largest margin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#non-separable-data">19.5. Non-separable data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-multiple-classes">19.6. Working with multiple classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-vs-all">19.6.1. One vs all</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-vs-one">19.6.2. One vs one</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dominique Guillot
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

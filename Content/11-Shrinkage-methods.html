@@ -225,6 +225,10 @@
 <li class="toctree-l1"><a class="reference internal" href="16-LASSO-theoretical.html">15. Theoretical guarantees for the LASSO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="17-categorical-data.html">16. Analyzing categorical data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="18-Lab6-nearest-neighbors.html">17. Lab 6: nearest neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19-logistic.html">18. Logistic regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20-SVM.html">19. Support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21-SVM-kernel.html">20. SVM: the kernel trick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
 </ul>
 
     </div>
@@ -452,7 +456,7 @@ Y = \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p.
 <p>When <span class="math notranslate nohighlight">\(\lambda = 0\)</span>, we recover the least squares model, while as <span class="math notranslate nohighlight">\(\lambda\)</span> increases, the model selects various subsets of variables. When <span class="math notranslate nohighlight">\(\lambda \to \infty\)</span>, all regression coefficients become <span class="math notranslate nohighlight">\(0\)</span> as it becomes too costly to include variables in the model.</p>
 <p>In theory, the above solves our problem of identifying relevant subsets of variables. However, unfortunately, the above optimization problem is a combinatorial optimization problem that cannot be solved efficiently. We therefore need to look for alternatives.</p>
 <section id="ridge-regression-tikhonov-regularization">
-<h3><span class="section-number">10.2.1. </span>Ridge regression/Tikhonov regularization:<a class="headerlink" href="#ridge-regression-tikhonov-regularization" title="Link to this heading">#</a></h3>
+<span id="s-ridge"></span><h3><span class="section-number">10.2.1. </span>Ridge regression/Tikhonov regularization:<a class="headerlink" href="#ridge-regression-tikhonov-regularization" title="Link to this heading">#</a></h3>
 <p>Ridge regression solves the following problem:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
