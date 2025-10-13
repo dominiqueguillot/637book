@@ -35,7 +35,7 @@ width: 500px
 An illustration of the coordinate descent process. Source: Wikipedia (Nicoguaro)
 ```
 
-Unfortunately, coordinate descent does **not** always converge. For example, in the example below, observe that if one start with the initial guess $(-2,-2)$, then coordinate descent immediately stops since the function is minimized at that point with respect to the $x$ and $y$ axis directions. However, $(-2,-2)$ is not a local minimum of the function. 
+Unfortunately, coordinate descent does **not** always converge. For example, in the example below, observe that if one starts with the initial guess $(-2,-2)$, then coordinate descent immediately stops since the function is minimized at that point with respect to the $x$ and $y$ axis directions. However, $(-2,-2)$ is not a local minimum of the function. 
 
 ```{figure} images/Nonsmooth_coordinate_descent.png
 ---
@@ -144,7 +144,7 @@ It remains to see how the coordinate-wise LASSO problem can be efficiently solve
 
 ### The coordinate-wise LASSO problem
 
-In order to be able to minimize the LASSO objective using coordinate descent, we need to be able to minimize the objective efficiently each coordinate at a time. Recall that the LASSO objecive is: 
+In order to be able to minimize the LASSO objective using coordinate descent, we need to be able to minimize the objective efficiently each coordinate at a time. Recall that the LASSO objective is: 
 
 $$
 \|y - X\beta\|_2^2 + \lambda \|\beta\|_1. 

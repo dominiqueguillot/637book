@@ -229,6 +229,7 @@
 <li class="toctree-l1"><a class="reference internal" href="20-SVM.html">19. Support vector machines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="21-SVM-kernel.html">20. SVM: the kernel trick</a></li>
 <li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23-PCA.html">22. Principal component analysis</a></li>
 </ul>
 
     </div>
@@ -430,7 +431,7 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 <p><span class="caption-number">Fig. 13.1 </span><span class="caption-text">An illustration of the coordinate descent process. Source: Wikipedia (Nicoguaro)</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Unfortunately, coordinate descent does <strong>not</strong> always converge. For example, in the example below, observe that if one start with the initial guess <span class="math notranslate nohighlight">\((-2,-2)\)</span>, then coordinate descent immediately stops since the function is minimized at that point with respect to the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> axis directions. However, <span class="math notranslate nohighlight">\((-2,-2)\)</span> is not a local minimum of the function.</p>
+<p>Unfortunately, coordinate descent does <strong>not</strong> always converge. For example, in the example below, observe that if one starts with the initial guess <span class="math notranslate nohighlight">\((-2,-2)\)</span>, then coordinate descent immediately stops since the function is minimized at that point with respect to the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> axis directions. However, <span class="math notranslate nohighlight">\((-2,-2)\)</span> is not a local minimum of the function.</p>
 <figure class="align-default" id="id2">
 <a class="reference internal image-reference" href="../_images/Nonsmooth_coordinate_descent.png"><img alt="../_images/Nonsmooth_coordinate_descent.png" src="../_images/Nonsmooth_coordinate_descent.png" style="width: 500px;" />
 </a>
@@ -519,7 +520,7 @@ f(x_1, \dots, x_p) = f_0(x_1, \dots, x_p) + \sum_{i=1}^p f_i(x_i) \qquad (f \in 
 </section>
 <section id="the-coordinate-wise-lasso-problem">
 <h3><span class="section-number">13.2.4. </span>The coordinate-wise LASSO problem<a class="headerlink" href="#the-coordinate-wise-lasso-problem" title="Link to this heading">#</a></h3>
-<p>In order to be able to minimize the LASSO objective using coordinate descent, we need to be able to minimize the objective efficiently each coordinate at a time. Recall that the LASSO objecive is:</p>
+<p>In order to be able to minimize the LASSO objective using coordinate descent, we need to be able to minimize the objective efficiently each coordinate at a time. Recall that the LASSO objective is:</p>
 <div class="math notranslate nohighlight">
 \[
 \|y - X\beta\|_2^2 + \lambda \|\beta\|_1. 
