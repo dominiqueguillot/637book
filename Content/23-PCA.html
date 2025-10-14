@@ -88,6 +88,7 @@
     <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="23. Lab 8: PCA" href="24-Lab8-PCA.html" />
     <link rel="prev" title="21. Lab 7: support vector machines" href="22-Lab7-SVM.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -229,6 +230,7 @@
 <li class="toctree-l1"><a class="reference internal" href="21-SVM-kernel.html">20. SVM: the kernel trick</a></li>
 <li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">22. Principal component analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24-Lab8-PCA.html">23. Lab 8: PCA</a></li>
 </ul>
 
     </div>
@@ -419,7 +421,7 @@ document.write(`
 \]</div>
 <p>Thus, when <span class="math notranslate nohighlight">\(E(Y) = 0\)</span>, the variance of <span class="math notranslate nohighlight">\(Y\)</span> is equal to <span class="math notranslate nohighlight">\(E(Y^2)\)</span>. Similarly, for a vector <span class="math notranslate nohighlight">\(v \in \mathbb{R}^n\)</span> whose entries have mean <span class="math notranslate nohighlight">\(0\)</span>, the quantity <span class="math notranslate nohighlight">\(\sum_{i=1}^n v_i^2\)</span> can be seen as measuring the variability of <span class="math notranslate nohighlight">\(v\)</span>.</p>
 <p>To find a first direction where the data has a lot of variability, we look for a linear combination of the predictors <span class="math notranslate nohighlight">\(w_1 X_1 + w_2 X_2 + \dots + w_p X_p\)</span> with maximal variance. Observe that rescaling <span class="math notranslate nohighlight">\(w\)</span> rescales the variability of the linear combination. To make the problem well-defined, we can assume <span class="math notranslate nohighlight">\(\|w\|_2 = 1\)</span>. Now, the vector
-<span class="math notranslate nohighlight">\(Xw\)</span> contains the entries of <span class="math notranslate nohighlight">\(w_1 X_1 + w_2 X_2 + \dots + w_p X_p\)</span>. Observe that the <span class="math notranslate nohighlight">\(i\)</span>-th entry is equal to <span class="math notranslate nohighlight">\(x_i^T w\)</span>, where <span class="math notranslate nohighlight">\(x_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th row of <span class="math notranslate nohighlight">\(X\)</span>. Thus, the a natural measure of the variability of <span class="math notranslate nohighlight">\(Xw\)</span> is given by</p>
+<span class="math notranslate nohighlight">\(Xw\)</span> contains the entries of <span class="math notranslate nohighlight">\(w_1 X_1 + w_2 X_2 + \dots + w_p X_p\)</span>. Observe that the <span class="math notranslate nohighlight">\(i\)</span>-th entry is equal to <span class="math notranslate nohighlight">\(x_i^T w\)</span>, where <span class="math notranslate nohighlight">\(x_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th row of <span class="math notranslate nohighlight">\(X\)</span>. Thus, a natural measure of the variability of <span class="math notranslate nohighlight">\(Xw\)</span> is given by</p>
 <div class="math notranslate nohighlight">
 \[
 \sum_{i=1}^n (x_i^T w)^2. 
@@ -645,6 +647,15 @@ X^TX = UDU^T
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title"><span class="section-number">21. </span>Lab 7: support vector machines</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="24-Lab8-PCA.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">23. </span>Lab 8: PCA</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
