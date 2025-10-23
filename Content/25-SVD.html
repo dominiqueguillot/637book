@@ -1,0 +1,1053 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>24. The singular value decomposition &#8212; Math 637 Mathematical Techniques in Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Content/25-SVD';</script>
+    <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/searchtools.js?v=d24376de"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="23. Lab 8: PCA" href="24-Lab8-PCA.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="1-intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/637-logo.png" class="logo__image only-light" alt="Math 637 Mathematical Techniques in Data Science - Home"/>
+    <script>document.write(`<img src="../_static/637-logo.png" class="logo__image only-dark" alt="Math 637 Mathematical Techniques in Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="1-intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-Linear-regression.html">4. Linear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6-Lab-Cars.html">5. Lab 1: Linear regression and the cars data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7-Learning-outside-training.html">6. Learning outside the training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-Lab2-train-test.html">7. Lab 2: Training vs testing error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9-BLUE.html">8. Best linear unbiased estimator and the bias-variance decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10-Lab3-gradient-descent.html">9. Lab 3: Gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11-Shrinkage-methods.html">10. Improving linear regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Model-selection.html">11. Model selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13-Lab4-lasso.html">12. Lab 4: using the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14-Computing-lasso.html">13. Computing the LASSO solution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15-Lab5-coordinate-descent.html">14. Lab 5: Coordinate descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16-LASSO-theoretical.html">15. Theoretical guarantees for the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17-categorical-data.html">16. Analyzing categorical data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18-Lab6-nearest-neighbors.html">17. Lab 6: nearest neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19-logistic.html">18. Logistic regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20-SVM.html">19. Support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21-SVM-kernel.html">20. SVM: the kernel trick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23-PCA.html">22. Principal component analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24-Lab8-PCA.html">23. Lab 8: PCA</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">24. The singular value decomposition</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Content/25-SVD.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>The singular value decomposition</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-bases">24.1. Changing bases</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-transformations">24.1.1. Linear transformations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performing-a-change-of-basis">24.1.2. Performing a change of basis</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-the-svd">24.2. Back to the SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-of-the-svd">24.3. Applications of the SVD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-rank-k-approximation">24.3.1. Best rank <span class="math notranslate nohighlight">\(k\)</span> approximation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommendation-systems">24.3.2. Recommendation systems</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-singular-value-decomposition">
+<h1><span class="section-number">24. </span>The singular value decomposition<a class="headerlink" href="#the-singular-value-decomposition" title="Link to this heading">#</a></h1>
+<p>In the previous chapter on <a class="reference internal" href="24-Lab8-PCA.html#s-pca"><span class="std std-ref">PCA</span></a>, we use the fact that any symmetric matrix <span class="math notranslate nohighlight">\(A\)</span> has real eigenvalues and an associated basis of orthonormal eigenvectors. This allows us to diagonalize the matrix, i.e., write it in the form</p>
+<div class="math notranslate nohighlight">
+\[
+A = PDP^{-1}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(D\)</span> is diagonal and were <span class="math notranslate nohighlight">\(P^TP = PP^T = I\)</span> (i.e., <span class="math notranslate nohighlight">\(P\)</span> is an orthogonal matrix). Essentially, this shows that, when working in a basis of eigenvectors, the matrix <span class="math notranslate nohighlight">\(A\)</span> (seen as a linear transformation) acts like a diagonal matrix. This is very important as we understand very well diagonal matrices and they are easy to work with. For example, observe that multiplying diagonal matrices (with the usual matrix product) is equivalent to multiplying the diagonal entries. In particular, if</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+D = \textrm{diag}(d_1,\dots,d_n) := \begin{pmatrix}
+d_1 &amp; &amp; &amp; \\
+&amp; d_2 &amp; &amp; \\
+&amp; &amp; \ddots &amp; \\
+&amp; &amp; &amp; d_n
+\end{pmatrix}, 
+\end{split}\]</div>
+<p>then for any integer <span class="math notranslate nohighlight">\(k \geq 1\)</span>, the matrix power <span class="math notranslate nohighlight">\(D^k\)</span> is simply obtained by powering up each element of the diagonal, i.e., <span class="math notranslate nohighlight">\(D^k = \textrm{diag}(d_1^k, \dots, d_n^k)\)</span>. This is much easier than multiplying a general matrix <span class="math notranslate nohighlight">\(A\)</span> by itself <span class="math notranslate nohighlight">\(k\)</span> times. When <span class="math notranslate nohighlight">\(A\)</span> is diagonalizable, say <span class="math notranslate nohighlight">\(A = PDP^{-1}\)</span>, observe that</p>
+<div class="math notranslate nohighlight">
+\[
+A^k = \underbrace{(PDP^{-1})(PDP^{-1}) \dots (PDP^{-1})}_{\textrm{$k$ times}} = PD(P^{-1}P)D(P^{-1}P)\dots D P^{-1} = PD^kP^{-1} 
+\]</div>
+<p>since the successive terms <span class="math notranslate nohighlight">\(P^{-1}P\)</span> cancel out. As a result, <span class="math notranslate nohighlight">\(A^k\)</span> can be computed almost as easily as if <span class="math notranslate nohighlight">\(A\)</span> were diagonal. If you are less familiar with these ideas, there are numerous excellent videos that explain them in greater details on the internet (see e.g. <a href="https://www.youtube.com/watch?v=EJG6gBeVdfw" target="_blank"> this one</a>).</p>
+<p>Unfortunately, not every matrix is diagonalizable. However, as we will explain in this chapter, we can diagonalize any matrix if we are allowed to work with <strong>two</strong> orthonormal bases, one for the domain and one for the codomain. The resulting factorization of a matrix is called the <em>singular value decomposition</em> (SVD) and has many applications in data science. Interestingly, the factorization applies to all rectangular <span class="math notranslate nohighlight">\(m \times n\)</span> matrices, not only square matrices.</p>
+<div class="admonition-theorem admonition">
+<p class="admonition-title">Theorem.</p>
+<p>Let <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{m \times n}\)</span>. Then we can factor</p>
+<div class="math notranslate nohighlight">
+\[
+A = U \Sigma V^T, 
+\]</div>
+<p>where</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(U \in \mathbb{R}^{m \times m}\)</span> is an orthogonal matrix (<span class="math notranslate nohighlight">\(UU^T = U^TU = I)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Sigma \in \mathbb{R}^{m \times n}\)</span> is a rectangular diagonal matrix with non-negative diagonal.</p></li>
+<li><p><span class="math notranslate nohighlight">\(V \in \mathbb{R}^{n \times n}\)</span> is an orthogonal matrix (<span class="math notranslate nohighlight">\(VV^T = V^TV = I)\)</span>.</p></li>
+</ol>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/svd2.png"><img alt="../_images/svd2.png" src="../_images/svd2.png" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 24.1 </span><span class="caption-text">Figure from J.M. Phillips, <em>Mathematical Foundations for Data Analysis</em>.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+<section id="changing-bases">
+<h2><span class="section-number">24.1. </span>Changing bases<a class="headerlink" href="#changing-bases" title="Link to this heading">#</a></h2>
+<p>Before discussing the SVD further, let us review how a linear transformation can be written with respect to different bases.</p>
+<p>Suppose <span class="math notranslate nohighlight">\(\mathcal{B} = \{\mathbf{b}_1, \dots, \mathbf{b}_n\}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{C} = \{\mathbf{c}_1, \dots, \mathbf{c}_n\}\)</span> are bases of <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span>. The <strong>change of basis matrix</strong> from <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> to <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> is denoted <span class="math notranslate nohighlight">\(P = P_{\mathcal{B} \rightarrow \mathcal{C}}\)</span>. Its columns are the vectors of <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> expressed in the basis <span class="math notranslate nohighlight">\(\mathcal{C}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{b}_j = p_{1j} \mathbf{c}_1 + p_{2j} \mathbf{c}_2 + \dots + p_{nj} \mathbf{c}_n.
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(v \in \mathbb{R}^n\)</span> has coordinates <span class="math notranslate nohighlight">\((v_1, \dots, v_n)\)</span> in basis <span class="math notranslate nohighlight">\(\mathcal{B}\)</span>, meaning</p>
+<div class="math notranslate nohighlight">
+\[
+v = v_1 \mathbf{b}_1 + v_2 \mathbf{b}_2 + \dots + v_n \mathbf{b}_n, 
+\]</div>
+<p>then <span class="math notranslate nohighlight">\(v\)</span> has coordinates <span class="math notranslate nohighlight">\(Pv = (w_1, \dots, w_n)\)</span> in basis <span class="math notranslate nohighlight">\(\mathcal{C}\)</span>, meaning</p>
+<div class="math notranslate nohighlight">
+\[
+v = w_1 \mathbf{c}_1 + w_2 \mathbf{c}_2 + \dots + w_n \mathbf{c}_n.
+\]</div>
+<div class="admonition-remark admonition">
+<p class="admonition-title">Remark.</p>
+<p>We always have <span class="math notranslate nohighlight">\(P_{\mathcal{C} \to \mathcal{B}} = P_{\mathcal{B} \to \mathcal{C}}^{-1}\)</span> since the inverse of changing from basis <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> to basis <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> is equivalent to changing from basis <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> to basis <span class="math notranslate nohighlight">\(\mathcal{B}\)</span>.</p>
+</div>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example.</p>
+<p>Consider the following bases of <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{e}_1 = \begin{pmatrix}1 \\ 0\end{pmatrix} \qquad \mathbf{e}_2 = \begin{pmatrix}0 \\ 1\end{pmatrix}
+\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{f}_1 = \mathbf{e}_1 + \mathbf{e}_2 = \begin{pmatrix}1 \\ 1\end{pmatrix} \qquad \mathbf{f}_2 = \mathbf{e}_1 - \mathbf{e}_2 = \begin{pmatrix}1 \\ -1\end{pmatrix}.
+\end{split}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(\mathcal{B} = \{\mathbf{e}_1, \mathbf{e}_2\}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{D} = \{\mathbf{f}_1, \mathbf{f}_2\}\)</span>. To find the change of basis matrix <span class="math notranslate nohighlight">\(P_{\mathcal{B} \to \mathcal{C}}\)</span>, we need to expresse the vectors in <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> in the <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> basis. Observe that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mathbf{e}_1 &amp;= \frac{1}{2}\mathbf{f}_1 + \frac{1}{2}\mathbf{f}_2 \\
+\mathbf{e}_2 &amp;= \frac{1}{2}\mathbf{f}_1 - \frac{1}{2}\mathbf{f}_2.
+\end{align*}\]</div>
+<p>Since the columns of <span class="math notranslate nohighlight">\(P_{\mathcal{B} \to \mathcal{C}}\)</span> are the coordinates of the vectors in the <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> basis expressed in the <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> basis, we obtain:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+P_{\mathcal{B} \to \mathcal{C}} = \begin{pmatrix}
+1/2 &amp; 1/2 \\
+1/2 &amp; -1/2
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Observe that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+P_{\mathcal{B} \to \mathcal{C}}^{-1} = P_{\mathcal{C} \to \mathcal{B}} = \begin{pmatrix}
+1 &amp; 1 \\
+1 &amp; -1
+\end{pmatrix}
+\end{split}\]</div>
+<p>whose columns indeed contain the coordinates of the <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> basis vectors in the <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> basis. Now, consider the vector</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{v} = 3 \mathbf{e}_1 - 2 \mathbf{e}_2. 
+\]</div>
+<p>Its coordinates are <span class="math notranslate nohighlight">\(\mathbf{v}_{\mathcal{B}} = (3,-2)^T\)</span> in the <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> basis. To write it in the <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> basis, all we need to do is multiply it by <span class="math notranslate nohighlight">\(P_{\mathcal{B} \to \mathcal{C}}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{v}_{\mathcal{C}} = P_{\mathcal{B} \to \mathcal{C}} \mathbf{v}_{\mathcal{B}} = \begin{pmatrix}
+1/2 &amp; 1/2 \\
+1/2 &amp; -1/2
+\end{pmatrix} \begin{pmatrix}3 \\ -2\end{pmatrix} = \begin{pmatrix}1/2 \\ 5/2\end{pmatrix}.
+\end{split}\]</div>
+<p>In other words, we have <span class="math notranslate nohighlight">\(\mathbf{v} = (1/2) \mathbf{f}_1 + (5/2) \mathbf{f}_2\)</span>, which one can readily verify.</p>
+</div>
+<section id="linear-transformations">
+<h3><span class="section-number">24.1.1. </span>Linear transformations<a class="headerlink" href="#linear-transformations" title="Link to this heading">#</a></h3>
+<p>A linear transformation between <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> and <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span> is a function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}^m\)</span> satisfying the following two properties:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(f(\mathbf{x}+\mathbf{y}) = f(\mathbf{x}) + f(\mathbf{y})\)</span> <span class="math notranslate nohighlight">\(\forall \mathbf{x}, \mathbf{y} \in \mathbb{R}^n\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(f(\lambda \mathbf{x}) = \lambda f(\mathbf{x})\)</span> <span class="math notranslate nohighlight">\(\forall \mathbf{x} \in \mathbb{R}^n\)</span>, <span class="math notranslate nohighlight">\(\forall \lambda \in \mathbb{R}\)</span>.</p></li>
+</ol>
+<p>If one fixes bases <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> of <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> and <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> of <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span>, then every matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{m \times n}\)</span> defines a linear transformation via:</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{x}) = A \mathbf{x}. 
+\]</div>
+<p>Here, one needs to interpret the vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> as being written in the <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> basis, and its image <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> in the <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> basis.</p>
+<p>Conversely, given a basis <span class="math notranslate nohighlight">\(\mathcal{C} = \{\mathbf{c}_1, \dots, \mathbf{c}_n\}\)</span> of <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> and <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> of <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span>, let</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = \begin{pmatrix}
+\lvert &amp; \lvert &amp;&amp; \lvert \\
+f(\mathbf{c_1}) &amp; f(\mathbf{c_2}) &amp;\dots&amp; f(\mathbf{c_n})\\
+\lvert &amp; \lvert &amp;&amp; \lvert 
+\end{pmatrix}, 
+\end{split}\]</div>
+<p>where the columns of <span class="math notranslate nohighlight">\(A\)</span> are the images <span class="math notranslate nohighlight">\(f(\mathbf{c_i})\)</span> of the basis vectors <span class="math notranslate nohighlight">\(\mathbf{c_i}\)</span> under the map <span class="math notranslate nohighlight">\(f\)</span>, expressed in the basis <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>. Then <span class="math notranslate nohighlight">\(f(\mathbf{x}) = A \mathbf{x}\)</span>. Indeed, if <span class="math notranslate nohighlight">\(\mathbf{x} = x_1 \mathbf{c}_1 + x_2 \mathbf{c}_2 + \dots + x_n \mathbf{c}_n\)</span>, then</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f(\mathbf{x}) &amp;= f( x_1 \mathbf{c}_1 + x_2 \mathbf{c}_2 + \dots + x_n \mathbf{c}_n) \\
+&amp;= x_1 f(\mathbf{c}_1) + x_2 f(\mathbf{c}_2) + \dots + x_n f(\mathbf{c}_n) \\
+&amp;= A \mathbf{x}.
+\end{align*}\]</div>
+<p>There is thus a perfect correspondance between matrices and linear transformations. Thinking of matrices as linear transformations and vice-versa is a powerful way to understand these objects. For example, thinking of a matrix <span class="math notranslate nohighlight">\(A\)</span> as a linear transformation <span class="math notranslate nohighlight">\(f\)</span>, eigenvectors become directions where <span class="math notranslate nohighlight">\(f\)</span> “stretches” the space.</p>
+</section>
+<section id="performing-a-change-of-basis">
+<h3><span class="section-number">24.1.2. </span>Performing a change of basis<a class="headerlink" href="#performing-a-change-of-basis" title="Link to this heading">#</a></h3>
+<p>Suppose <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}^m\)</span> is a linear transformation from <span class="math notranslate nohighlight">\(V = \mathbb{R}^n\)</span> to <span class="math notranslate nohighlight">\(W = \mathbb{R}^m\)</span>. We write it with respect to bases <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> and obtain a matrix <span class="math notranslate nohighlight">\(A\)</span>. Assume we would like to  use bases <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> instead.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/change-basis.png"><img alt="../_images/change-basis.png" src="../_images/change-basis.png" style="width: 400px;" />
+</a>
+</figure>
+<p>In the new bases, the matrix <span class="math notranslate nohighlight">\(A\)</span> becomes <span class="math notranslate nohighlight">\(T^{-1}AS\)</span>, where <span class="math notranslate nohighlight">\(S = P_{\mathcal{B} \to \mathcal{C}}\)</span> and <span class="math notranslate nohighlight">\(T = P_{\mathcal{E} \to \mathcal{D}}\)</span>. Indeed, on the one hand, the matrix <span class="math notranslate nohighlight">\(A\)</span> takes <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> (written in the <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> basis) and returns <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> (written in the <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> basis). On the other hand, in the computation <span class="math notranslate nohighlight">\(T^{-1}AS \mathbf{x}\)</span>:</p>
+<ol class="arabic simple">
+<li><p>We start with the vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> written in the <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> basis;</p></li>
+<li><p>We apply <span class="math notranslate nohighlight">\(S\)</span> to get the coordinates of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> in the <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> basis. This is <span class="math notranslate nohighlight">\(S \mathbf{x}\)</span>;</p></li>
+<li><p>We apply <span class="math notranslate nohighlight">\(A\)</span> to compute <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span>, where the calculation starts in the <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> basis, and ends in the <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> basis. This is <span class="math notranslate nohighlight">\(AS\mathbf{x}\)</span>;</p></li>
+<li><p>We convert the result into the <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> basis by applying <span class="math notranslate nohighlight">\(T^{-1}\)</span>. This gives <span class="math notranslate nohighlight">\(T^{-1}AS\mathbf{x}\)</span>.</p></li>
+</ol>
+<p>Both <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(T^{-1}AS\)</span> therefore represent the same transformation <span class="math notranslate nohighlight">\(f\)</span>. They perform the same calculation <strong>with respect to different bases</strong>.</p>
+<p>In the special case where <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}^n\)</span>,  and <span class="math notranslate nohighlight">\(\mathcal{C} = \mathcal{D}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{B} = \mathcal{E}\)</span>, we obtain the following diagram:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/change-basis-same.png"><img alt="../_images/change-basis-same.png" src="../_images/change-basis-same.png" style="width: 400px;" />
+</a>
+</figure>
+<p>Given a matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span> and an invertible matrix <span class="math notranslate nohighlight">\(P \in \mathbb{R}^{n \times n}\)</span>, we can therefore think of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(P^{-1}AP\)</span> as representing the same linear transformation with respect to two different bases. In that case, we say that the two matrices are <a href="https://en.wikipedia.org/wiki/Matrix_similarity" target="_blank">similar</a>.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example.</p>
+<p>Consider the space <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span> equipped with basis</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{e}_1 = \begin{pmatrix}
+1 \\
+0
+\end{pmatrix} \qquad \mathbf{e}_2 = \begin{pmatrix}
+0 \\
+1
+\end{pmatrix}
+\end{split}\]</div>
+<p>and with basis</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\mathbf{f}_1 &amp;= \mathbf{e}_1 + \mathbf{e}_2 \\
+\mathbf{f}_2 &amp;= \mathbf{e}_1 - \mathbf{e}_2.
+\end{align*}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbb{R}^2\)</span>. Write <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> in the <span class="math notranslate nohighlight">\(\{\mathbf{e}_1, \mathbf{e}_2\}\)</span> basis: <span class="math notranslate nohighlight">\(\mathbf{x} = x_1 \mathbf{e}_1 + x_2 \mathbf{e}_2\)</span>. Suppose, for example, that</p>
+<div class="math notranslate nohighlight">
+\[
+f(\mathbf{x}) = (x_1 + 2 x_2) \mathbf{e}_1 + (3 x_1 - x_2) \mathbf{e}_2. 
+\]</div>
+<p>Then <span class="math notranslate nohighlight">\(f(\mathbf{e}_1) = \mathbf{e}_1 + 3 \mathbf{e}_2\)</span> and <span class="math notranslate nohighlight">\(f(\mathbf{e}_2) = 2 \mathbf{e}_1-\mathbf{e}_2\)</span>. The matrix <span class="math notranslate nohighlight">\(A\)</span> representing <span class="math notranslate nohighlight">\(f\)</span> with respect to bases <span class="math notranslate nohighlight">\(\mathcal{C} = \mathcal{D} = \{\mathbf{e}_1, \mathbf{e}_2\}\)</span> is therefore</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A = \begin{pmatrix}
+1 &amp; 2 \\
+3 &amp; -1
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Now, we already have the coordinates of the <span class="math notranslate nohighlight">\(\{\mathbf{f}_1, \mathbf{f}_2\}\)</span> basis in the <span class="math notranslate nohighlight">\(\{\mathbf{e}_1, \mathbf{e}_2\}\)</span> basis. This gives us the <span class="math notranslate nohighlight">\(P_{\mathcal{B} \to \mathcal{C}}\)</span> matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+S = P_{\mathcal{B} \to \mathcal{C}} = \begin{pmatrix}
+1 &amp; 1 \\
+1 &amp; -1
+\end{pmatrix}.
+\end{split}\]</div>
+<p>We also have <span class="math notranslate nohighlight">\(T = P_{\mathcal{E} \to \mathcal{D}} = P_{\mathcal{B} \to \mathcal{C}} = S\)</span>. Therefore, the matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+T^{-1} A S = S^{-1} A S = \begin{pmatrix}
+1 &amp; 1 \\
+1 &amp; -1
+\end{pmatrix}^{-1} A \begin{pmatrix}
+1 &amp; 1 \\
+1 &amp; -1
+\end{pmatrix} = \begin{pmatrix}
+5/2 &amp; 3/2 \\
+1/2 &amp; -5/2
+\end{pmatrix}
+\end{split}\]</div>
+<p>represents the linear transformation <span class="math notranslate nohighlight">\(f\)</span> in the <span class="math notranslate nohighlight">\(\{\mathbf{f}_1, \mathbf{f}_2\}\)</span> basis. Let us verify if that works. Consider, for example, the vector <span class="math notranslate nohighlight">\(\mathbf{x} = 0 \mathbf{e}_1 + 2 \mathbf{e}_2\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f(\mathbf{x}) = \begin{pmatrix}
+1 &amp; 2 \\
+3 &amp; -1
+\end{pmatrix} \begin{pmatrix}
+0 \\
+2
+\end{pmatrix} = \begin{pmatrix}4 \\ -2 
+\end{pmatrix} = 4 \mathbf{e}_1 -2 \mathbf{e}_2. 
+\end{split}\]</div>
+<p>Let us now do the same calculation using the <span class="math notranslate nohighlight">\(\mathcal{B} = \mathcal{E} = \{\mathbf{f}_1, \mathbf{f}_2\}\)</span> basis. Observe that <span class="math notranslate nohighlight">\(\mathbf{x} = \mathbf{f}_1 - \mathbf{f}_2\)</span>. Thus, the coordinates of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> in the <span class="math notranslate nohighlight">\(\{\mathbf{f}_1, \mathbf{f}_2\}\)</span> basis are <span class="math notranslate nohighlight">\((1,-1)^T\)</span>. Hence, the coordinates of <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span> in the <span class="math notranslate nohighlight">\(\{\mathbf{f}_1, \mathbf{f}_2\}\)</span> basis are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{pmatrix}
+5/2 &amp; 3/2 \\
+1/2 &amp; -5/2
+\end{pmatrix}\begin{pmatrix}
+1 \\ 
+-1
+\end{pmatrix} = \begin{pmatrix}
+1 \\ 3
+\end{pmatrix} = \mathbf{f}_1 + 3\mathbf{f}_2. 
+\end{split}\]</div>
+<p>Observe that we indeed have <span class="math notranslate nohighlight">\(\mathbf{f}_1 + 3\mathbf{f}_2 = 4 \mathbf{e}_1 -2 \mathbf{e}_2\)</span>. We therefore obtain the same value of <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span>, computed with respect to the two different bases.</p>
+</div>
+<div class="admonition-definition admonition">
+<p class="admonition-title">Definition.</p>
+<p>A matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span> is said to be <em>diagonalizable</em> if there exists an invertible matrix <span class="math notranslate nohighlight">\(P \in \mathbb{R}^{n \times n}\)</span> and a diagonal matrix <span class="math notranslate nohighlight">\(D\)</span> such that <span class="math notranslate nohighlight">\(P^{-1} A P = D\)</span>.</p>
+</div>
+<p>In other words, a matrix <span class="math notranslate nohighlight">\(A\)</span> is diagonalizable if it is diagonal with respect to some basis. One can show that a matrix is diagonalizable if and only if its eigenvectors form a basis of <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span>.</p>
+<div class="admonition-theorem admonition">
+<p class="admonition-title">Theorem.</p>
+<p>A matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{n \times n}\)</span> is diagonalizable if and only if <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> has a basis consisting of eigenvectors of <span class="math notranslate nohighlight">\(A\)</span>.</p>
+</div>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example.</p>
+<p>Consider the following two matrices:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A =
+\begin{pmatrix}
+1 &amp; 1 \\
+1 &amp; 1
+\end{pmatrix},
+\qquad
+B = 
+\begin{pmatrix}
+0 &amp; 1 \\
+0 &amp; 0
+\end{pmatrix}.
+\end{split}\]</div>
+<p>One can verify that the eigenvalues of <span class="math notranslate nohighlight">\(A\)</span> are</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda_1 = 2,\qquad \lambda_2 = 0,
+\]</div>
+<p>with corresponding eigenvectors</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+v_1 = \begin{pmatrix}1\\1\end{pmatrix},
+\qquad
+v_2 = \begin{pmatrix}1\\-1\end{pmatrix}.
+\end{split}\]</div>
+<p>Since <span class="math notranslate nohighlight">\(A\)</span> has two linearly independent eigenvectors, <span class="math notranslate nohighlight">\(A\)</span> is diagonalizable. Writing these eigenvectors as the columns of <span class="math notranslate nohighlight">\(P\)</span> and the eigenvalues in <span class="math notranslate nohighlight">\(D\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+P = \begin{pmatrix}1 &amp; 1 \\[4pt] 1 &amp; -1\end{pmatrix}, \qquad
+D = \begin{pmatrix}2 &amp; 0 \\[4pt] 0 &amp; 0\end{pmatrix},
+\end{split}\]</div>
+<p>we have</p>
+<div class="math notranslate nohighlight">
+\[
+A = P D P^{-1}.
+\]</div>
+<p>On the other hand, the eigenvalues of <span class="math notranslate nohighlight">\(B\)</span> are</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda_1 = \lambda_2 = 0.
+\]</div>
+<p>To find the eigenvectors, note that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+(B - 0I) x = 
+\begin{pmatrix}
+0 &amp; 1 \\
+0 &amp; 0
+\end{pmatrix}\begin{pmatrix}
+x_1 \\
+x_2\end{pmatrix} = \begin{pmatrix}x_2 \\ 0\end{pmatrix} = \begin{pmatrix}0 \\ 0\end{pmatrix}. 
+\end{split}\]</div>
+<p>Thus <span class="math notranslate nohighlight">\(x_2 = 0\)</span> and every eigenvector is of the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} 
+x = 
+\begin{pmatrix}
+x_1 \\ 0
+\end{pmatrix}
+\end{split}\]</div>
+<p>for some <span class="math notranslate nohighlight">\(x_1 \ne 0\)</span>. The eigenspace of <span class="math notranslate nohighlight">\(B\)</span> associated to <span class="math notranslate nohighlight">\(\lambda_1 = \lambda_2 = 0\)</span> is therefore one-dimensional, spanned by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+v = 
+\begin{pmatrix}
+1 \\ 0
+\end{pmatrix}.
+\end{split}\]</div>
+<p>Because <span class="math notranslate nohighlight">\(B\)</span> has only one linearly independent eigenvector, it is <strong>not</strong> diagonalizable.</p>
+</div>
+</section>
+</section>
+<section id="back-to-the-svd">
+<h2><span class="section-number">24.2. </span>Back to the SVD<a class="headerlink" href="#back-to-the-svd" title="Link to this heading">#</a></h2>
+<p>Now, let <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{m \times n}\)</span>. The SVD diagonalizes <span class="math notranslate nohighlight">\(A\)</span> with respect to <strong>two different</strong> orthonormal bases of <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> and <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span>. Assuming <span class="math notranslate nohighlight">\(A\)</span> represents a linear transformation with respect to bases <span class="math notranslate nohighlight">\(\mathcal{C}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> of <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> and <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span> respectively, we can construct new orthonormal bases <span class="math notranslate nohighlight">\(\mathcal{B}\)</span> and <span class="math notranslate nohighlight">\(\mathcal{E}\)</span> of <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span> and <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span> such that the matrix <span class="math notranslate nohighlight">\(A\)</span> becomes (rectangular) diagonal after the change of basis:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/change-basis-svd.png"><img alt="../_images/change-basis-svd.png" src="../_images/change-basis-svd.png" style="width: 400px;" />
+</a>
+</figure>
+<p>We therefore obtain <span class="math notranslate nohighlight">\(A = U\Sigma V^T\)</span> where:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(U \in \mathbb{R}^{m \times m}\)</span> is an orthogonal matrix (<span class="math notranslate nohighlight">\(UU^T = U^TU = I)\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Sigma \in \mathbb{R}^{m \times n}\)</span> is a rectangular diagonal matrix with non-negative diagonal.</p></li>
+<li><p><span class="math notranslate nohighlight">\(V \in \mathbb{R}^{n \times n}\)</span> is an orthogonal matrix (<span class="math notranslate nohighlight">\(VV^T = V^TV = I)\)</span>.</p></li>
+</ol>
+<p>The columns of <span class="math notranslate nohighlight">\(U\)</span> are called the <em>left singular vectors</em> of <span class="math notranslate nohighlight">\(A\)</span>, the columns of <span class="math notranslate nohighlight">\(V\)</span> the <em>right singular vectors</em> of <span class="math notranslate nohighlight">\(A\)</span>, and the diagonal elements of <span class="math notranslate nohighlight">\(\Sigma\)</span> the <em>singular values</em> of <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>The function <em>numpy.linalg.svd</em> computes the SVD of a matrix. For example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="c1"># Note: S is a vector containing the singular values of A. </span>
+<span class="n">Sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">Sigma</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now verify that <span class="math notranslate nohighlight">\(A = U\Sigma V^T\)</span>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">-</span><span class="n">U</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Sigma</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Vt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-2.22044605e-16,  0.00000000e+00],
+       [ 0.00000000e+00,  0.00000000e+00],
+       [-6.53512448e-17,  0.00000000e+00]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="applications-of-the-svd">
+<h2><span class="section-number">24.3. </span>Applications of the SVD<a class="headerlink" href="#applications-of-the-svd" title="Link to this heading">#</a></h2>
+<p>The SVD has many interesting applications in data science. We will briefly survey 2 of them.</p>
+<section id="best-rank-k-approximation">
+<h3><span class="section-number">24.3.1. </span>Best rank <span class="math notranslate nohighlight">\(k\)</span> approximation<a class="headerlink" href="#best-rank-k-approximation" title="Link to this heading">#</a></h3>
+<div class="admonition-the-rank-of-a-matrix admonition">
+<p class="admonition-title">The rank of a matrix</p>
+<p>Recall that the <a href="https://en.wikipedia.org/wiki/Rank_(linear_algebra)" target="_blank">rank</a> of a matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{m \times n}\)</span> is the dimension of the space spanned by its columns (or, equivalently, by its rows). In particular, the rank of a <span class="math notranslate nohighlight">\(m \times n\)</span> matrix is at most <span class="math notranslate nohighlight">\(\min(m,n)\)</span>.</p>
+</div>
+<p>Let <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> be a usual “data matrix”. Let <span class="math notranslate nohighlight">\(X = U \Sigma V^T = \sum_{i=1}^{\min(n,p)} \sigma_i u_i v_i^T\)</span> be the SVD of <span class="math notranslate nohighlight">\(X\)</span>, where <span class="math notranslate nohighlight">\(\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_{\min(n,p)} \geq 0\)</span> are the singular values of <span class="math notranslate nohighlight">\(X\)</span>. For <span class="math notranslate nohighlight">\(1 \leq k \leq \min(n,p)\)</span>, define the <strong><span class="math notranslate nohighlight">\(k\)</span>-th truncated SVD</strong> of <span class="math notranslate nohighlight">\(X\)</span> by:</p>
+<div class="math notranslate nohighlight">
+\[
+X_k  = \sum_{i=1}^k \sigma_i u_i v_i^T.
+\]</div>
+<p>Then the matrix <span class="math notranslate nohighlight">\(X_k\)</span> is the “best” approximation of <span class="math notranslate nohighlight">\(X\)</span> by a matrix of rank at most <span class="math notranslate nohighlight">\(k\)</span>. To make the result precise, we measure the distance between matrices using two norms: the Frobenius norm <span class="math notranslate nohighlight">\(\|\cdot\|_F\)</span> and the spectral norm <span class="math notranslate nohighlight">\(\|\cdot\|_2\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\|X\|_F &amp;= \left(\sum_{i=1}^n \sum_{j=1}^p |X_{ij}|^2\right)^{1/2} \\
+\|X\|_2 &amp;= \sigma_\textrm{max}(A) = \lambda_\textrm{max}(A^TA)^{1/2}, 
+\end{align*}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma_\textrm{max}(A)\)</span> denotes the largest singular value of <span class="math notranslate nohighlight">\(A\)</span>, i.e., the square root of the largest eigenvalue <span class="math notranslate nohighlight">\(\lambda_\textrm{max}(A^TA)\)</span> of <span class="math notranslate nohighlight">\(A^TA\)</span>. Both norms are commonly used to measure the magnitude of a matrix.</p>
+<div class="admonition-theorem admonition">
+<p class="admonition-title">Theorem.</p>
+<p>Let <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> and let <span class="math notranslate nohighlight">\(X_k\)</span> be its <span class="math notranslate nohighlight">\(k\)</span>-th truncated SVD. Then</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\min_{\substack{B \in \mathbb{R}^{n \times p} \\ \textrm{rank}(B) \leq k}} \|X - B\|_F^2 = \|X-X_k\|_F^2 = \sum_{j=k+1}^p \sigma_j^2 \\
+&amp;\min_{\substack{B \in \mathbb{R}^{n \times p} \\ \textrm{rank}(B) \leq k}} \|X - B\|_2 = \|X-X_k\|_2 = \sigma_{k+1}.
+\end{align*}\]</div>
+</div>
+<p>In other words, the truncated SVD provides the <em>best rank <span class="math notranslate nohighlight">\(k\)</span> approximation</em> to <span class="math notranslate nohighlight">\(X\)</span>. This result has many important applications in data compression, data recovery, etc..</p>
+<p>To illustrate the above, consider the following image</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/landscape.jpg"><img alt="../_images/landscape.jpg" src="../_images/landscape.jpg" style="width: 600px;" />
+</a>
+</figure>
+<p>Let us load this image into Python, convert it to a matrix, and compute its SVD.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">PIL</span>
+
+<span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;landscape.jpg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+
+<span class="c1"># Compute the SVD</span>
+<span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, let us use the singular values to compute the Frobenius error made by a rank <span class="math notranslate nohighlight">\(k\)</span> approximation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frob_error</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">frob_error</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Rank of approximation&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Fraction of error (Frobenius norm)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Fraction of error (Frobenius norm)&#39;)
+</pre></div>
+</div>
+<img alt="../_images/5cce0601c985d7de11450eb248c57625a2911c41043772fa61505d2991d7bb64.png" src="../_images/5cce0601c985d7de11450eb248c57625a2911c41043772fa61505d2991d7bb64.png" />
+</div>
+</div>
+<p>Observe how the error decreases rapidely as the rank increases. This shows that the image has a “hidden” low rank structure and can be approximated well using lower rank images. This is a very common phenomenon. Let us diplay some of these approximations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Truncates a SVD to k singular values from its factors u, s, vt</span>
+<span class="k">def</span> <span class="nf">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vt</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+	<span class="n">n</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">p</span> <span class="o">=</span> <span class="n">vt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">sdiag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+		<span class="n">sdiag</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+	
+	<span class="k">return</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sdiag</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vt</span><span class="p">))</span>
+
+<span class="n">img_10</span> <span class="o">=</span> <span class="n">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">vt</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">img_50</span> <span class="o">=</span> <span class="n">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">vt</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">img_100</span> <span class="o">=</span> <span class="n">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">vt</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">img_200</span> <span class="o">=</span> <span class="n">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">vt</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">img_300</span> <span class="o">=</span> <span class="n">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">vt</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+<span class="n">img_400</span> <span class="o">=</span> <span class="n">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">vt</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">img_500</span> <span class="o">=</span> <span class="n">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">vt</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">img_600</span> <span class="o">=</span> <span class="n">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">vt</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+<span class="n">img_683</span> <span class="o">=</span> <span class="n">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">vt</span><span class="p">,</span> <span class="mi">683</span><span class="p">)</span>
+
+<span class="c1"># Rank 10 approximation</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_10</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+
+<span class="c1"># Rank 50 approximation</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_50</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+
+<span class="c1"># Rank 100 approximation</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_100</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+
+<span class="c1"># Rank 200 approximation</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_200</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x796841475f40&gt;
+</pre></div>
+</div>
+<img alt="../_images/dffba83265ee7242833539a2bffb3c60b74d7f0052194d417ac2512d55f9f322.png" src="../_images/dffba83265ee7242833539a2bffb3c60b74d7f0052194d417ac2512d55f9f322.png" />
+<img alt="../_images/40e3cc60daa365713e2994f8e8f3a6d76a9314e0db419723b494775cea816505.png" src="../_images/40e3cc60daa365713e2994f8e8f3a6d76a9314e0db419723b494775cea816505.png" />
+<img alt="../_images/1a1a20a9fe86eb5fae4fadab568fc7a248a286f7d3d858ac171e75ae623a62b9.png" src="../_images/1a1a20a9fe86eb5fae4fadab568fc7a248a286f7d3d858ac171e75ae623a62b9.png" />
+<img alt="../_images/39683f452c3285b7026b26eb5b78ee6e357c1542356062efb4a7d511bd03566b.png" src="../_images/39683f452c3285b7026b26eb5b78ee6e357c1542356062efb4a7d511bd03566b.png" />
+</div>
+</div>
+<p>Even though the lower rank approximations lose some of the details of the image, for machine learning purposes (say, detecting objects), the rank 50 approximation already provides an excellent approximation!</p>
+</section>
+<section id="recommendation-systems">
+<h3><span class="section-number">24.3.2. </span>Recommendation systems<a class="headerlink" href="#recommendation-systems" title="Link to this heading">#</a></h3>
+<p>The SVD and variants can be used to construct various recommender systems. For example, consider the problem of recommending movies to watch based on a person’s previous rankings. Let <span class="math notranslate nohighlight">\(X_{ij}\)</span> be the ranking of person <span class="math notranslate nohighlight">\(i\)</span> for movie <span class="math notranslate nohighlight">\(j\)</span>:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/movie-matrix.png"><img alt="../_images/movie-matrix.png" src="../_images/movie-matrix.png" style="width: 500px;" />
+</a>
+</figure>
+<p>This matrix has a lot of missing entries as each person has probably only seen only a small subset of the considered movies. The goal of a recommender system is to predict the missing rankings to recommend new movies to watch to each user. This problem became very popular in the early days of the company Netflix when they offered a 1 million dollar prize to anybody who could improve their own algorithm by at least 10% (see the <a href="https://en.wikipedia.org/wiki/Netflix_Prize" target="_blank">Netflix prize</a>).</p>
+<p>One can think of the SVD as explaining the data as follows:</p>
+<ol class="arabic simple">
+<li><p>Each movie is a combination of some unknown independent ``basic features’’  (e.g. action, explosions, nature, romance, etc.)</p></li>
+<li><p>Each features has a degree of importance (weights).</p></li>
+<li><p>Each person likes a given combination of the basic features.</p></li>
+</ol>
+<p>Letting <span class="math notranslate nohighlight">\(X_{n \times p} = U_{n \times n} \Sigma_{n \times p} V_{p \times p}^T\)</span> be the SVD of the ranking matrix <span class="math notranslate nohighlight">\(X\)</span>, we have:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/svd-movie.png"><img alt="../_images/svd-movie.png" src="../_images/svd-movie.png" style="width: 300px;" />
+</a>
+</figure>
+<p>In a practical application where the matrix <span class="math notranslate nohighlight">\(X\)</span> is only partially observed, one can optimize over the different factors <span class="math notranslate nohighlight">\(U, \Sigma, V^T\)</span> so that the matrix <span class="math notranslate nohighlight">\(U\Sigma V^T\)</span> approximates the observed entries of <span class="math notranslate nohighlight">\(X\)</span> as accurately as possible. This provides a estimation of the missing entries that can then be used to make recommendations.</p>
+<p>Once a factorization of <span class="math notranslate nohighlight">\(X\)</span> has been obtained, observe that the matrix <span class="math notranslate nohighlight">\(V\)</span> contains the “amount” of each features that are contained in each movie. Using knowledge of the movies, one can try to label these features. For example, if a lot of the movies with a lot of “feature 1” are westerns with a love story, one could label feature 1 as something like “critically acclaimed western with a romantic component”. You may have seen such “non-traditional” labels on streaming platforms.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="24-Lab8-PCA.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">23. </span>Lab 8: PCA</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-bases">24.1. Changing bases</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-transformations">24.1.1. Linear transformations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performing-a-change-of-basis">24.1.2. Performing a change of basis</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-the-svd">24.2. Back to the SVD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-of-the-svd">24.3. Applications of the SVD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-rank-k-approximation">24.3.1. Best rank <span class="math notranslate nohighlight">\(k\)</span> approximation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommendation-systems">24.3.2. Recommendation systems</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dominique Guillot
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
