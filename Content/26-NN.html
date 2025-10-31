@@ -1,0 +1,751 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>25. Neural networks &#8212; Math 637 Mathematical Techniques in Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Content/26-NN';</script>
+    <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/searchtools.js?v=d24376de"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="26. Lab 9: Neural Networks" href="27-Lab9-NN.html" />
+    <link rel="prev" title="24. The singular value decomposition" href="25-SVD.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="1-intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/637-logo.png" class="logo__image only-light" alt="Math 637 Mathematical Techniques in Data Science - Home"/>
+    <script>document.write(`<img src="../_static/637-logo.png" class="logo__image only-dark" alt="Math 637 Mathematical Techniques in Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="1-intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-Linear-regression.html">4. Linear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6-Lab-Cars.html">5. Lab 1: Linear regression and the cars data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7-Learning-outside-training.html">6. Learning outside the training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-Lab2-train-test.html">7. Lab 2: Training vs testing error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9-BLUE.html">8. Best linear unbiased estimator and the bias-variance decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10-Lab3-gradient-descent.html">9. Lab 3: Gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11-Shrinkage-methods.html">10. Improving linear regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Model-selection.html">11. Model selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13-Lab4-lasso.html">12. Lab 4: using the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14-Computing-lasso.html">13. Computing the LASSO solution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15-Lab5-coordinate-descent.html">14. Lab 5: Coordinate descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16-LASSO-theoretical.html">15. Theoretical guarantees for the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17-categorical-data.html">16. Analyzing categorical data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18-Lab6-nearest-neighbors.html">17. Lab 6: nearest neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19-logistic.html">18. Logistic regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20-SVM.html">19. Support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21-SVM-kernel.html">20. SVM: the kernel trick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23-PCA.html">22. Principal component analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24-Lab8-PCA.html">23. Lab 8: PCA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25-SVD.html">24. The singular value decomposition</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">25. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Content/26-NN.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Neural networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#biological-motivation">25.1. Biological motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-formulation">25.2. Mathematical formulation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-neuron">25.2.1. Single neuron</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#general-neural-networks">25.2.2. General neural networks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">25.3. Activation functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-neural-networks">25.4. Training neural networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initializing-gradient-descent">25.4.1. Initializing gradient descent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-gradient-the-backpropagation-algorithm">25.4.2. Computing the gradient: the backpropagation algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-gradient-descent-and-minibatches">25.4.3. Stochastic gradient descent and minibatches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adam-optimizer">25.4.4. The Adam optimizer</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="neural-networks">
+<h1><span class="section-number">25. </span>Neural networks<a class="headerlink" href="#neural-networks" title="Link to this heading">#</a></h1>
+<p>Neural networks are a collection of models that have gained a lot of popularity recently. They are motivated by the way neurons connect and interact in animal brains. Even though they provide a very superficial model of brain neurons, these models are very flexible and can be used to model many different types of data. They also form the basis to construct large language models (LLM) that are currently of great interest. One needs to keep in mind, however, that most neural network models have <strong>a lot of parameters</strong>. As a result, <strong>a lot of data</strong> is required to estimate these parameters properly. They are therefore not appropriate in every situation.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/neuron.png"><img alt="../_images/neuron.png" src="../_images/neuron.png" style="width: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 25.1 </span><span class="caption-text">Illustration of a brain neuron.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="biological-motivation">
+<h2><span class="section-number">25.1. </span>Biological motivation<a class="headerlink" href="#biological-motivation" title="Link to this heading">#</a></h2>
+<p>The human brain is estimated to contain approximately 86 billion neurons. Each neuron receives signals from other neurons via its many dendrites (input) and has a single axon (output). Neurons make on average 7,000 synaptic connections. They interact via an electrochemical process. When a neuron fires, it starts a chain reaction that propagates information. Some synapses are known to be <em>excitatory</em>, while others are <em>inhibitory</em>. Our brain learns by changing the strengths of the connections between
+neurons or by adding or removing such connections. As of today, relating brain networks to <em>functions</em> remains a very challenging problem, and a very active area of research.</p>
+</section>
+<section id="mathematical-formulation">
+<h2><span class="section-number">25.2. </span>Mathematical formulation<a class="headerlink" href="#mathematical-formulation" title="Link to this heading">#</a></h2>
+<p>Neural networks consist of many layers of neurons that are connected together. Each neuron comes with parameters that can be trained to compute a particular quantity. In practice, these parameters are trained to minimize some loss function. We begin by examining a single neuron.</p>
+<section id="single-neuron">
+<h3><span class="section-number">25.2.1. </span>Single neuron<a class="headerlink" href="#single-neuron" title="Link to this heading">#</a></h3>
+<p>The basic unit of computation in a neural network is a neuron.</p>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../_images/SingleNeuron.png"><img alt="../_images/SingleNeuron.png" src="../_images/SingleNeuron.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 25.2 </span><span class="caption-text">Illustration of a neuron with three inputs and one output. The “+1” represents the bias term.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Each neural has a given number of inputs and one output. The output of a neuron <span class="math notranslate nohighlight">\(h_{w,b}\)</span> is an <em>affine</em> combination of the input, i.e., a linear combination of the input with a bias/constant term, followed by an <em>activation function</em> <span class="math notranslate nohighlight">\(f\)</span>. For example, the neuron in the above figure computes:</p>
+<div class="math notranslate nohighlight">
+\[
+h_{w,b} = f(w_1 x_1 + w_2 x_2 + w_3 x_3 + b).
+\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(w_1, w_2, w_3\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are weights/parameters that are trainable. We call <span class="math notranslate nohighlight">\(b\)</span> the <em>bias term</em>. Popular choice for the activation function include:</p>
+<ol class="arabic simple">
+<li><p>The rectified linear unit (ReLU) <span class="math notranslate nohighlight">\(f(x) = \max(0,x)\)</span>.</p></li>
+<li><p>The sigmoid function <span class="math notranslate nohighlight">\(f(x) = \frac{1}{1+e^{-x}}\)</span> that we encountered in <a class="reference internal" href="19-logistic.html#s-logistic"><span class="std std-ref">Logistic regression</span></a>.</p></li>
+<li><p>The hyperbolic tangent <span class="math notranslate nohighlight">\(f(x) = \tanh(x) = \frac{e^x-e^{-x}}{e^x + e^{-x}}\)</span>.</p></li>
+</ol>
+<p>Notice how each of these functions induces an active/inactive behavior: the neuron is “active” when <span class="math notranslate nohighlight">\(f(x) \approx 1\)</span> and “inactive” when <span class="math notranslate nohighlight">\(f(x) \approx 0\)</span> for ReLU/Sigmoid or <span class="math notranslate nohighlight">\(f(x) \approx -1\)</span> for <span class="math notranslate nohighlight">\(\tanh\)</span>:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/sigmoid-tanh-relu.png"><img alt="../_images/sigmoid-tanh-relu.png" src="../_images/sigmoid-tanh-relu.png" style="width: 700px;" />
+</a>
+</figure>
+<p>As a result, the neuron is “active” when the affine combination it computes is a large positive number, and “inactive” when the combination is a large negative number. As we train a neural network, the weights change to detect certain features of the data. In practice, it is difficult and often impossible to understand what each neuron is exactly doing/looking for.</p>
+</section>
+<section id="general-neural-networks">
+<h3><span class="section-number">25.2.2. </span>General neural networks<a class="headerlink" href="#general-neural-networks" title="Link to this heading">#</a></h3>
+<p>A <em>neural networks model</em> is obtained by hooking together many neurons so that the output of one neuron becomes the input of another neuron.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/NN-multiple.png"><img alt="../_images/NN-multiple.png" src="../_images/NN-multiple.png" style="width: 400px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 25.3 </span><span class="caption-text">Example of a neural network with three inputs, one hidden layer with three neurons, and one output.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>We call the first layer on the left the <em>input layer</em> and the last layer on the right the <em>output layer</em>. The other layers are called <em>hidden layers</em>.</p>
+<p>To each edge on the figure representing a neural network corresponds a <em>weight</em> that is used to perform calculations. Let <span class="math notranslate nohighlight">\(W^{(l)}_{ij}\)</span> denote the weight associated with the connection between unit <span class="math notranslate nohighlight">\(j\)</span> in layer <span class="math notranslate nohighlight">\(l\)</span> and unit <span class="math notranslate nohighlight">\(i\)</span> in layer <span class="math notranslate nohighlight">\(l+1\)</span>. Moreover, let <span class="math notranslate nohighlight">\(b_i^{(l)}\)</span> be the bias term associated with unit <span class="math notranslate nohighlight">\(i\)</span> in layer <span class="math notranslate nohighlight">\(l\)</span>. For instance, in the above example, the neural network has parameters <span class="math notranslate nohighlight">\((W,b) = (W^{(1)}, b^{(1)}, W^{(2)}, b^{(2)})\)</span>, where</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+W^{(1)} &amp;\in \mathbb{R}^{3 \times 3}, \\
+W^{(2)} &amp;\in \mathbb{R}^{1 \times 3}, \\
+b^{(1)} &amp;\in \mathbb{R}^3, \\
+b^{(2)} &amp;\in \mathbb{R}. 
+\end{align*}\]</div>
+<p>The model thus has <span class="math notranslate nohighlight">\(16\)</span> parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice how the number of parameters increases rapidely as we add more layers and neurons to a neural network.</p>
+</div>
+<p>To simplify notation, let us denote by <span class="math notranslate nohighlight">\(a_i^{(l)}\)</span> the output of unit <span class="math notranslate nohighlight">\(i\)</span> in layer <span class="math notranslate nohighlight">\(l\)</span>. By convention, we set <span class="math notranslate nohighlight">\(a_i^{(1)} = x_i\)</span> for the input. With that notation, the neural network in the above figure performs the following calculation:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+a_1^{(2)} &amp;= f(W_{11}^{(1)} x_1 + W_{12}^{(1)} x_2 + W_{13}^{(1)} x_3 + b_1^{(1)}) \\
+a_2^{(2)} &amp;= f(W_{21}^{(1)} x_1 + W_{22}^{(1)} x_2 + W_{23}^{(1)} x_3 + b_2^{(1)}) \\
+a_3^{(2)} &amp;= f(W_{31}^{(1)} x_1 + W_{32}^{(1)} x_2 + W_{33}^{(1)} x_3 + b_3^{(1)}) \\
+h_{W,b} &amp;= a_1^{(3)} = f(W_{11}^{(2)} a_1^{(2)} + W_{12}^{(2)} a_2^{(2)} + W_{13}^{(2)} a_3^{(2)} + b_1^{(2)}).
+\end{align*}\]</div>
+<p>Given an activation function <span class="math notranslate nohighlight">\(f\)</span>, we extend its action <em>elementwise</em> to vectors:</p>
+<div class="math notranslate nohighlight">
+\[
+f([v_1, v_2, \dots, v_n]) = [f(v_1), f(v_2), \dots, f(v_n)].
+\]</div>
+<p>With that notation, we can nicely re-write the calculation performed by the neural network using matrix-vector products</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+a^{(2)} &amp;= f(W^{(1)} x + b^{(1)}) = f(W^{(1)} a^{(1)} + b^{(1)}) \\
+h_{W,b} &amp;= a^{(3)} = f(W^{(2)} a^{(2)} + b^{(2)}).
+\end{align*}\]</div>
+<p>Therefore, to go from layer <span class="math notranslate nohighlight">\(l\)</span> to layer <span class="math notranslate nohighlight">\(l+1\)</span>, one needs to:</p>
+<ol class="arabic simple">
+<li><p>Multiply the <span class="math notranslate nohighlight">\(a^{(l)}\)</span> vector by the matrix <span class="math notranslate nohighlight">\(W^{(l)}\)</span>.</p></li>
+<li><p>Add the bias term <span class="math notranslate nohighlight">\(b^{(l)}\)</span>.</p></li>
+<li><p>Apply the activation function entrywise to the resulting vector.</p></li>
+</ol>
+<p>This general process can be performed to compute the output of any neural network. By using matrix-vector operations to perform calculations, we can take advantage of fast linear algebra routines to quickly perform calculations in our network.</p>
+<p>The above process for evaluating the output of a neural network is called <strong>forward propagation</strong> (we “propagate” the input through the network).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice how neural networks are a <em>parametric</em> family of functions, i.e., a set of functions determined by a set of parameters. We can therefore optimize over these parameters for the function to match a given set of inputs/outputs.</p>
+</div>
+<p>It is natural to ask what kind of functions can be approximated by neural networks. Several <a href="https://en.wikipedia.org/wiki/Universal_approximation_theorem" target="_blank">approximation theorems</a> show that neural networks with certain structure can be used to approximate any continuous function to any desired degree of accuracy. These theorems, however, only provide the <em>existence</em> of such neural networks. They do not provide any guidance to construct them.</p>
+</section>
+</section>
+<section id="activation-functions">
+<h2><span class="section-number">25.3. </span>Activation functions<a class="headerlink" href="#activation-functions" title="Link to this heading">#</a></h2>
+<p>Different activation functions can be used in each layer of a neural network. In practice, it is common to use ReLU activation in the hidden layers, and to end with a sigmoid or tanh activation in the last layer. No activation (linear layer) can also be used in the last layer to obtain a bigger range of values.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When training a neural network, it is important to make sure the data is scaled according to the activation function used in the last layer. For example, if the network ends with a sigmoid activation, then the output data need to take values in the interval <span class="math notranslate nohighlight">\((0,1)\)</span>.</p>
+</div>
+</section>
+<section id="training-neural-networks">
+<h2><span class="section-number">25.4. </span>Training neural networks<a class="headerlink" href="#training-neural-networks" title="Link to this heading">#</a></h2>
+<p>Suppose we have</p>
+<ul class="simple">
+<li><p>A neural network with <span class="math notranslate nohighlight">\(s_l\)</span> neurons in layer <span class="math notranslate nohighlight">\(l\)</span> (<span class="math notranslate nohighlight">\(l=1,\dots, n_l\)</span>).</p></li>
+<li><p>Observations <span class="math notranslate nohighlight">\((x^{(1)}, y^{(1)}) ,\dots, (x^{(n)}, y^{(n)}) \in \mathbb{R}^{s_1} \times \mathbb{R}^{s_{n_l}}\)</span>.</p></li>
+</ul>
+<p>We would like to choose the weights <span class="math notranslate nohighlight">\(W^{(l)}\)</span> and <span class="math notranslate nohighlight">\(b^{(l)}\)</span> in some optimal way for all <span class="math notranslate nohighlight">\(l = 1, \dots, n_l\)</span>.</p>
+<p>Assuming our output is continuous, consider the following squared error loss for one sample:</p>
+<div class="math notranslate nohighlight">
+\[
+J(W,b;x,y) := \frac{1}{2} \|h_{W,b}(x) - y\|_2^2.
+\]</div>
+<p>The mean squared error loss for the whole dataset is obtained by averaging this error over the dataset. In practice, we also often include an <span class="math notranslate nohighlight">\(\ell_2\)</span> type penalty to make the optimization process more stable during training:</p>
+<div class="math notranslate nohighlight">
+\[
+J(W,b) := \frac{1}{n} \sum_{i=1}^n J(W,b; x^{(i)}, y^{(i)}) + \frac{\lambda}{2} \sum_{l=1}^{n_l-1} \sum_{i=1}^{s_{l+1}} \sum_{j=1}^{s_l} (W_{ij}^{(l)})^2.
+\]</div>
+<p>If the output is discrete, one needs to replace the square loss function by a different loss function (e.g., cross-entropy) – see <a class="reference internal" href="17-categorical-data.html#c-categorical"><span class="std std-ref">Analyzing categorical data</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The loss function <span class="math notranslate nohighlight">\(J(W,b)\)</span> is typically not convex. Finding its global minimum is generally very difficult or impossible. However, in practice, finding a local minimum of the loss is usually enough to obtain a good model.</p>
+</div>
+<p>Variants of the gradient descent algorithm (see <a class="reference internal" href="10-Lab3-gradient-descent.html#c-gradient-descent"><span class="std std-ref">Lab 3: Gradient descent</span></a>) are typically used to train neural networks.</p>
+<section id="initializing-gradient-descent">
+<h3><span class="section-number">25.4.1. </span>Initializing gradient descent<a class="headerlink" href="#initializing-gradient-descent" title="Link to this heading">#</a></h3>
+<p>To start the gradient descent process, we need an initial choice for <span class="math notranslate nohighlight">\(W_{ij}^{(l)}\)</span> and <span class="math notranslate nohighlight">\(b_i^{(l)}\)</span> for each <span class="math notranslate nohighlight">\(l\)</span>. If we initialize all the parameters to <span class="math notranslate nohighlight">\(0\)</span>, then the parameters remain constant over the layers because of the symmetry of the problem. In practice, we usually initialize the parameters to a small constant at random (say, using <span class="math notranslate nohighlight">\(N(0,\epsilon^2)\)</span> for <span class="math notranslate nohighlight">\(\epsilon = 0.01\)</span>).</p>
+</section>
+<section id="computing-the-gradient-the-backpropagation-algorithm">
+<h3><span class="section-number">25.4.2. </span>Computing the gradient: the backpropagation algorithm<a class="headerlink" href="#computing-the-gradient-the-backpropagation-algorithm" title="Link to this heading">#</a></h3>
+<p>We update the parameters using gradient descent as follows:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+W_{ij}^{(l)} &amp;\leftarrow W_{ij}^{(l)} - \alpha \frac{\partial}{\partial W_{ij}^{(l)}} J(W,b) \\
+b_i^{(l)} &amp;\leftarrow b_i^{(l)} - \alpha \frac{\partial}{\partial b_i^{(l)}}  J(W,b).
+\end{align*}\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span> is a parameter (the <em>learning rate</em>).  The derivatives can be recursively computed using the standard chain rule from calculus. As we compute the derivatives via the chain rule, we move the right to left into the network.The resulting process is called the <a href="https://en.wikipedia.org/wiki/Backpropagation" target="_blank">backpropagation algorithm</a>, or backprop.</p>
+</section>
+<section id="stochastic-gradient-descent-and-minibatches">
+<h3><span class="section-number">25.4.3. </span>Stochastic gradient descent and minibatches<a class="headerlink" href="#stochastic-gradient-descent-and-minibatches" title="Link to this heading">#</a></h3>
+<p>When training the neural network, the loss function to minimize is typically the average error on some training dataset:</p>
+<div class="math notranslate nohighlight">
+\[
+J(\theta) = \frac{1}{n} \sum_{i=1}^n L(x^{(i)}, y^{(i)}, \theta)
+\]</div>
+<p>for some loss function <span class="math notranslate nohighlight">\(L\)</span> and some vector of parameters <span class="math notranslate nohighlight">\(\theta\)</span>. As a result, the gradient also takes the form of an average</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\theta J(\theta) = \frac{1}{n} \sum_{i=1}^n \nabla_\theta L(x^{(i)}, y^{(i)}, \theta).
+\]</div>
+<p>Thinking of data as being provided at random from some data generating mechanism, we can think of <span class="math notranslate nohighlight">\(\nabla_\theta J(\theta)\)</span> as an expected value. As a consequence, any average of the form</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_\theta J(\theta) \approx \frac{1}{m} \sum_{i=1}^m \nabla_\theta L(x^{({t_i})}, y^{({t_i})}, \theta)
+\]</div>
+<p>approximates the desired gradient, for any large enough subset of random samples <span class="math notranslate nohighlight">\((x^{({t_1})}, y^{({t_1})}), \dots, (x^{({t_m})}, y^{({t_m})})\)</span> and <span class="math notranslate nohighlight">\(1 \leq m &lt; n\)</span> (see the <a href="https://en.wikipedia.org/wiki/Law_of_large_numbers" target="_blank">Law of large numbere</a>).</p>
+<p>When performing gradient descent, one typically does not need the <em>exact</em> value of the gradient. Indeed, recall that the gradient is the <em>local</em> direction of steepest descent. It is not necessarily the optimal direction to move into in order to find a minima of the loss function. In practice, replacing the gradient by a “good-enough” approximation of the gradient works. This becomes particularly interesting if a cheap approximation of the gradient is available. In <strong>stochastic gradient descent</strong>, we approximate the gradient using a subset of the training data at each step of the gradient descent algorithm.</p>
+<p>A typical approach involves dividing the dataset into <strong>minibatches</strong>, i.e., non-overlapping subsets of the training data of a given size. The gradient descent then proceeds as follows:</p>
+<ol class="arabic simple">
+<li><p>Pick a minibatch.</p></li>
+<li><p>Approximate the gradient using that minibatch.</p></li>
+<li><p>Update the parameters of the model.</p></li>
+<li><p>Repeat Steps 1 to 3 until the whole dataset has been exhausted.</p></li>
+</ol>
+<p>A complete pass through the dataset is called an <strong>epoch</strong>.</p>
+<p>In theory, one would keep iterating the above process until convergence. In practice, the optimization process is often stopped after a given number of epochs.</p>
+</section>
+<section id="the-adam-optimizer">
+<h3><span class="section-number">25.4.4. </span>The Adam optimizer<a class="headerlink" href="#the-adam-optimizer" title="Link to this heading">#</a></h3>
+<p>The Adaptive Moment Estimation (Adam) is another refined version of gradient descent that is often used to train neural networks. It has two main ingredients: <strong>momentum</strong> and <strong>Root Mean Square Propagation (RMSProp)</strong></p>
+<p>Assume the parameters to estimate are <span class="math notranslate nohighlight">\(\theta = \{\theta_1, \dots, \theta_m\}\)</span>. Let <span class="math notranslate nohighlight">\(\theta^{(t)}\)</span> be the <span class="math notranslate nohighlight">\(t\)</span>-th estimate of <span class="math notranslate nohighlight">\(\theta\)</span> and let <span class="math notranslate nohighlight">\(L(\cdot)\)</span> be the loss function of the problem.</p>
+<ul class="simple">
+<li><p>The <strong>momentum</strong> is defined by:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+m_t = \beta_1 m_{t-1} + (1-\beta_1) \nabla_\theta L(\theta^{(t)}), 
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta_1\)</span> is a parameter (usually set to <span class="math notranslate nohighlight">\(0.9\)</span>). Observe that the momentum is a combination of the new gradient and of the previous gradient. Replacing the gradient by this expression helps smoothing out noisy gradients and provides a more stable path for optimization.</p>
+<ul class="simple">
+<li><p>The <strong>RMSProp</strong> is defined by:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+v_t = \beta_2 v_{t-1} + (1-\beta_2) \nabla_\theta L(\theta^{(t)})^2, 
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta_2\)</span> is another parameter (usually set to <span class="math notranslate nohighlight">\(0.99\)</span>). The RMSProp term adjusts the learning rate depending on the magnitude of the gradient (large gradient: smaller learning rate, small gradient: larger learning rate). This prevents overshooting and slow convergence.</p>
+<p>Combining these two ideas, the update in the Adam optimizer (ignoring the bias correction) is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\theta^{(t+1)} = \theta^{(t)} - \alpha\frac{m_t}{\sqrt{v_t} + \epsilon}, 
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span> is the learning rate and <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span> is a small number (used to prevent division by <span class="math notranslate nohighlight">\(0\)</span>).</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="25-SVD.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">24. </span>The singular value decomposition</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="27-Lab9-NN.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">26. </span>Lab 9: Neural Networks</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#biological-motivation">25.1. Biological motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-formulation">25.2. Mathematical formulation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-neuron">25.2.1. Single neuron</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#general-neural-networks">25.2.2. General neural networks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">25.3. Activation functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-neural-networks">25.4. Training neural networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initializing-gradient-descent">25.4.1. Initializing gradient descent</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-gradient-the-backpropagation-algorithm">25.4.2. Computing the gradient: the backpropagation algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stochastic-gradient-descent-and-minibatches">25.4.3. Stochastic gradient descent and minibatches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-adam-optimizer">25.4.4. The Adam optimizer</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dominique Guillot
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

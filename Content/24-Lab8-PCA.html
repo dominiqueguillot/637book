@@ -232,6 +232,8 @@
 <li class="toctree-l1"><a class="reference internal" href="23-PCA.html">22. Principal component analysis</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">23. Lab 8: PCA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="25-SVD.html">24. The singular value decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26-NN.html">25. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 </ul>
 
     </div>
@@ -432,15 +434,15 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">pc</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Percantage of explained variance by k-th component&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Percentage of explained variance by k-th component&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Percantage of explained variance by k-th component&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Percentage of explained variance by k-th component&#39;)
 </pre></div>
 </div>
-<img alt="../_images/16140fadfe9326fe5d86b7dd787611c592197377e78a8ac254b02086039789bc.png" src="../_images/16140fadfe9326fe5d86b7dd787611c592197377e78a8ac254b02086039789bc.png" />
+<img alt="../_images/d38c4638e6dd18614463e7b9510af4058dad23964de6d5bd1baff3533f61bed6.png" src="../_images/d38c4638e6dd18614463e7b9510af4058dad23964de6d5bd1baff3533f61bed6.png" />
 </div>
 </div>
 <p>Observe that the percentage of explained variance drops rapidely with the number of principal components. This is a very common behavior. Such a sharp drop suggests that only a few principal components suffice to represent the data well.</p>
@@ -450,15 +452,15 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Percantage of explained variance by first k-th components&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Percentage of explained variance by first k-th components&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Percantage of explained variance by first k-th components&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Percentage of explained variance by first k-th components&#39;)
 </pre></div>
 </div>
-<img alt="../_images/649f3ab0d6dcb93f0bb7674f7d1f4ef84265a058124748213a2157ff329947d1.png" src="../_images/649f3ab0d6dcb93f0bb7674f7d1f4ef84265a058124748213a2157ff329947d1.png" />
+<img alt="../_images/72734fad28be4900fe086db9d691580b84ab1752511eaa6467b7b267b550b659.png" src="../_images/72734fad28be4900fe086db9d691580b84ab1752511eaa6467b7b267b550b659.png" />
 </div>
 </div>
 <p>Observe that the first 9 PCs already explain more than 70% of the variance of the dataset.</p>

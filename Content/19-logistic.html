@@ -232,6 +232,8 @@
 <li class="toctree-l1"><a class="reference internal" href="23-PCA.html">22. Principal component analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="24-Lab8-PCA.html">23. Lab 8: PCA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="25-SVD.html">24. The singular value decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26-NN.html">25. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 </ul>
 
     </div>
@@ -402,7 +404,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="logistic-regression">
-<h1><span class="section-number">18. </span>Logistic regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h1>
+<span id="s-logistic"></span><h1><span class="section-number">18. </span>Logistic regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h1>
 <p>Consider a problem where we attempt to predict a <em>binary</em> output, i.e., the output variable <span class="math notranslate nohighlight">\(Y\)</span> can only take two possible values, say <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>. For example, we may want to determine if a customer should be approved for a loan using various information (e.g., current amount of debt, credit score, etc.). Here, a linear regression model is likely to yield poor results. Even if we interpret the linear model as outputing a probability of approving the customer for the loan, observe that doubling the value of all predictors doubles the predicted probability (assuming the model has no intercept). This does not seem like an appropriate behavior in our context.</p>
 <p>Logistic regression provides a different approach to the problem, with a focus on predicting the probability that <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>.</p>
 <section id="bernoulli-distribution-and-the-sigmoid-function">
