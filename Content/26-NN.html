@@ -234,6 +234,8 @@
 <li class="toctree-l1"><a class="reference internal" href="25-SVD.html">24. The singular value decomposition</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">25. Neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
 </ul>
 
     </div>
@@ -408,7 +410,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="neural-networks">
-<h1><span class="section-number">25. </span>Neural networks<a class="headerlink" href="#neural-networks" title="Link to this heading">#</a></h1>
+<span id="c-nn"></span><h1><span class="section-number">25. </span>Neural networks<a class="headerlink" href="#neural-networks" title="Link to this heading">#</a></h1>
 <p>Neural networks are a collection of models that have gained a lot of popularity recently. They are motivated by the way neurons connect and interact in animal brains. Even though they provide a very superficial model of brain neurons, these models are very flexible and can be used to model many different types of data. They also form the basis to construct large language models (LLM) that are currently of great interest. One needs to keep in mind, however, that most neural network models have <strong>a lot of parameters</strong>. As a result, <strong>a lot of data</strong> is required to estimate these parameters properly. They are therefore not appropriate in every situation.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/neuron.png"><img alt="../_images/neuron.png" src="../_images/neuron.png" style="width: 500px;" />
@@ -558,7 +560,7 @@ b_i^{(l)} &amp;\leftarrow b_i^{(l)} - \alpha \frac{\partial}{\partial b_i^{(l)}}
 <p>Here <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span> is a parameter (the <em>learning rate</em>).  The derivatives can be recursively computed using the standard chain rule from calculus. As we compute the derivatives via the chain rule, we move the right to left into the network.The resulting process is called the <a href="https://en.wikipedia.org/wiki/Backpropagation" target="_blank">backpropagation algorithm</a>, or backprop.</p>
 </section>
 <section id="stochastic-gradient-descent-and-minibatches">
-<h3><span class="section-number">25.4.3. </span>Stochastic gradient descent and minibatches<a class="headerlink" href="#stochastic-gradient-descent-and-minibatches" title="Link to this heading">#</a></h3>
+<span id="s-stochastic-gradient-minibatch"></span><h3><span class="section-number">25.4.3. </span>Stochastic gradient descent and minibatches<a class="headerlink" href="#stochastic-gradient-descent-and-minibatches" title="Link to this heading">#</a></h3>
 <p>When training the neural network, the loss function to minimize is typically the average error on some training dataset:</p>
 <div class="math notranslate nohighlight">
 \[
