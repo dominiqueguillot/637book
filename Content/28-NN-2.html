@@ -236,6 +236,7 @@
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">27. Neural networks II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
 </ul>
 
     </div>
@@ -470,7 +471,7 @@ m + 2 p_h - k + 1 = n + 2 p_w -l + 1 = 100 + 2 \times 4 - 9 + 1 = 100.
 <p>Another technique that can be used to downsample an image and summarize it is to move the filter by more than one unit at a time in either direction. This can also help reduce the computational cost of performing the convolution and therefore speed up calculations. We denote the horizontal and vertical <em>stride</em> by <span class="math notranslate nohighlight">\(s_h\)</span> and <span class="math notranslate nohighlight">\(s_w\)</span> respectively, i.e., <span class="math notranslate nohighlight">\(s_h\)</span> is the number of pixels by which we move the filter in the horizontal direction, and <span class="math notranslate nohighlight">\(s_w\)</span> in the vertical direction. If a stride is included, the resulting image dimension becomes</p>
 <div class="math notranslate nohighlight">
 \[
-\left(\left\lfloor \frac{m + 2 p_h - k}{s_h}  \right\rfloor + 1\right) \times \left(\left\lfloor \frac{n + 2 p_w - k}{s_w}  \right\rfloor + 1\right), 
+\left(\left\lfloor \frac{m + 2 p_h - k}{s_h}  \right\rfloor + 1\right) \times \left(\left\lfloor \frac{n + 2 p_w - l}{s_w}  \right\rfloor + 1\right), 
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\lfloor x \rfloor\)</span> denotes the <a href="https://en.wikipedia.org/wiki/Floor_and_ceiling_functions" target="_blank">floor function</a>.</p>
 </section>
@@ -604,64 +605,62 @@ m + 2 p_h - k + 1 = n + 2 p_w -l + 1 = 100 + 2 \times 4 - 9 + 1 = 100.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1/50], Loss: 0.164956
-Epoch [2/50], Loss: 0.115721
-Epoch [3/50], Loss: 0.081301
-Epoch [4/50], Loss: 0.072744
-Epoch [5/50], Loss: 0.068945
-Epoch [6/50], Loss: 0.065300
-Epoch [7/50], Loss: 0.061311
-Epoch [8/50], Loss: 0.057221
-Epoch [9/50], Loss: 0.053142
-Epoch [10/50], Loss: 0.049171
-Epoch [11/50], Loss: 0.045588
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1/50], Loss: 0.160719
+Epoch [2/50], Loss: 0.108184
+Epoch [3/50], Loss: 0.078368
+Epoch [4/50], Loss: 0.071141
+Epoch [5/50], Loss: 0.066715
+Epoch [6/50], Loss: 0.061773
+Epoch [7/50], Loss: 0.056519
+Epoch [8/50], Loss: 0.051365
+Epoch [9/50], Loss: 0.046832
+Epoch [10/50], Loss: 0.043052
+Epoch [11/50], Loss: 0.040037
+Epoch [12/50], Loss: 0.037655
+Epoch [13/50], Loss: 0.035716
+Epoch [14/50], Loss: 0.034103
+Epoch [15/50], Loss: 0.032733
+Epoch [16/50], Loss: 0.031497
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [12/50], Loss: 0.042493
-Epoch [13/50], Loss: 0.039812
-Epoch [14/50], Loss: 0.037565
-Epoch [15/50], Loss: 0.035661
-Epoch [16/50], Loss: 0.034068
-Epoch [17/50], Loss: 0.032603
-Epoch [18/50], Loss: 0.031316
-Epoch [19/50], Loss: 0.030124
-Epoch [20/50], Loss: 0.029001
-Epoch [21/50], Loss: 0.027984
-Epoch [22/50], Loss: 0.027005
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [17/50], Loss: 0.030404
+Epoch [18/50], Loss: 0.029382
+Epoch [19/50], Loss: 0.028456
+Epoch [20/50], Loss: 0.027579
+Epoch [21/50], Loss: 0.026753
+Epoch [22/50], Loss: 0.025927
+Epoch [23/50], Loss: 0.025116
+Epoch [24/50], Loss: 0.024271
+Epoch [25/50], Loss: 0.023412
+Epoch [26/50], Loss: 0.022614
+Epoch [27/50], Loss: 0.021827
+Epoch [28/50], Loss: 0.021115
+Epoch [29/50], Loss: 0.020454
+Epoch [30/50], Loss: 0.019851
+Epoch [31/50], Loss: 0.019289
+Epoch [32/50], Loss: 0.018765
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [23/50], Loss: 0.026098
-Epoch [24/50], Loss: 0.025243
-Epoch [25/50], Loss: 0.024409
-Epoch [26/50], Loss: 0.023641
-Epoch [27/50], Loss: 0.022902
-Epoch [28/50], Loss: 0.022189
-Epoch [29/50], Loss: 0.021542
-Epoch [30/50], Loss: 0.020899
-Epoch [31/50], Loss: 0.020244
-Epoch [32/50], Loss: 0.019621
-Epoch [33/50], Loss: 0.019018
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [33/50], Loss: 0.018258
+Epoch [34/50], Loss: 0.017796
+Epoch [35/50], Loss: 0.017374
+Epoch [36/50], Loss: 0.016937
+Epoch [37/50], Loss: 0.016544
+Epoch [38/50], Loss: 0.016175
+Epoch [39/50], Loss: 0.015809
+Epoch [40/50], Loss: 0.015485
+Epoch [41/50], Loss: 0.015144
+Epoch [42/50], Loss: 0.014835
+Epoch [43/50], Loss: 0.014526
+Epoch [44/50], Loss: 0.014247
+Epoch [45/50], Loss: 0.013977
+Epoch [46/50], Loss: 0.013713
+Epoch [47/50], Loss: 0.013448
+Epoch [48/50], Loss: 0.013223
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [34/50], Loss: 0.018466
-Epoch [35/50], Loss: 0.017930
-Epoch [36/50], Loss: 0.017454
-Epoch [37/50], Loss: 0.017004
-Epoch [38/50], Loss: 0.016589
-Epoch [39/50], Loss: 0.016210
-Epoch [40/50], Loss: 0.015862
-Epoch [41/50], Loss: 0.015520
-Epoch [42/50], Loss: 0.015193
-Epoch [43/50], Loss: 0.014885
-Epoch [44/50], Loss: 0.014616
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [45/50], Loss: 0.014337
-Epoch [46/50], Loss: 0.014083
-Epoch [47/50], Loss: 0.013822
-Epoch [48/50], Loss: 0.013586
-Epoch [49/50], Loss: 0.013368
-Epoch [50/50], Loss: 0.013147
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [49/50], Loss: 0.012984
+Epoch [50/50], Loss: 0.012776
 </pre></div>
 </div>
 </div>
@@ -680,7 +679,7 @@ Epoch [50/50], Loss: 0.013147
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test reconstruction MSE: 0.013147
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test reconstruction MSE: 0.012705
 </pre></div>
 </div>
 </div>
@@ -719,7 +718,7 @@ Epoch [50/50], Loss: 0.013147
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/fb46dfb3584f3af00ec27972f987ad2a38dce85cbf0198e347dac774ab4416e4.png" src="../_images/fb46dfb3584f3af00ec27972f987ad2a38dce85cbf0198e347dac774ab4416e4.png" />
+<img alt="../_images/ecd0bab56f14f36817909a69847dbc5af17d32b006b20d8659a950c7c3b11e1b.png" src="../_images/ecd0bab56f14f36817909a69847dbc5af17d32b006b20d8659a950c7c3b11e1b.png" />
 </div>
 </div>
 <p>While they are not identical, the images look very similar. Note that this was accomplished by squeezing the 64 dimensions of the images into 32 dimensions. As an exercise, you may want to play with the number of hidden neurons to see how much the data can be further compressed.</p>
@@ -781,7 +780,7 @@ x_j = \frac{W_{ij}^{(1)}}{\left(\sum_{j=1}^d (W_{ij}^{(1)})^2\right)^{1/2}} \qqu
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/1b086ba28700e64aea6f493b3b7da7c34cdf58c1c2d0fa138d50f17e91059da6.png" src="../_images/1b086ba28700e64aea6f493b3b7da7c34cdf58c1c2d0fa138d50f17e91059da6.png" />
+<img alt="../_images/8ffa8045e26c9c932c62e120e933ac558c495cd4519ac37906aa184355446098.png" src="../_images/8ffa8045e26c9c932c62e120e933ac558c495cd4519ac37906aa184355446098.png" />
 </div>
 </div>
 <p>Notice how the autoencoder seems to learn patterns corresponding to the shape of the different numbers. For a given image, each neuron fires more or less depending on whether or not the pattern it is looking for is present in the image. It is remarkable that images can be compressed in such as way, and be almost perfectly reconstructed!</p>

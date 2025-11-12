@@ -236,6 +236,7 @@
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing value</a></li>
 </ul>
 
     </div>
@@ -472,7 +473,7 @@ y = \sigma(x) = \frac{e^x}{1+e^x} \iff x = \log\left(\frac{y}{1-y}\right).
 <p>is the “odds” that <span class="math notranslate nohighlight">\(Y=1\)</span> against <span class="math notranslate nohighlight">\(Y=0\)</span>. Thus, in logistic regression, the “log-odds” of <span class="math notranslate nohighlight">\(Y=1\)</span> depend on <span class="math notranslate nohighlight">\(x\)</span> linearly, i.e., <span class="math notranslate nohighlight">\(\textrm{log-odds} = x^T\beta\)</span>.</p>
 </section>
 <section id="estimating-the-regression-coefficients">
-<h2><span class="section-number">18.2. </span>Estimating the regression coefficients<a class="headerlink" href="#estimating-the-regression-coefficients" title="Link to this heading">#</a></h2>
+<span id="s-estimating-regression"></span><h2><span class="section-number">18.2. </span>Estimating the regression coefficients<a class="headerlink" href="#estimating-the-regression-coefficients" title="Link to this heading">#</a></h2>
 <p>Since in logistic regression, we are assuming we have a probability model for <span class="math notranslate nohighlight">\(Y\)</span>, it is natural to estimate the parameter <span class="math notranslate nohighlight">\(\beta\)</span> using <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation" target="_blank">maximum likelihood</a>.</p>
 <div class="admonition-maximum-likelihood-estimation-mle admonition">
 <p class="admonition-title">Maximum likelihood estimation (MLE)</p>
