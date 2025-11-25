@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -236,7 +236,9 @@
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31-clustering-1.html">30. Clustering 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32-clustering-2.html">31. Clustering 2</a></li>
 </ul>
 
     </div>
@@ -392,7 +394,7 @@ document.write(`
 <p>To illustrate how nearest neighbors can be applied in practice, we will use it to predict the values of <a class="reference internal" href="4-Supervised-Unsupervised.html#e-handwritten-digits"><span class="std std-ref">handwritten digits</span></a>. We will using the <a href="https://scikit-learn.org/stable/datasets/toy_dataset.html#digits-dataset" target="_blank">digits dataset</a> from Scikit-learn.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_digits</span>
 
 <span class="c1"># Load the digits dataset</span>
 <span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">()</span>
@@ -406,7 +408,7 @@ document.write(`
 <p>Let us split the dataset into a training (80%) and a test set (20%). Note: setting the random_state to some value initializes the random number generator used to perform the split to a deterministic value. This is useful if one wants to use a specific split of the data to reproduce a given study.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
 
 <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
@@ -416,9 +418,9 @@ document.write(`
 <p>To choose <span class="math notranslate nohighlight">\(k\)</span> by cross-validation, we will use the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html" target="_blank">GridSearchCV</a> object of Scikit-learn.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 <span class="c1"># Define the kNN model</span>
 <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
@@ -438,10 +440,6 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best k found by CV: 1
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/dominique/anaconda3/lib/python3.12/site-packages/numpy/ma/core.py:2820: RuntimeWarning: invalid value encountered in cast
-  _data = np.array(data, dtype=dtype, copy=copy,
 </pre></div>
 </div>
 </div>
@@ -466,7 +464,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/c691f4ef6099d345d6f2b316c0aaa7e6eb83736c5d31329d95fd55ae1fbfa1b6.png" src="../_images/c691f4ef6099d345d6f2b316c0aaa7e6eb83736c5d31329d95fd55ae1fbfa1b6.png" />
+<img alt="../_images/4d2a57d7c961bd5db61296c84c7b4e2db96bc16f7f61dc6de1baba216856be6f.png" src="../_images/4d2a57d7c961bd5db61296c84c7b4e2db96bc16f7f61dc6de1baba216856be6f.png" />
 </div>
 </div>
 <p>Finally, we can first the model with the best selected parameter on the whole training set, and measure its performance on the test set that has not been seen before.</p>

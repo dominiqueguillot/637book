@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -236,7 +236,9 @@
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31-clustering-1.html">30. Clustering 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32-clustering-2.html">31. Clustering 2</a></li>
 </ul>
 
     </div>
@@ -413,17 +415,17 @@ document.write(`
 <section id="selecting-relevant-predictors-using-the-lasso">
 <h2><span class="section-number">12.1. </span>Selecting relevant predictors using the LASSO<a class="headerlink" href="#selecting-relevant-predictors-using-the-lasso" title="Link to this heading">#</a></h2>
 <p>In this lab, we will examine how the LASSO can be used to select relevant predictors and to construct better linear models. Here, by <em>better</em>, we mean models with a better testing error. In order to select an optimal LASSO parameter, we will use cross-validation. Scikit-learn has an object that can perform cross-validation directly for us.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LassoCV</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LassoCV</span>
 </pre></div>
 </div>
 <p>The file <a class="reference download internal" download="" href="../_downloads/7d8bd83b47e14d408355796e37e3e3aa/assay.csv"><span class="xref download myst">assay.csv</span></a> contains gene expression data (<span class="math notranslate nohighlight">\(p = 7129\)</span> genes) for <span class="math notranslate nohighlight">\(n = 49\)</span> breast cancer tumor samples. The file <a class="reference download internal" download="" href="../_downloads/e86d5f0daea095280e82b684da304591/pheno.csv"><span class="xref download myst">pheno.csv</span></a> contains a binary response variable for each sample (whether the sample tested positive or negative for cancer). Our goal is to build a good linear regression model to predict whether a given gene expression profile is likely associated to cancer.</p>
 <p>Let us first try a basic linear regression model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">binom</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">binom</span>
 
 <span class="c1"># Load dataset</span>
 <span class="c1"># pheno = 49 phenotypes</span>
@@ -441,8 +443,8 @@ document.write(`
 <span class="n">X</span> <span class="o">=</span> <span class="n">assay</span><span class="o">.</span><span class="n">T</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">pheno</span>
 
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
 
 
 <span class="n">lin_model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -473,7 +475,7 @@ document.write(`
 <p>Let us now use the LASSO to select relevant genes before fitting the model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LassoCV</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LassoCV</span>
 
 <span class="c1"># Creating a LASSO cross-validation model with 200 parameters and 10-folds cross-validation.</span>
 <span class="n">lasso_model</span> <span class="o">=</span> <span class="n">LassoCV</span><span class="p">(</span><span class="n">n_alphas</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>  
@@ -549,7 +551,7 @@ Percentage of test samples correctly predicted by LASSO: 69.23%
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/3d5c51282a247f7ab072c12dcc6997586b743691451fc9223fff51c334cab7b3.png" src="../_images/3d5c51282a247f7ab072c12dcc6997586b743691451fc9223fff51c334cab7b3.png" />
+<img alt="../_images/6d766e6bf91e7c98e5122e4db0782a724bcca197b4c3468eb5c1352a02e23c0c.png" src="../_images/6d766e6bf91e7c98e5122e4db0782a724bcca197b4c3468eb5c1352a02e23c0c.png" />
 </div>
 </div>
 <p>In some cases, especially when the LASSO selects too many predictors, one may want to work with a larger penalty parameter. For example, in the above figure, one can argue that the error at the penalty parameter <span class="math notranslate nohighlight">\(0.12\)</span> is still within a one standard deviation of the minimum error. This can be used to justify using the parameter <span class="math notranslate nohighlight">\(0.12\)</span> instead of the selected parameter <span class="math notranslate nohighlight">\(0.03\)</span> (the location of the minimum error) in the case where the LASSO solution has a lot of nonzero coefficients. A similar argument can be used to select a smaller parameter when the LASSO solution contains a number of predictors that is too small for one’s purposes.</p>

@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -236,7 +236,9 @@
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31-clustering-1.html">30. Clustering 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32-clustering-2.html">31. Clustering 2</a></li>
 </ul>
 
     </div>
@@ -422,8 +424,8 @@ Y = \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p.
 <p class="admonition-title">Exercise</p>
 <p>Split the cars dataset from Lab 1 into a training and a testing set. You may want to restrict the predictors to the numerical ones for simplicity. For each subset of predictors, fit a linear model on the training set, and save its error on the test set. Use this to reproduce the figure below and find the subset of predictors that yields the best test error.</p>
 <p>The following code may be useful to loop over subsets:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
-<span class="k">def</span> <span class="nf">findsubsets</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">findsubsets</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
     
 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
@@ -510,18 +512,18 @@ x^T (X^TX)x = (Xx)^t(Xx) = \|Xx\|_2^2 \geq 0.
 <p>Amazingly, Ridge regression was originally developed by Arthur Hoerl and Robert “Bob” Kennard at the University of Delaware. See the following <a href="https://lerner.udel.edu/seeing-opportunity/blue-hens-revolutionize-precursor-to-machine-learning/" target="_blank">article</a> for more details.</p>
 </div>
 <p>The Scikot-learn package has a <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html" target="_blank">Ridge</a> object that can be used to solve the Ridge regression problem:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ridge</span>
 </pre></div>
 </div>
 <p>The object has similar methods (fit, predict, etc.) as the linear regression object. See the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html" target="_blank">documentation</a> for more details.</p>
 <p>Notice that, compared to least squares, the Ridge regression solution is unique. Adding <span class="math notranslate nohighlight">\(\lambda I\)</span> to the <span class="math notranslate nohighlight">\(X^TX\)</span> term thus provides a rigorous way to “regularize” the linear regression problem. This is particularly important when the number of samples <span class="math notranslate nohighlight">\(n\)</span> is smaller than the number of variables <span class="math notranslate nohighlight">\(p\)</span>. In that case, the matrix <span class="math notranslate nohighlight">\(X^TX\)</span> is not invertible and the least squares solution is not unique. However, the Ridge regression coefficients are typically not equal to <span class="math notranslate nohighlight">\(0\)</span>. Instead, as the penalty parameter increases, the coefficients shrink towards <span class="math notranslate nohighlight">\(0\)</span> (without typically being exactly zero). Ridge regression is thus used as a way to <strong>regularize</strong> regression and not as a way to select the best predictors to use. As we will see in the next section, another modification of our original problem (called LASSO regression) allows us to select predictors.</p>
 <p>To illustrate how Ridge regression behaves, let us try it on a standard dataset. We will use the <a href="https://scikit-learn.org/stable/datasets/toy_dataset.html#diabetes-dataset" target="_blank">diabetes</a> dataset that comes with scikit-learn. Please make sure that you understand the code below and can run it by yourself.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_diabetes</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ridge</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_diabetes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
 
 <span class="c1"># Load the diabetes dataset</span>
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -612,17 +614,17 @@ x^T (X^TX)x = (Xx)^t(Xx) = \|Xx\|_2^2 \geq 0.
 </figure>
 <p>On the figure <span class="math notranslate nohighlight">\(\hat{\beta}\)</span> is the least squares solution of the regression problem, i.e., the value of <span class="math notranslate nohighlight">\(\beta\)</span> that minimizes <span class="math notranslate nohighlight">\(\|y-X\beta\|_2^2\)</span>. The red curves are <a href="https://en.wikipedia.org/wiki/Level_set" target="_blank">level curves</a> of <span class="math notranslate nohighlight">\(\|y-X\beta\|_2^2\)</span>, i.e., on each red curve, the value of the error is the same. Observe that the value of the error on each red curve is larger than the error at <span class="math notranslate nohighlight">\(\hat{\beta}\)</span> since <span class="math notranslate nohighlight">\(\hat{\beta}\)</span> is where the error is minimized. As we move away from <span class="math notranslate nohighlight">\(\hat{\beta}\)</span>, the error keeps increasing. The Ridge and LASSO solutions are obtained when a level curve intersects a unit ball (in the <span class="math notranslate nohighlight">\(\ell_2\)</span> norm for Ridge and in the <span class="math notranslate nohighlight">\(\ell_1\)</span> norm for LASSO). Observe how the shape of the <span class="math notranslate nohighlight">\(\ell_1\)</span> ball makes it more likely that the intersection will occur at a “corner” of the ball, i.e., at a location where one of the regression coefficients is equal to <span class="math notranslate nohighlight">\(0\)</span>. The above argument is far from a formal proof that the LASSO solution has many coefficients equal to <span class="math notranslate nohighlight">\(0\)</span>, but it provides some intuition to explain what happens.</p>
 <p>Let us repeat our experiment with the diabetes dataset to see how the LASSO coefficients behave. We can again use scikit-learn:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lasso</span>
 </pre></div>
 </div>
 <p>See the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html" target="_blank"> documentation</a>.</p>
 <p>Let us modify our previous code to use this object instead of the Ridge object.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_diabetes</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lasso</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_diabetes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
 
 <span class="c1"># Load the diabetes dataset</span>
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

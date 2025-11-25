@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -236,7 +236,9 @@
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31-clustering-1.html">30. Clustering 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32-clustering-2.html">31. Clustering 2</a></li>
 </ul>
 
     </div>
@@ -440,7 +442,7 @@ document.write(`
 <p>For this particular exercise, let us generate data at random. Recall that Ridge regression is useful to regularize the linear regression problem when the number of samples <span class="math notranslate nohighlight">\(n\)</span> is smaller than the number of predictors <span class="math notranslate nohighlight">\(p\)</span>. Let us therefore generate data in that “sample-starved” setting.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c1"># Set random number generator for reproducibility</span>
 <span class="n">n</span> <span class="o">=</span> <span class="mi">50</span>   <span class="c1"># Number of samples</span>
@@ -455,11 +457,11 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ridge</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">KFold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span>
 
 
 <span class="c1"># Linearly spaced alpha values</span>
@@ -510,7 +512,7 @@ document.write(`
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best alpha: 8.5636
 </pre></div>
 </div>
-<img alt="../_images/02adc2f7e92959e4401e7c1d019f1f7868e79b7ea6694257b1776bd518b549d6.png" src="../_images/02adc2f7e92959e4401e7c1d019f1f7868e79b7ea6694257b1776bd518b549d6.png" />
+<img alt="../_images/e1b179a274fec666ef723f308902ca029251cee6b75b41451887db3fdd46e626.png" src="../_images/e1b179a274fec666ef723f308902ca029251cee6b75b41451887db3fdd46e626.png" />
 </div>
 </div>
 <p>Here, the cross-validation curve has a very clear minimum (note that this does not always happen). This is the value we should use for our Ridge parameter.</p>

@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -88,7 +88,7 @@
     <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="29. Missing value" href="30-missing-values.html" />
+    <link rel="next" title="29. Missing values" href="30-missing-values.html" />
     <link rel="prev" title="27. Neural networks II" href="28-NN-2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -236,7 +236,9 @@
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">28. Lab 10: Convolutional neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31-clustering-1.html">30. Clustering 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32-clustering-2.html">31. Clustering 2</a></li>
 </ul>
 
     </div>
@@ -403,13 +405,13 @@ document.write(`
 <p>In this lab, we will build convolutional neural networks to make predictions. Let us start with our well-known handwritten digits dataset. We begin by loading and scaling the data, and splitting them into a training and a testing set. We can reuse our code from the previous chapter.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">TensorDataset</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_digits</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">TensorDataset</span>
 
 <span class="c1"># ==== PARAMETERS ====</span>
 <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
@@ -451,8 +453,8 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ==== DEFINE MODEL ====</span>
-<span class="k">class</span> <span class="nc">SimpleCNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleCNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -461,7 +463,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
         
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>   <span class="c1"># (1,8,8) -&gt; (16,4,4)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>   <span class="c1"># (16,4,4) -&gt; (32,2,2)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>                 <span class="c1"># flatten</span>
@@ -539,85 +541,77 @@ m + 2 p_h - k + 1 = n + 2 p_w -l + 1 = 4 + 2 \times 1 - 3 + 1 = 4.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1/50] - Loss: 2.2795 - Test Acc: 18.33%
-Epoch [2/50] - Loss: 2.1290 - Test Acc: 61.67%
-Epoch [3/50] - Loss: 1.6577 - Test Acc: 76.39%
-Epoch [4/50] - Loss: 0.9361 - Test Acc: 88.89%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1/50] - Loss: 2.2801 - Test Acc: 46.11%
+Epoch [2/50] - Loss: 2.1327 - Test Acc: 56.94%
+Epoch [3/50] - Loss: 1.6884 - Test Acc: 73.33%
+Epoch [4/50] - Loss: 1.0449 - Test Acc: 85.83%
+Epoch [5/50] - Loss: 0.6361 - Test Acc: 89.72%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [5/50] - Loss: 0.5583 - Test Acc: 91.39%
-Epoch [6/50] - Loss: 0.3817 - Test Acc: 90.83%
-Epoch [7/50] - Loss: 0.3337 - Test Acc: 91.11%
-Epoch [8/50] - Loss: 0.2887 - Test Acc: 94.17%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [6/50] - Loss: 0.4397 - Test Acc: 89.72%
+Epoch [7/50] - Loss: 0.3567 - Test Acc: 92.22%
+Epoch [8/50] - Loss: 0.2956 - Test Acc: 91.67%
+Epoch [9/50] - Loss: 0.2427 - Test Acc: 92.50%
+Epoch [10/50] - Loss: 0.2342 - Test Acc: 94.72%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [9/50] - Loss: 0.2151 - Test Acc: 94.17%
-Epoch [10/50] - Loss: 0.2005 - Test Acc: 94.44%
-Epoch [11/50] - Loss: 0.1760 - Test Acc: 95.56%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [11/50] - Loss: 0.1823 - Test Acc: 94.72%
+Epoch [12/50] - Loss: 0.1654 - Test Acc: 95.83%
+Epoch [13/50] - Loss: 0.1521 - Test Acc: 96.11%
+Epoch [14/50] - Loss: 0.1409 - Test Acc: 96.11%
+Epoch [15/50] - Loss: 0.1280 - Test Acc: 95.56%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [12/50] - Loss: 0.1550 - Test Acc: 96.67%
-Epoch [13/50] - Loss: 0.1405 - Test Acc: 96.67%
-Epoch [14/50] - Loss: 0.1265 - Test Acc: 97.50%
-Epoch [15/50] - Loss: 0.1211 - Test Acc: 97.22%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [16/50] - Loss: 0.1197 - Test Acc: 95.28%
+Epoch [17/50] - Loss: 0.1311 - Test Acc: 97.22%
+Epoch [18/50] - Loss: 0.0984 - Test Acc: 96.94%
+Epoch [19/50] - Loss: 0.0992 - Test Acc: 97.50%
+Epoch [20/50] - Loss: 0.0925 - Test Acc: 97.50%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [16/50] - Loss: 0.1137 - Test Acc: 96.67%
-Epoch [17/50] - Loss: 0.0977 - Test Acc: 97.50%
-Epoch [18/50] - Loss: 0.0923 - Test Acc: 97.78%
-Epoch [19/50] - Loss: 0.0877 - Test Acc: 98.06%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [21/50] - Loss: 0.0834 - Test Acc: 97.50%
+Epoch [22/50] - Loss: 0.0864 - Test Acc: 97.22%
+Epoch [23/50] - Loss: 0.0802 - Test Acc: 98.33%
+Epoch [24/50] - Loss: 0.0672 - Test Acc: 97.78%
+Epoch [25/50] - Loss: 0.0678 - Test Acc: 97.22%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [20/50] - Loss: 0.0789 - Test Acc: 97.78%
-Epoch [21/50] - Loss: 0.0754 - Test Acc: 98.33%
-Epoch [22/50] - Loss: 0.0674 - Test Acc: 98.06%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [26/50] - Loss: 0.0666 - Test Acc: 98.61%
+Epoch [27/50] - Loss: 0.0650 - Test Acc: 97.50%
+Epoch [28/50] - Loss: 0.0629 - Test Acc: 97.78%
+Epoch [29/50] - Loss: 0.0543 - Test Acc: 98.61%
+Epoch [30/50] - Loss: 0.0534 - Test Acc: 98.61%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [23/50] - Loss: 0.0761 - Test Acc: 98.06%
-Epoch [24/50] - Loss: 0.0653 - Test Acc: 98.61%
-Epoch [25/50] - Loss: 0.0612 - Test Acc: 99.17%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [31/50] - Loss: 0.0488 - Test Acc: 98.33%
+Epoch [32/50] - Loss: 0.0502 - Test Acc: 98.89%
+Epoch [33/50] - Loss: 0.0430 - Test Acc: 98.61%
+Epoch [34/50] - Loss: 0.0459 - Test Acc: 98.89%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [26/50] - Loss: 0.0516 - Test Acc: 97.78%
-Epoch [27/50] - Loss: 0.0485 - Test Acc: 98.61%
-Epoch [28/50] - Loss: 0.0464 - Test Acc: 98.33%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [35/50] - Loss: 0.0416 - Test Acc: 98.61%
+Epoch [36/50] - Loss: 0.0364 - Test Acc: 98.61%
+Epoch [37/50] - Loss: 0.0381 - Test Acc: 98.89%
+Epoch [38/50] - Loss: 0.0379 - Test Acc: 98.61%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [29/50] - Loss: 0.0408 - Test Acc: 98.61%
-Epoch [30/50] - Loss: 0.0451 - Test Acc: 99.44%
-Epoch [31/50] - Loss: 0.0410 - Test Acc: 99.17%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [39/50] - Loss: 0.0357 - Test Acc: 99.17%
+Epoch [40/50] - Loss: 0.0359 - Test Acc: 98.33%
+Epoch [41/50] - Loss: 0.0309 - Test Acc: 98.61%
+Epoch [42/50] - Loss: 0.0287 - Test Acc: 97.78%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [32/50] - Loss: 0.0363 - Test Acc: 99.17%
-Epoch [33/50] - Loss: 0.0348 - Test Acc: 98.89%
-Epoch [34/50] - Loss: 0.0306 - Test Acc: 98.33%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [43/50] - Loss: 0.0284 - Test Acc: 99.17%
+Epoch [44/50] - Loss: 0.0300 - Test Acc: 98.06%
+Epoch [45/50] - Loss: 0.0271 - Test Acc: 98.61%
+Epoch [46/50] - Loss: 0.0254 - Test Acc: 98.33%
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [35/50] - Loss: 0.0314 - Test Acc: 98.89%
-Epoch [36/50] - Loss: 0.0285 - Test Acc: 99.17%
-Epoch [37/50] - Loss: 0.0276 - Test Acc: 99.17%
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [38/50] - Loss: 0.0298 - Test Acc: 99.44%
-Epoch [39/50] - Loss: 0.0256 - Test Acc: 98.89%
-Epoch [40/50] - Loss: 0.0229 - Test Acc: 98.89%
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [41/50] - Loss: 0.0207 - Test Acc: 99.17%
-Epoch [42/50] - Loss: 0.0232 - Test Acc: 99.17%
-Epoch [43/50] - Loss: 0.0221 - Test Acc: 99.17%
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [44/50] - Loss: 0.0180 - Test Acc: 99.44%
-Epoch [45/50] - Loss: 0.0163 - Test Acc: 99.44%
-Epoch [46/50] - Loss: 0.0150 - Test Acc: 99.17%
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [47/50] - Loss: 0.0156 - Test Acc: 99.44%
-Epoch [48/50] - Loss: 0.0138 - Test Acc: 99.44%
-Epoch [49/50] - Loss: 0.0146 - Test Acc: 99.17%
-Epoch [50/50] - Loss: 0.0146 - Test Acc: 99.44%
-Final test accuracy: 99.44444444444444
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [47/50] - Loss: 0.0230 - Test Acc: 98.89%
+Epoch [48/50] - Loss: 0.0193 - Test Acc: 98.89%
+Epoch [49/50] - Loss: 0.0166 - Test Acc: 99.17%
+Epoch [50/50] - Loss: 0.0183 - Test Acc: 98.89%
+Final test accuracy: 98.88888888888889
 </pre></div>
 </div>
 </div>
@@ -734,7 +728,7 @@ Final test accuracy: 99.44444444444444
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">29. </span>Missing value</p>
+        <p class="prev-next-title"><span class="section-number">29. </span>Missing values</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

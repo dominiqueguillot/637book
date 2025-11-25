@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>30. Clustering 1 &#8212; Math 637 Mathematical Techniques in Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Content/31-clustering-1';</script>
+    <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/searchtools.js?v=d24376de"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="31. Clustering 2" href="32-clustering-2.html" />
+    <link rel="prev" title="29. Missing values" href="30-missing-values.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="1-intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/637-logo.png" class="logo__image only-light" alt="Math 637 Mathematical Techniques in Data Science - Home"/>
+    <script>document.write(`<img src="../_static/637-logo.png" class="logo__image only-dark" alt="Math 637 Mathematical Techniques in Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="1-intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-Linear-regression.html">4. Linear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6-Lab-Cars.html">5. Lab 1: Linear regression and the cars data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7-Learning-outside-training.html">6. Learning outside the training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-Lab2-train-test.html">7. Lab 2: Training vs testing error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9-BLUE.html">8. Best linear unbiased estimator and the bias-variance decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10-Lab3-gradient-descent.html">9. Lab 3: Gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11-Shrinkage-methods.html">10. Improving linear regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Model-selection.html">11. Model selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13-Lab4-lasso.html">12. Lab 4: using the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14-Computing-lasso.html">13. Computing the LASSO solution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15-Lab5-coordinate-descent.html">14. Lab 5: Coordinate descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16-LASSO-theoretical.html">15. Theoretical guarantees for the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17-categorical-data.html">16. Analyzing categorical data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18-Lab6-nearest-neighbors.html">17. Lab 6: nearest neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19-logistic.html">18. Logistic regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20-SVM.html">19. Support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21-SVM-kernel.html">20. SVM: the kernel trick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23-PCA.html">22. Principal component analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24-Lab8-PCA.html">23. Lab 8: PCA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25-SVD.html">24. The singular value decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26-NN.html">25. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">30. Clustering 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32-clustering-2.html">31. Clustering 2</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Content/31-clustering-1.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Clustering 1</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-k-means-algorithm">30.1. The K-means algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lloyds-s-algorithm">30.1.1. Lloyds’s algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">30.1.2. Example</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="clustering-1">
+<h1><span class="section-number">30. </span>Clustering 1<a class="headerlink" href="#clustering-1" title="Link to this heading">#</a></h1>
+<p>So far, we have mostly discussed <em>supervised learning</em> problems. This chapter and the next discuss the <em>unsupervised learning</em> problem of finding <em>clusters</em> in data. Broadly speaking, a <em>cluster</em> is a set of samples that are similar with respect to a given similarity measure. In the clustering problem, one attempts to perform a cluster assignment to all samples in a dataset in such a way that samples in the same cluster are “similar” and samples in different cluster are “different”. This can be very useful to discover hidden structure in a dataset. Notice that no prior labeling of samples is assumed to be given.</p>
+<p>For example, consider the following two-dimensional data:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/clusters_bw.png"><img alt="../_images/clusters_bw.png" src="../_images/clusters_bw.png" style="width: 300px;" />
+</a>
+</figure>
+<p>The following clustering (where each cluster has been assigned a color for visualization purposes) identifies two major clusters that may have an interesting meaning.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/clusters.png"><img alt="../_images/clusters.png" src="../_images/clusters.png" style="width: 300px;" />
+</a>
+</figure>
+<p>Here, of course, it is very obvious to identify clusters since the data is two-dimensional. The same cannot be said for data in dimensions higher than 3. We therefore need rigorous and automatic ways of discovering clusters for data living in <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span> for an arbitrary dimension <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<section id="the-k-means-algorithm">
+<h2><span class="section-number">30.1. </span>The K-means algorithm<a class="headerlink" href="#the-k-means-algorithm" title="Link to this heading">#</a></h2>
+<p>The K-means algorithm is a popular algorithm to cluster a set of points in <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span>. The algorithm goes back to the work of the famous mathematician <a href="https://en.wikipedia.org/wiki/Hugo_Steinhaus" target="_blank">Hugo Steinhaus</a> (of the Banach-Steinhaus theorem) in 1957.</p>
+<div class="tip admonition">
+<p class="admonition-title">Hugo Steinhaus</p>
+<p><img alt="" src="../_images/Hugo_Steinhaus.jpg" /></p>
+<p>Steinhaus authored over 170 works. Unlike his famous student, Stefan Banach, who tended to specialize narrowly in the field of functional analysis, Steinhaus made contributions to a wide range of mathematical sub-disciplines, including geometry, probability theory, functional analysis, theory of trigonometric and Fourier series as well as mathematical logic. He also wrote in the area of applied mathematics and enthusiastically collaborated with engineers, geologists, economists, physicians, biologists and, in Kac’s words, “even lawyers”.</p>
+<p>Source: Wikipedia.</p>
+</div>
+<p>Suppose we are given <span class="math notranslate nohighlight">\(n\)</span> samples <span class="math notranslate nohighlight">\(x_1, \dots, x_n \in \mathbb{R}^p\)</span> and a number <span class="math notranslate nohighlight">\(K\)</span> of desired clusters. Our goal is to construct a set of clusters <span class="math notranslate nohighlight">\(S_1, \dots, S_K \subseteq \{x_1, \dots, x_n\}\)</span> where each sample <span class="math notranslate nohighlight">\(x_j\)</span> belongs to exactly one of the clusters. In other words, we are seeking a partition of the samples into <span class="math notranslate nohighlight">\(K\)</span> sets.</p>
+<p>The following <em><span class="math notranslate nohighlight">\(K\)</span>-means objective function</em> measures how good a particular cluster assignment is:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{i=1}^K \sum_{x_j \in S_i} \|x_j - \mu_i\|^2, 
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+\mu_i = \frac{1}{|S_i|} \sum_{x_j \in S_i} x_j
+\]</div>
+<p>is the “mean” or “center” of the points in <span class="math notranslate nohighlight">\(S_i\)</span>. Observe how the <span class="math notranslate nohighlight">\(K\)</span>-means objective function measures, in each cluster, how close are points to their cluster center. Thus, assigning samples that are close to each other to the same cluster yields a smaller value of the objective.</p>
+<p>Ideally, we would like to minimize the <span class="math notranslate nohighlight">\(K\)</span>-means objective function over all possible cluster assignments. Unfortunately, this is known to be an <a href="https://en.wikipedia.org/wiki/NP-hardness" target="_blank">NP hard</a> problem. We will discuss one efficient algorithms that can be used to provide an approximation to the optimal solution.</p>
+<section id="lloyds-s-algorithm">
+<h3><span class="section-number">30.1.1. </span>Lloyds’s algorithm<a class="headerlink" href="#lloyds-s-algorithm" title="Link to this heading">#</a></h3>
+<p>Lloyds’s algorithm provides a heuristic method for optimizing the K-means objective function. It proceeds as follows:</p>
+<p>Start with given cluster centers assignments <span class="math notranslate nohighlight">\(m_1^{(0)}, \dots, m_K^{(0)} \in \mathbb{R}^p\)</span>.</p>
+<p>For <span class="math notranslate nohighlight">\(t=0,1,\dots\)</span>,</p>
+<ol class="arabic simple">
+<li><p>Assign each point <span class="math notranslate nohighlight">\(x_j\)</span> to the cluster whose mean is closest to <span class="math notranslate nohighlight">\(x_j\)</span>, i.e., set</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+S_i^{(t)} := \{x_j : \|x_j - m_i^{(t)}\|^2 \leq \|x_j - m_k^{(t)}\|^2\ \forall k=1,\dots, K\}.
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>Update the cluster means <span class="math notranslate nohighlight">\(m_i^{(t+1)}\)</span> using the current cluster assignment:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+m_i^{(t+1)} := \frac{1}{|S_i^{(t)}|} \sum_{x_j \in S_i^{(t)}} x_j \qquad (i=1,\dots,K).
+\]</div>
+<p>This process is iterated until convergence. One can show that both steps of Lloyds’s algorithm decrease the <span class="math notranslate nohighlight">\(K\)</span>-means objective. As a result, the algorithm converges a local minimum of the objective function.</p>
+<div class="admonition-theorem admonition">
+<p class="admonition-title">Theorem</p>
+<p>Lloyds’s algorithm converges to a local minimum of the <span class="math notranslate nohighlight">\(K\)</span>-means objective function.</p>
+</div>
+<p>However, without additional assumptions, there is no guarantee that the algorithm will find a global minimum. A possible way to mitigate this problem is to run Lloyds’s algorithm several times with different initial cluster assignments <span class="math notranslate nohighlight">\(m_1^{(0)}, \dots, m_K^{(0)}\)</span>. Some common initialization methods include:</p>
+<ol class="arabic simple">
+<li><p><strong>The Forgy method:</strong> Pick <span class="math notranslate nohighlight">\(K\)</span> observations at random from <span class="math notranslate nohighlight">\(\{x_1, \dots, x_n\}\)</span> and use these as the initial centers.</p></li>
+<li><p><strong>Random partitions:</strong> Randomly assign a cluster to each observation and compute the mean of each cluster.</p></li>
+</ol>
+<p>The following animation displays iterations of Lloyds’s algorithm for <span class="math notranslate nohighlight">\(100\)</span> samples using <span class="math notranslate nohighlight">\(K=7\)</span> clusters.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/p_n100_k7.gif"><img alt="../_images/p_n100_k7.gif" src="../_images/p_n100_k7.gif" style="width: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 30.1 </span><span class="caption-text">In this example, the algorithm converges in <span class="math notranslate nohighlight">\(7\)</span> iterations (with a random centers initialization).</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="example">
+<h3><span class="section-number">30.1.2. </span>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h3>
+<p>Let us examine if the handwritten digits dataset appears to display a good clustering structure. We will estimate <span class="math notranslate nohighlight">\(10\)</span> clusters using Lloyds’s algorithm. Notice that the “cluster label” is meaningless in the sense that most digits “4” could end up in cluster “1”. However, if there is a good clustering structure, most digits with the same label should be in the same cluster. We will therefore compute the percentage of digits “i” in cluster “j” and verify if we detect such a structure.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_digits</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Load the digits dataset</span>
+<span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">()</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">data</span>        <span class="c1"># Flattened 8x8 images (n_samples, 64)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">digits</span><span class="o">.</span><span class="n">target</span>      <span class="c1"># Labels 0-9</span>
+
+<span class="c1"># Construct a KMeans object with 10 clusters</span>
+<span class="n">est</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Note: verbose=1 is just to see what sklearn is doing...</span>
+<span class="n">est</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">Prop_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>  <span class="c1"># Percentage of cluster i that is digit j</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">N_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">est</span><span class="o">.</span><span class="n">labels_</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span> <span class="c1"># Number of samples with cluster i</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">Prop_mat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">est</span><span class="o">.</span><span class="n">labels_</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">N_i</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initialization complete
+Iteration 0, inertia 2123245.0.
+Iteration 1, inertia 1280480.579126918.
+Iteration 2, inertia 1227463.7120908.
+Iteration 3, inertia 1199161.736615593.
+Iteration 4, inertia 1183281.9384429478.
+Iteration 5, inertia 1173395.7580561675.
+Iteration 6, inertia 1168524.5688055896.
+Iteration 7, inertia 1166834.0312563563.
+Iteration 8, inertia 1166261.9590430735.
+Iteration 9, inertia 1166071.3107649114.
+Iteration 10, inertia 1165669.6972720837.
+Iteration 11, inertia 1165564.5933775674.
+Iteration 12, inertia 1165515.7516920418.
+Iteration 13, inertia 1165439.4847528595.
+Iteration 14, inertia 1165417.305371157.
+Iteration 15, inertia 1165407.806373831.
+Converged at iteration 15: strict convergence.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us now round the entries of Prop_mat (for visualization purposes) and display it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">Prop_mat</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 0.    0.72  0.    1.44  0.   90.65  0.    0.    3.6   3.6 ]
+ [ 0.   43.81  3.54  3.1   1.33  0.    1.33  0.88 45.13  0.88]
+ [ 0.59  0.    0.    0.   98.22  1.18  0.    0.    0.    0.  ]
+ [ 0.    0.    0.4   3.63  0.   20.56  0.    0.   20.16 55.24]
+ [ 0.    1.1   0.    0.    0.    0.55 97.25  0.    1.1   0.  ]
+ [ 0.   13.64 84.09  0.57  0.    0.    0.    0.    1.7   0.  ]
+ [98.88  0.    0.56  0.    0.    0.    0.56  0.    0.    0.  ]
+ [ 0.   62.5   2.27  0.    3.41  0.    0.    2.27  6.82 22.73]
+ [ 0.    0.54  7.57 84.86  0.    1.08  0.    0.    1.08  4.86]
+ [ 0.    0.    1.46  3.41  4.39  0.    0.   85.37  1.95  3.41]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Observe that several (but not all) clusters contain a large number of the same digits. Although the digits do not form perfect clusters, there is a strong clustering structure in this dataset that can be taken advantage of to perform classification.</p>
+<p>Notice that Lloyds’s algorithm requires us to provide the number of desired clusters <span class="math notranslate nohighlight">\(K\)</span>. In practice, several approaches can be used to choose the number of clusters. A possible approach is to run the algorithm with different values of <span class="math notranslate nohighlight">\(K\)</span>, and to examine the resulting values of the <span class="math notranslate nohighlight">\(K\)</span>-means objective function. This leads to what is known as the elbow method: one can plot this quantity as a function of <span class="math notranslate nohighlight">\(K\)</span>. Initially, increasing the number of clusters yields a substantial reduction in the objective value, reflecting that the data are being partitioned into more homogeneous groups. Beyond a certain point, however, the marginal improvement becomes much smaller, and the curve begins to flatten. The “elbow point” can be taken as an estimate of a reasonable number of clusters. Let us illustrate how that works using or digits dataset from above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="c1"># To store the value of the objective function at the converged point.</span>
+
+<span class="k">for</span> <span class="n">K</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">):</span>
+    <span class="n">est</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">est</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">obj</span><span class="p">[</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">est</span><span class="o">.</span><span class="n">inertia_</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">),</span><span class="n">obj</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&lt;matplotlib.axis.XTick at 0x780164201940&gt;,
+  &lt;matplotlib.axis.XTick at 0x780164215810&gt;,
+  &lt;matplotlib.axis.XTick at 0x78016441afd0&gt;,
+  &lt;matplotlib.axis.XTick at 0x7801642165d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x780164216d50&gt;,
+  &lt;matplotlib.axis.XTick at 0x7801642174d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x780164217c50&gt;,
+  &lt;matplotlib.axis.XTick at 0x780164248410&gt;,
+  &lt;matplotlib.axis.XTick at 0x780164248b90&gt;,
+  &lt;matplotlib.axis.XTick at 0x780164249310&gt;,
+  &lt;matplotlib.axis.XTick at 0x780164249a90&gt;,
+  &lt;matplotlib.axis.XTick at 0x78016424a210&gt;,
+  &lt;matplotlib.axis.XTick at 0x78016424a990&gt;,
+  &lt;matplotlib.axis.XTick at 0x78016424b110&gt;,
+  &lt;matplotlib.axis.XTick at 0x78016424b890&gt;,
+  &lt;matplotlib.axis.XTick at 0x780164270050&gt;,
+  &lt;matplotlib.axis.XTick at 0x7801642707d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x780164270f50&gt;,
+  &lt;matplotlib.axis.XTick at 0x7801642716d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x780164271e50&gt;],
+ [Text(1, 0, &#39;1&#39;),
+  Text(2, 0, &#39;2&#39;),
+  Text(3, 0, &#39;3&#39;),
+  Text(4, 0, &#39;4&#39;),
+  Text(5, 0, &#39;5&#39;),
+  Text(6, 0, &#39;6&#39;),
+  Text(7, 0, &#39;7&#39;),
+  Text(8, 0, &#39;8&#39;),
+  Text(9, 0, &#39;9&#39;),
+  Text(10, 0, &#39;10&#39;),
+  Text(11, 0, &#39;11&#39;),
+  Text(12, 0, &#39;12&#39;),
+  Text(13, 0, &#39;13&#39;),
+  Text(14, 0, &#39;14&#39;),
+  Text(15, 0, &#39;15&#39;),
+  Text(16, 0, &#39;16&#39;),
+  Text(17, 0, &#39;17&#39;),
+  Text(18, 0, &#39;18&#39;),
+  Text(19, 0, &#39;19&#39;),
+  Text(20, 0, &#39;20&#39;)])
+</pre></div>
+</div>
+<img alt="../_images/e0ff04c8f1da8a08aec9d6a727349a182b107ec0e8a4bbe9777efd84714b85d2.png" src="../_images/e0ff04c8f1da8a08aec9d6a727349a182b107ec0e8a4bbe9777efd84714b85d2.png" />
+</div>
+</div>
+<p>Observe how the objective initially decreases sharply. The decrease slows down around cluster 8. This is consistent with our previous observation from above that the dataset displays several clusters, but not quite 10 perfect clusters.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="30-missing-values.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">29. </span>Missing values</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="32-clustering-2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">31. </span>Clustering 2</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-k-means-algorithm">30.1. The K-means algorithm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lloyds-s-algorithm">30.1.1. Lloyds’s algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">30.1.2. Example</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dominique Guillot
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

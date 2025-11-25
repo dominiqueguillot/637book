@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -236,7 +236,9 @@
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31-clustering-1.html">30. Clustering 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32-clustering-2.html">31. Clustering 2</a></li>
 </ul>
 
     </div>
@@ -758,7 +760,7 @@ v =
 <p>The function <em>numpy.linalg.svd</em> computes the SVD of a matrix. For example:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
 <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
@@ -825,10 +827,10 @@ X_k  = \sum_{i=1}^k \sigma_i u_i v_i^T.
 <p>Let us load this image into Python, convert it to a matrix, and compute its SVD.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">PIL</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">PIL</span>
 
 <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;landscape.jpg&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
 
@@ -855,14 +857,14 @@ X_k  = \sum_{i=1}^k \sigma_i u_i v_i^T.
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Fraction of error (Frobenius norm)&#39;)
 </pre></div>
 </div>
-<img alt="../_images/5cce0601c985d7de11450eb248c57625a2911c41043772fa61505d2991d7bb64.png" src="../_images/5cce0601c985d7de11450eb248c57625a2911c41043772fa61505d2991d7bb64.png" />
+<img alt="../_images/034290d53536fde3556f0bd8e8216d835ab2c196467768b39e578dab9c8fc562.png" src="../_images/034290d53536fde3556f0bd8e8216d835ab2c196467768b39e578dab9c8fc562.png" />
 </div>
 </div>
 <p>Observe how the error decreases rapidely as the rank increases. This shows that the image has a “hidden” low rank structure and can be approximated well using lower rank images. This is a very common phenomenon. Let us diplay some of these approximations.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Truncates a SVD to k singular values from its factors u, s, vt</span>
-<span class="k">def</span> <span class="nf">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vt</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">tsvd</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">vt</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 	<span class="n">n</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 	<span class="n">p</span> <span class="o">=</span> <span class="n">vt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 	<span class="n">sdiag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">))</span>
@@ -900,13 +902,13 @@ X_k  = \sum_{i=1}^k \sigma_i u_i v_i^T.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x79411ed84170&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7903099f3ed0&gt;
 </pre></div>
 </div>
-<img alt="../_images/dffba83265ee7242833539a2bffb3c60b74d7f0052194d417ac2512d55f9f322.png" src="../_images/dffba83265ee7242833539a2bffb3c60b74d7f0052194d417ac2512d55f9f322.png" />
-<img alt="../_images/40e3cc60daa365713e2994f8e8f3a6d76a9314e0db419723b494775cea816505.png" src="../_images/40e3cc60daa365713e2994f8e8f3a6d76a9314e0db419723b494775cea816505.png" />
-<img alt="../_images/1a1a20a9fe86eb5fae4fadab568fc7a248a286f7d3d858ac171e75ae623a62b9.png" src="../_images/1a1a20a9fe86eb5fae4fadab568fc7a248a286f7d3d858ac171e75ae623a62b9.png" />
-<img alt="../_images/39683f452c3285b7026b26eb5b78ee6e357c1542356062efb4a7d511bd03566b.png" src="../_images/39683f452c3285b7026b26eb5b78ee6e357c1542356062efb4a7d511bd03566b.png" />
+<img alt="../_images/82d4348f78e2a189c285fb80e773759078e07f583c37d1669324b286826293d1.png" src="../_images/82d4348f78e2a189c285fb80e773759078e07f583c37d1669324b286826293d1.png" />
+<img alt="../_images/c55a35ff3d2bc79bf9750df52d770dcee062799dfd39aa72d25cac31e1b65e4d.png" src="../_images/c55a35ff3d2bc79bf9750df52d770dcee062799dfd39aa72d25cac31e1b65e4d.png" />
+<img alt="../_images/9de8ae11f6cfb8add2ceddb9b1df78df8a22ec68e5afd1adde0ddd3d0a78fa82.png" src="../_images/9de8ae11f6cfb8add2ceddb9b1df78df8a22ec68e5afd1adde0ddd3d0a78fa82.png" />
+<img alt="../_images/06f01e4cd9427fe2a9031b903ba62e2f204056d14144cddd4091828b893280e0.png" src="../_images/06f01e4cd9427fe2a9031b903ba62e2f204056d14144cddd4091828b893280e0.png" />
 </div>
 </div>
 <p>Even though the lower rank approximations lose some of the details of the image, for machine learning purposes (say, detecting objects), the rank 50 approximation already provides an excellent approximation!</p>

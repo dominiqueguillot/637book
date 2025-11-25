@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -88,6 +88,7 @@
     <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="30. Clustering 1" href="31-clustering-1.html" />
     <link rel="prev" title="28. Lab 10: Convolutional neural networks" href="29-Lab10-CNN.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -236,6 +237,8 @@
 <li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">29. Missing values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31-clustering-1.html">30. Clustering 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32-clustering-2.html">31. Clustering 2</a></li>
 </ul>
 
     </div>
@@ -584,11 +587,11 @@ l(\theta^{(i+1)}) \geq l(\theta^{(i)}).
 <p>The following code is an implementation of the EM algorithm for multivariate normal data. We will not discuss the implmentation. Readers interested in understanding the details can consult Chapter 11 in the book <em>Statistical Analysis with Missing Data</em> by Little and Rubin</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">linalg</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">linalg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
 
-<span class="k">def</span> <span class="nf">EM</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">C0</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">M0</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">tol</span> <span class="o">=</span> <span class="mf">5e-3</span><span class="p">,</span> <span class="n">maxit</span> <span class="o">=</span> <span class="mi">200</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">EM</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">C0</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">M0</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">tol</span> <span class="o">=</span> <span class="mf">5e-3</span><span class="p">,</span> <span class="n">maxit</span> <span class="o">=</span> <span class="mi">200</span><span class="p">):</span>
 <span class="w">	</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">	Expectation-Maximization (EM) algorithm to estimate multivariate normal model with missing values</span>
 <span class="sd">	</span>
@@ -698,7 +701,7 @@ l(\theta^{(i+1)}) \geq l(\theta^{(i)}).
 	<span class="k">return</span> <span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">M</span><span class="p">]</span>
 	
 	
-<span class="k">def</span> <span class="nf">ols</span><span class="p">(</span><span class="n">Sigma</span><span class="p">,</span> <span class="n">xind</span><span class="p">,</span> <span class="n">yind</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ols</span><span class="p">(</span><span class="n">Sigma</span><span class="p">,</span> <span class="n">xind</span><span class="p">,</span> <span class="n">yind</span><span class="p">):</span>
 <span class="w">	</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">	Computes regression coefficients in a multivariate Gaussian model</span>
 <span class="sd">	</span>
@@ -723,7 +726,7 @@ l(\theta^{(i+1)}) \geq l(\theta^{(i)}).
 	<span class="k">return</span> <span class="p">[</span><span class="n">B</span><span class="p">,</span> <span class="n">S</span><span class="p">]</span>
 	
 	
-<span class="k">def</span> <span class="nf">unique_rows</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">unique_rows</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
 <span class="w">	</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">	Returns the unique rows of a matrix</span>
 <span class="sd">	</span>
@@ -742,7 +745,7 @@ l(\theta^{(i+1)}) \geq l(\theta^{(i)}).
 	<span class="n">unique_a</span> <span class="o">=</span> <span class="n">uniq</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 	<span class="k">return</span> <span class="p">(</span><span class="n">unique_a</span><span class="p">,</span><span class="n">idx</span><span class="p">)</span>
 	
-<span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="n">condition</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find</span><span class="p">(</span><span class="n">condition</span><span class="p">):</span>
 <span class="w">	</span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">	Code to replace the old matplotlib.mlab.find function</span>
 <span class="sd">	(Return the indices where some condition is true)</span>
@@ -756,7 +759,7 @@ l(\theta^{(i+1)}) \geq l(\theta^{(i)}).
 <p>To illustrate the EM algorithm, let us begin by generating some data from a 3-dimensional multivariate normal distribution. We will use the following (arbitrary) mean vector and covariance matrices:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="n">p</span><span class="o">=</span><span class="mi">3</span>
 <span class="n">mu</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
 <span class="n">Sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
@@ -793,7 +796,7 @@ l(\theta^{(i+1)}) \geq l(\theta^{(i)}).
 <p>We can now compare different strategies to reconstruct missing values. Let us first see how replacing missing values by the mean does in terms of MSE. This can be easily achieved using scikit-learn’s SimpleImputer.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
 <span class="n">imp</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">missing_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
 
 <span class="n">imp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xmiss</span><span class="p">)</span>
@@ -811,7 +814,7 @@ l(\theta^{(i+1)}) \geq l(\theta^{(i)}).
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.311258158099264
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.979082908843451
 </pre></div>
 </div>
 </div>
@@ -828,11 +831,11 @@ l(\theta^{(i+1)}) \geq l(\theta^{(i)}).
 
 Iter     dXmis     rdXmis
 
-001     1.8411     1.3774
-002     0.3413     0.1259
-003     0.0896     0.0304
-004     0.0187     0.0063
-005     0.0037     0.0012
+001     1.6892     1.1973
+002     0.1554     0.0846
+003     0.0517     0.0274
+004     0.0182     0.0096
+005     0.0057     0.0030
 </pre></div>
 </div>
 </div>
@@ -846,7 +849,7 @@ Iter     dXmis     rdXmis
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.47160904114198143
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.27686121401318475
 </pre></div>
 </div>
 </div>
@@ -894,6 +897,15 @@ Iter     dXmis     rdXmis
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title"><span class="section-number">28. </span>Lab 10: Convolutional neural networks</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="31-clustering-1.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">30. </span>Clustering 1</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

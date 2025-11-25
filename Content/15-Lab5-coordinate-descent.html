@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -236,7 +236,9 @@
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31-clustering-1.html">30. Clustering 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32-clustering-2.html">31. Clustering 2</a></li>
 </ul>
 
     </div>
@@ -465,16 +467,16 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 <p>Let us implement this algorithm in Python.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1"># Define the norm of the gradient function</span>
 
-<span class="k">def</span> <span class="nf">gradnorm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">beta</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gradnorm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">beta</span><span class="p">):</span>
     <span class="n">g</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">))</span>
     <span class="k">return</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">least_squares</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">beta0</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">least_squares</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">beta0</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
 	<span class="p">[</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
 	
 	<span class="k">if</span> <span class="n">beta0</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># No initial guess was provided. Generate one at random.</span>
@@ -507,8 +509,8 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 <p>Let us now test our code using random data and compare its solution with the solution of the problem obtained by Scikit-learn.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>	
-<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>	
+<span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">():</span>
 	<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
 	<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 	<span class="n">mod</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
@@ -528,73 +530,56 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 	 Grad 	 Err
-1 	 1.628917 	 1.499422
-2 	 1.216861 	 1.347009
-3 	 0.925699 	 1.250090
-4 	 0.714262 	 1.188534
-5 	 0.557095 	 1.149433
-6 	 0.438026 	 1.124562
-7 	 0.346460 	 1.108712
-8 	 0.275232 	 1.098588
-9 	 0.219343 	 1.092108
-10 	 0.175207 	 1.087953
-11 	 0.140186 	 1.085285
-12 	 0.112301 	 1.083568
-13 	 0.090042 	 1.082464
-14 	 0.072241 	 1.081752
-15 	 0.057986 	 1.081293
-16 	 0.046559 	 1.080997
-17 	 0.037392 	 1.080806
-18 	 0.030036 	 1.080683
-19 	 0.024130 	 1.080604
-20 	 0.019387 	 1.080552
-21 	 0.015577 	 1.080519
-22 	 0.012517 	 1.080498
-23 	 0.010058 	 1.080484
-24 	 0.008082 	 1.080475
-25 	 0.006495 	 1.080469
-26 	 0.005219 	 1.080466
-27 	 0.004194 	 1.080463
-28 	 0.003371 	 1.080462
-29 	 0.002709 	 1.080461
-30 	 0.002177 	 1.080460
-31 	 0.001749 	 1.080460
-32 	 0.001406 	 1.080459
-33 	 0.001130 	 1.080459
-34 	 0.000908 	 1.080459
-35 	 0.000730 	 1.080459
-36 	 0.000586 	 1.080459
-37 	 0.000471 	 1.080459
-38 	 0.000379 	 1.080459
-39 	 0.000304 	 1.080459
-40 	 0.000245 	 1.080459
-41 	 0.000197 	 1.080459
-42 	 0.000158 	 1.080459
-43 	 0.000127 	 1.080459
-44 	 0.000102 	 1.080459
-45 	 0.000082 	 1.080459
-46 	 0.000066 	 1.080459
-47 	 0.000053 	 1.080459
-48 	 0.000043 	 1.080459
-49 	 0.000034 	 1.080459
-50 	 0.000027 	 1.080459
-51 	 0.000022 	 1.080459
-52 	 0.000018 	 1.080459
-53 	 0.000014 	 1.080459
-54 	 0.000011 	 1.080459
-55 	 0.000009 	 1.080459
-56 	 0.000007 	 1.080459
-57 	 0.000006 	 1.080459
-58 	 0.000005 	 1.080459
-59 	 0.000004 	 1.080459
-60 	 0.000003 	 1.080459
-61 	 0.000002 	 1.080459
-62 	 0.000002 	 1.080459
-63 	 0.000002 	 1.080459
-64 	 0.000001 	 1.080459
-65 	 0.000001 	 1.080459
-66 	 0.000001 	 1.080459
-[ 4.87799874e-07 -9.31569630e-07  2.96767261e-07]
+1 	 0.567846 	 1.056949
+2 	 0.450082 	 1.034728
+3 	 0.415721 	 1.021091
+4 	 0.387261 	 1.011384
+5 	 0.348996 	 1.004176
+6 	 0.303913 	 0.998900
+7 	 0.257284 	 0.995159
+8 	 0.212981 	 0.992598
+9 	 0.173182 	 0.990897
+10 	 0.138795 	 0.989799
+11 	 0.109914 	 0.989106
+12 	 0.086175 	 0.988677
+13 	 0.066988 	 0.988417
+14 	 0.051690 	 0.988261
+15 	 0.039628 	 0.988168
+16 	 0.030208 	 0.988114
+17 	 0.022909 	 0.988083
+18 	 0.017294 	 0.988066
+19 	 0.013000 	 0.988055
+20 	 0.009734 	 0.988050
+21 	 0.007263 	 0.988047
+22 	 0.005401 	 0.988045
+23 	 0.004004 	 0.988044
+24 	 0.002959 	 0.988043
+25 	 0.002181 	 0.988043
+26 	 0.001603 	 0.988043
+27 	 0.001176 	 0.988043
+28 	 0.000860 	 0.988043
+29 	 0.000627 	 0.988043
+30 	 0.000457 	 0.988043
+31 	 0.000332 	 0.988043
+32 	 0.000240 	 0.988043
+33 	 0.000174 	 0.988043
+34 	 0.000125 	 0.988043
+35 	 0.000090 	 0.988043
+36 	 0.000065 	 0.988043
+37 	 0.000047 	 0.988043
+38 	 0.000033 	 0.988043
+39 	 0.000024 	 0.988043
+40 	 0.000017 	 0.988043
+41 	 0.000012 	 0.988043
+42 	 0.000009 	 0.988043
+43 	 0.000006 	 0.988043
+44 	 0.000004 	 0.988043
+45 	 0.000003 	 0.988043
+46 	 0.000002 	 0.988043
+47 	 0.000001 	 0.988043
+48 	 0.000001 	 0.988043
+49 	 0.000001 	 0.988043
+[ 1.90111429e-07  6.48029998e-08 -2.06703579e-07]
 </pre></div>
 </div>
 </div>

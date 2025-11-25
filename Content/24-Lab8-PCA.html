@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -236,7 +236,9 @@
 <li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31-clustering-1.html">30. Clustering 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="32-clustering-2.html">31. Clustering 2</a></li>
 </ul>
 
     </div>
@@ -410,7 +412,7 @@ document.write(`
 <p>We will first demonstrate how PCA can be used to compute a useful low-dimensional projection of a high-dimensinal dataset. In some cases, this can help understand what a dataset looks like. Let us begin by loading the digits dataset that we used several times before.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_digits</span>
 
 <span class="c1"># Load the digits dataset</span>
 <span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">()</span>
@@ -424,7 +426,7 @@ document.write(`
 <p>Let us compute the first 10 principal components of <span class="math notranslate nohighlight">\(X\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
 <span class="n">pc</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">Xt</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
@@ -434,7 +436,7 @@ document.write(`
 <p>Let us plot the percentage of explained variance by the first <span class="math notranslate nohighlight">\(k\)</span> components as a function of <span class="math notranslate nohighlight">\(k\)</span>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">pc</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Percentage of explained variance by k-th component&quot;</span><span class="p">)</span>
@@ -445,14 +447,14 @@ document.write(`
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Percentage of explained variance by k-th component&#39;)
 </pre></div>
 </div>
-<img alt="../_images/d38c4638e6dd18614463e7b9510af4058dad23964de6d5bd1baff3533f61bed6.png" src="../_images/d38c4638e6dd18614463e7b9510af4058dad23964de6d5bd1baff3533f61bed6.png" />
+<img alt="../_images/25a62a564e975105ef73911b5fbe4e96146578d20b3b14514edde7ee2187cbcc.png" src="../_images/25a62a564e975105ef73911b5fbe4e96146578d20b3b14514edde7ee2187cbcc.png" />
 </div>
 </div>
 <p>Observe that the percentage of explained variance drops rapidely with the number of principal components. This is a very common behavior. Such a sharp drop suggests that only a few principal components suffice to represent the data well.</p>
 <p>To better visualize the percentage of explained variance, let us plot the cummulative sum of the percentages of explained variance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Percentage of explained variance by first k-th components&quot;</span><span class="p">)</span>
@@ -463,7 +465,7 @@ document.write(`
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Percentage of explained variance by first k-th components&#39;)
 </pre></div>
 </div>
-<img alt="../_images/72734fad28be4900fe086db9d691580b84ab1752511eaa6467b7b267b550b659.png" src="../_images/72734fad28be4900fe086db9d691580b84ab1752511eaa6467b7b267b550b659.png" />
+<img alt="../_images/2208b1de6d713190b9ff4917198c07578086458d9cba95f5b0bd67266ae445f3.png" src="../_images/2208b1de6d713190b9ff4917198c07578086458d9cba95f5b0bd67266ae445f3.png" />
 </div>
 </div>
 <p>Observe that the first 9 PCs already explain more than 70% of the variance of the dataset.</p>
@@ -486,7 +488,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9832c1c25e577c7eaa2fade38ebe978a3bed84fcc11ab94d2d71129dc04cab1a.png" src="../_images/9832c1c25e577c7eaa2fade38ebe978a3bed84fcc11ab94d2d71129dc04cab1a.png" />
+<img alt="../_images/5037f44e742877635b6665404154245fa15f982f5ec24247488bf9f720ecc37f.png" src="../_images/5037f44e742877635b6665404154245fa15f982f5ec24247488bf9f720ecc37f.png" />
 </div>
 </div>
 <p>Notice how this 2-dimensional approximation of the data already shows a clear separation between the different digits! For example, the first two principal components do a very good job at separating the zero digits (“0”) from the others.</p>
@@ -500,13 +502,13 @@ document.write(`
 <p>We begin by loading packages and the dataset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
-<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
 
 <span class="c1"># Step 1: Load the Iris dataset</span>
 <span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
@@ -539,7 +541,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/b5f2a7ce474abf82c6bbb0337fb43af096e974e35f57159741b3b067bcb2836e.png" src="../_images/b5f2a7ce474abf82c6bbb0337fb43af096e974e35f57159741b3b067bcb2836e.png" />
+<img alt="../_images/d48320480c8c815249282113b207f0672024908b655ee70bba784dd801d1bbec.png" src="../_images/d48320480c8c815249282113b207f0672024908b655ee70bba784dd801d1bbec.png" />
 </div>
 </div>
 <p>As in the digits example above, it seems like the first two PCs do a very good job at predicting the type of Iris. While not perfect, the first PC also seems to summarize the data very well. Let us examine the percentage of explained variance of the first two PCs:</p>

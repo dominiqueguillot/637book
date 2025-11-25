@@ -1,0 +1,1092 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>31. Clustering 2 &#8212; Math 637 Mathematical Techniques in Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=d2032c04" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=f0c89327" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/bootstrap.css?v=b4a3e8ba" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/theme.css?v=a243ae73" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?v=f4fbef65" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Content/32-clustering-2';</script>
+    <script src="../_static/language_data.js?v=d4673a71"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/searchtools.js?v=d24376de"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton_funcs.js?v=776a791e"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/bootstrap.js?v=7583a70d"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/pydata-sphinx-theme.js?v=4bc35cb3"></script>
+    <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="30. Clustering 1" href="31-clustering-1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="1-intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/637-logo.png" class="logo__image only-light" alt="Math 637 Mathematical Techniques in Data Science - Home"/>
+    <script>document.write(`<img src="../_static/637-logo.png" class="logo__image only-dark" alt="Math 637 Mathematical Techniques in Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="1-intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="5-Linear-regression.html">4. Linear Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6-Lab-Cars.html">5. Lab 1: Linear regression and the cars data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7-Learning-outside-training.html">6. Learning outside the training set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8-Lab2-train-test.html">7. Lab 2: Training vs testing error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9-BLUE.html">8. Best linear unbiased estimator and the bias-variance decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10-Lab3-gradient-descent.html">9. Lab 3: Gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11-Shrinkage-methods.html">10. Improving linear regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12-Model-selection.html">11. Model selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13-Lab4-lasso.html">12. Lab 4: using the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14-Computing-lasso.html">13. Computing the LASSO solution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15-Lab5-coordinate-descent.html">14. Lab 5: Coordinate descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16-LASSO-theoretical.html">15. Theoretical guarantees for the LASSO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17-categorical-data.html">16. Analyzing categorical data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18-Lab6-nearest-neighbors.html">17. Lab 6: nearest neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="19-logistic.html">18. Logistic regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20-SVM.html">19. Support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="21-SVM-kernel.html">20. SVM: the kernel trick</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22-Lab7-SVM.html">21. Lab 7: support vector machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23-PCA.html">22. Principal component analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24-Lab8-PCA.html">23. Lab 8: PCA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25-SVD.html">24. The singular value decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26-NN.html">25. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="27-Lab9-NN.html">26. Lab 9: Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="28-NN-2.html">27. Neural networks II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="29-Lab10-CNN.html">28. Lab 10: Convolutional neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="30-missing-values.html">29. Missing values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="31-clustering-1.html">30. Clustering 1</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">31. Clustering 2</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Content/32-clustering-2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Clustering 2</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-graph-theory">31.1. Basic graph theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#similarity-graphs">31.2. Similarity graphs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-epsilon-neighborhood-graph">31.2.1. The <span class="math notranslate nohighlight">\(\epsilon\)</span>-neighborhood graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-k-nearest-neighbor-graph">31.2.2. The <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbor graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-fully-connected-graph">31.2.3. The fully connected graph:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">31.3. Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#digression-graph-laplacians">31.4. Digression: graph laplacians</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-unnormalized-laplacian">31.4.1. The unnormalized Laplacian</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-normalized-and-random-walk-laplacians">31.4.2. The normalized and random walk Laplacians</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-clustering">31.5. Spectral clustering</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-cuts">31.5.1. Graph cuts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-image-clustering">31.6. Example: image clustering</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="clustering-2">
+<h1><span class="section-number">31. </span>Clustering 2<a class="headerlink" href="#clustering-2" title="Link to this heading">#</a></h1>
+<p>In the previous chapter, we discussed how <span class="math notranslate nohighlight">\(K\)</span>-means can be used to detect clusters in data living in the <span class="math notranslate nohighlight">\(p\)</span>-dimensional Euclidean space <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span>. In practice, data may not be embedded in <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span> and, even if it is, we may not want to use the standard Euclidean distance to measure the distance between samples. Consider, for instance, the problem of automatically identifying objects in an image:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/image_seg.jpg"><img alt="../_images/image_seg.jpg" src="../_images/image_seg.jpg" style="width: 400px;" />
+</a>
+</figure>
+<p>Each pixel in the image has coordinates and a vector corresponding to a color. We can use that information to cluster the pixels and detect objects. The key information that we need is “how far away” pixels are? Here, we may want to measure the distance between pixels as a combination of their spatial distance and of their color.</p>
+<p>We will now examine how one can produce clusters only from given <em>distances</em> or from a measure of <em>similarity</em> between samples. Our general approach will be to build an undirected <em>graph</em> from this information, and to look for clusters in the graph.</p>
+<section id="basic-graph-theory">
+<h2><span class="section-number">31.1. </span>Basic graph theory<a class="headerlink" href="#basic-graph-theory" title="Link to this heading">#</a></h2>
+<p>By a <em>graph</em>, we mean a collection of <em>vertices</em> <span class="math notranslate nohighlight">\(V = \{1,2,\dots,n\}\)</span> and <em>edges</em> <span class="math notranslate nohighlight">\(E \subseteq V \times V\)</span> connecting them. We say that vertices <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are <em>adjacent</em> if there is an edge between them, i.e., if <span class="math notranslate nohighlight">\((i,j) \in E\)</span>. We will assume <span class="math notranslate nohighlight">\((i,j) \in E\)</span> if and only if <span class="math notranslate nohighlight">\((j,i) \in E\)</span> and consider the graph to be undirected (i.e., the edges of the graph are only connecting vertices and have no direction). Each edge between <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> may also have a <em>weight</em> <span class="math notranslate nohighlight">\(w_{ij} \geq 0\)</span>. We will use the convention that <span class="math notranslate nohighlight">\(w_{ij} = 0\)</span> if <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are not adjacent and that <span class="math notranslate nohighlight">\(w_{ij} = w_{ji}\)</span> since we are working with undirected graphs. In that case, the (weighted) <em>adjacency matrix</em> <span class="math notranslate nohighlight">\(W_G = (w_{ij})_{i,j=1}^n\)</span> of the graph <span class="math notranslate nohighlight">\(G = (V,E,w)\)</span> contains all the information about the graph.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/weighted-graph.png"><img alt="../_images/weighted-graph.png" src="../_images/weighted-graph.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 31.1 </span><span class="caption-text">An undirected weighted graph on <span class="math notranslate nohighlight">\(5\)</span> vertices.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The <em>degree</em> <span class="math notranslate nohighlight">\(d_i\)</span> of vertex <span class="math notranslate nohighlight">\(i\)</span> is the sum of the weights of its neighbors:</p>
+<div class="math notranslate nohighlight">
+\[
+d_i := \sum_{j=1}^n w_{ij}.
+\]</div>
+<p>When all the weights of adjacent neighbors are <span class="math notranslate nohighlight">\(1\)</span>, the degree of a vertex coincides with its number of neighbors. The The <em>degree matrix</em> of <span class="math notranslate nohighlight">\(G\)</span> is the diagonal matrix <span class="math notranslate nohighlight">\(D := \textrm{diag}(d_1, \dots, d_n)\)</span> whose diagonal contains the degree sequence of <span class="math notranslate nohighlight">\(G\)</span>.</p>
+<p>Given a subset of vertices <span class="math notranslate nohighlight">\(A \subseteq V\)</span>, we will denote the <em>complement</em> of <span class="math notranslate nohighlight">\(A \subset V\)</span> by <span class="math notranslate nohighlight">\(\overline{A} = V \setminus A\)</span>. Also, for <span class="math notranslate nohighlight">\(A \subseteq V\)</span>, we let <span class="math notranslate nohighlight">\(\mathbf{1}_A = (f_1, \dots, f_n)^T \in \mathbb{R}^n\)</span>, where <span class="math notranslate nohighlight">\(f_i = 1\)</span> if <span class="math notranslate nohighlight">\(v_i \in A\)</span> and <span class="math notranslate nohighlight">\(0\)</span> otherwise.</p>
+</section>
+<section id="similarity-graphs">
+<h2><span class="section-number">31.2. </span>Similarity graphs<a class="headerlink" href="#similarity-graphs" title="Link to this heading">#</a></h2>
+<p>From now on, we will assume we are given samples <span class="math notranslate nohighlight">\(x_1, \dots, x_n \in \mathcal{X}\)</span> belonging to some set <span class="math notranslate nohighlight">\(\mathcal{X}\)</span>, as well as a <em>distance function</em> <span class="math notranslate nohighlight">\(d: \mathcal{X} \times \mathcal{X} \to [0,\infty)\)</span> such that <span class="math notranslate nohighlight">\(d(x_i, x_j)\)</span> represents the distance between <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_j\)</span>. The function <span class="math notranslate nohighlight">\(d\)</span> will typically be a proper distance function in the sense used in the theory of <a href="https://en.wikipedia.org/wiki/Metric_space" target="_blank">metric space</a>, but we need no assumptions on <span class="math notranslate nohighlight">\(d\)</span> for the development of the process given below.</p>
+<p>If instead of a distance between samples, one has a measure of <em>similarity</em> <span class="math notranslate nohighlight">\(s: \mathcal{X} \times \mathcal{X} \to [0,\infty)\)</span> between them, one can obtain a distance function by making similar samples close and dissimilar samples far away. This can be accomplished, for example, by setting <span class="math notranslate nohighlight">\(d(x,y) := e^{-\lambda s(x,y)}\)</span> for some <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>.</p>
+<p>We consider three popular ways of constructing a similarity graph from a distance function.</p>
+<section id="the-epsilon-neighborhood-graph">
+<h3><span class="section-number">31.2.1. </span>The <span class="math notranslate nohighlight">\(\epsilon\)</span>-neighborhood graph<a class="headerlink" href="#the-epsilon-neighborhood-graph" title="Link to this heading">#</a></h3>
+<p>The <span class="math notranslate nohighlight">\(\epsilon\)</span>-neighborhood graph connect all points whose pairwise distances are smaller than some threshold <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>. We usually don’t weight the edges. The graph is thus a simple graph (unweighted, undirected graph containing no loops or multiple edges).</p>
+</section>
+<section id="the-k-nearest-neighbor-graph">
+<h3><span class="section-number">31.2.2. </span>The <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbor graph<a class="headerlink" href="#the-k-nearest-neighbor-graph" title="Link to this heading">#</a></h3>
+<p>The goal of the <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbor graph is to connect vertices <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> if <span class="math notranslate nohighlight">\(j\)</span> is among the <span class="math notranslate nohighlight">\(k\)</span> nearest neighbords of <span class="math notranslate nohighlight">\(i\)</span>. However, this leads to a directed graph. We therefore define:</p>
+<ol class="arabic simple">
+<li><p>the <em><span class="math notranslate nohighlight">\(k\)</span>-nearest neighbor graph</em>, where <span class="math notranslate nohighlight">\(i\)</span> is adjacent to <span class="math notranslate nohighlight">\(j\)</span> if and only if <span class="math notranslate nohighlight">\(j\)</span> is among the <span class="math notranslate nohighlight">\(k\)</span> nearest neighbors of <span class="math notranslate nohighlight">\(i\)</span> <strong>OR</strong> <span class="math notranslate nohighlight">\(i\)</span> is among the <span class="math notranslate nohighlight">\(k\)</span> nearest neighbors of <span class="math notranslate nohighlight">\(j\)</span>.</p></li>
+<li><p>the <em>mutual <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbor graph</em>, <span class="math notranslate nohighlight">\(i\)</span> is adjacent to <span class="math notranslate nohighlight">\(j\)</span> if and only if <span class="math notranslate nohighlight">\(j\)</span> is among the <span class="math notranslate nohighlight">\(k\)</span> nearest neighbors of <span class="math notranslate nohighlight">\(i\)</span> <strong>AND</strong> <span class="math notranslate nohighlight">\(i\)</span> is among the <span class="math notranslate nohighlight">\(k\)</span> nearest neighbors of <span class="math notranslate nohighlight">\(j\)</span>.</p></li>
+</ol>
+</section>
+<section id="the-fully-connected-graph">
+<h3><span class="section-number">31.2.3. </span>The fully connected graph:<a class="headerlink" href="#the-fully-connected-graph" title="Link to this heading">#</a></h3>
+<p>In the fully connected graph, all points are connected with edge weights inversely proportional to their distance (or proportional to their similarity). For example, one can use the <em>Gaussian similarity function</em> to represent a local neighborhood relationships:</p>
+<div class="math notranslate nohighlight">
+\[
+w_{ij} = \exp(-d(x_i,x_j)^2/(2\sigma^2)), 
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma^2 &gt; 0\)</span> controls the width of the neighborhoods. In that case, points that are closer have a larger weight.</p>
+</section>
+</section>
+<section id="example">
+<h2><span class="section-number">31.3. </span>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
+<p>To illustrate the construction of a similarity graph, let us load an image from scikit-learn:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_sample_image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Load the china.jpg file</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">load_sample_image</span><span class="p">(</span><span class="s1">&#39;china.jpg&#39;</span><span class="p">)</span>
+<span class="c1"># Convert to float and flatten pixels</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>  <span class="c1"># each pixel is a point in RGB</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e8881e9a4ac15e6514ee2f7ec25575e12ad804ffa1a76c7f019048963c1f01aa.png" src="../_images/e8881e9a4ac15e6514ee2f7ec25575e12ad804ffa1a76c7f019048963c1f01aa.png" />
+</div>
+</div>
+<p>The shape of the image is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(427, 640, 3)
+</pre></div>
+</div>
+</div>
+</div>
+<p>To keep calculations more managable, let us reduce the size of the image by a factor of <span class="math notranslate nohighlight">\(8\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">skimage.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">resize</span>
+<span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="n">factor</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">small</span> <span class="o">=</span> <span class="n">resize</span><span class="p">(</span>
+    <span class="n">image</span><span class="p">,</span>
+    <span class="p">(</span><span class="n">h</span> <span class="o">//</span> <span class="n">factor</span><span class="p">,</span> <span class="n">w</span> <span class="o">//</span> <span class="n">factor</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="n">anti_aliasing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">small</span> <span class="o">=</span> <span class="n">small</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>   <span class="c1"># normalize to [0,1]</span>
+<span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">small</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span><span class="n">W</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New image size: </span><span class="si">%d</span><span class="s2"> x </span><span class="si">%d</span><span class="se">\n</span><span class="s2"> N = total number of pixels = </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">W</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">small</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>New image size: 53 x 80
+ N = total number of pixels = 4240
+</pre></div>
+</div>
+<img alt="../_images/3023244cf099a1573ddb73800615940a17c66476970983a0ef6ec722abbdfe03.png" src="../_images/3023244cf099a1573ddb73800615940a17c66476970983a0ef6ec722abbdfe03.png" />
+</div>
+</div>
+<p>Notice that each pixel has three color values corresponding to the itensity of Red, Green, and Blue (see the <a href="https://en.wikipedia.org/wiki/RGB_color_model" target="_blank">RGB model</a>). Let us define a distance to measure how similar pixels are. We would like that distance to take into account both pixel locations and pixel colors. A popular choice is: for pixels <span class="math notranslate nohighlight">\(P_1 = (x_1,y_1,r_1,g_1,b_1)\)</span> and <span class="math notranslate nohighlight">\(P_2 = (x_2,y_2,r_2,g_2,b_2)\)</span>, define</p>
+<div class="math notranslate nohighlight">
+\[
+d(P_1, P_2) = \sqrt{\alpha^2 \|(x_1,y_1)-(x_2,y_2)\|_2^2 + \beta^2 \|(r_1,g_1,b_1)-(r_2,g_2,b_2)\|_2^2}, 
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha^2, \beta^2 &gt; 0\)</span> are parameters that put more weight on either the coordinates or the pixel colors for determining the distance.</p>
+<p>We will now create a matrix whose rows contains the image pixels and whose columns contain the coordinates and pixel colors. This will therefore be a <span class="math notranslate nohighlight">\(N \times 5\)</span> matrix where <span class="math notranslate nohighlight">\(N\)</span> is the total number of pixels of the image. We will use <span class="math notranslate nohighlight">\(\alpha^2 = 1.0\)</span> and <span class="math notranslate nohighlight">\(\beta^2 = 0.05\)</span> and multiply the columns by these values. Later on, when building the graph, we will simply compute the Euclidean distance between these weighted coordinates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alphasq</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">betasq</span> <span class="o">=</span> <span class="mf">0.05</span>
+
+<span class="n">ys</span><span class="p">,</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">H</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">W</span><span class="p">),</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span> <span class="c1"># List of pixel coordinates</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span>
+    <span class="n">alphasq</span> <span class="o">*</span> <span class="n">small</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>   <span class="c1"># R, G, B</span>
+    <span class="n">betasq</span>  <span class="o">*</span> <span class="n">xs</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>             <span class="c1"># x-coordinate</span>
+    <span class="n">betasq</span>  <span class="o">*</span> <span class="n">ys</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>              <span class="c1"># y-coordinate</span>
+<span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># Confirm that the shape is N x 5. </span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4240, 5)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pixels that are close in this metric are more similar. To illustrate this, let us pick a pixel in the “water” and display the pixels at distance at most <span class="math notranslate nohighlight">\(\epsilon\)</span> from it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pixel roughly in water location</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">35</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">W</span> <span class="o">+</span> <span class="n">x</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="c1"># To save the distance between our pixel and all the other pixels</span>
+<span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">distances</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">p</span><span class="p">,:]</span><span class="o">-</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,:])</span>
+
+<span class="n">neighbors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">distances</span> <span class="o">&lt;=</span> <span class="n">epsilon</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">mask</span><span class="p">[</span><span class="n">neighbors</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">dimmed</span> <span class="o">=</span> <span class="n">small</span> <span class="o">*</span> <span class="mf">0.2</span>
+<span class="n">masked_img</span> <span class="o">=</span> <span class="n">dimmed</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">masked_img</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">small</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">masked_img</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Pixels within ε of pixel (30,50)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/5e0b68cb5a0e7578a1729b576ad8bb92c7a132153c109351e5b57a595e7cff43.png" src="../_images/5e0b68cb5a0e7578a1729b576ad8bb92c7a132153c109351e5b57a595e7cff43.png" />
+</div>
+</div>
+<p>You can experiment how the set of of neighbors changes as the reference pixel at coordinates <span class="math notranslate nohighlight">\((50,35)\)</span> changes and as the values of <span class="math notranslate nohighlight">\(\alpha^2\)</span> and <span class="math notranslate nohighlight">\(\beta^2\)</span> are changed.</p>
+<p>Scikit-learn contains sevaral objects to construct similarity graphs. For instance, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.kneighbors_graph.html" target="_blank">kneighbors_graph</a> constructs a <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbors graph. The “distance” mode builds the graph by using the Euclidean distance between the given samples.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">kneighbors_graph</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">W_dist</span> <span class="o">=</span> <span class="n">kneighbors_graph</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;distance&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="digression-graph-laplacians">
+<h2><span class="section-number">31.4. </span>Digression: graph laplacians<a class="headerlink" href="#digression-graph-laplacians" title="Link to this heading">#</a></h2>
+<p>Before we explore how to produce a clustering from a graph, we make a digression to discuss various graph Laplacians that are associated to graphs. These are matrices that will play a crucial role in obtaining clusters. We will look at three common ones. Let <span class="math notranslate nohighlight">\(W\)</span> be the (weighted) adjacency matrix of a graph and let <span class="math notranslate nohighlight">\(D\)</span> be its degree matrix. We define:</p>
+<ol class="arabic simple">
+<li><p>The <em>unnormalized graph Laplacian</em> by:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+L = W - D. 
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>The <em>normalized symmetric graph Laplacian</em> by:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+L_{\textrm{sym}} := D^{-1/2} L D^{-1/2} = I - D^{-1/2} W D^{-1/2}.
+\]</div>
+<ol class="arabic simple" start="3">
+<li><p>The <em>random walk graph Laplacian</em> by:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+L_{\textrm{rw}} := D^{-1} L = I - D^{-1} W.
+\]</div>
+<p>We study the properties of each Laplacian in the subsections below.</p>
+<section id="the-unnormalized-laplacian">
+<h3><span class="section-number">31.4.1. </span>The unnormalized Laplacian<a class="headerlink" href="#the-unnormalized-laplacian" title="Link to this heading">#</a></h3>
+<div class="admonition-proposition admonition">
+<p class="admonition-title">Proposition</p>
+<p>The matrix <span class="math notranslate nohighlight">\(L\)</span> satisfies the following properties:</p>
+<ol class="arabic simple">
+<li><p>For any <span class="math notranslate nohighlight">\(f \in \mathbb{R}^n\)</span>,</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+f^T L f = \frac{1}{2} \sum_{i,j=1}^n w_{ij} (f_i - f_j)^2.
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p><span class="math notranslate nohighlight">\(L\)</span> is symmetric and positive semidefinite.</p></li>
+<li><p><span class="math notranslate nohighlight">\(0\)</span> is an eigenvalue of <span class="math notranslate nohighlight">\(L\)</span> with associated constant eigenvector <span class="math notranslate nohighlight">\(\mathbf{1}\)</span>.</p></li>
+</ol>
+</div>
+<p><strong>Proof:</strong> To prove (1),</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f^T L f = f^T D f - f^T W f &amp;= \sum_{i=1}^n d_i f_i^2 - \sum_{i,j=1}^n w_{ij} f_i f_j \\
+&amp;= \frac{1}{2} \left(\sum_{i=1}^n d_i f_i^2 -2 \sum_{i,j=1}^n w_{ij} f_i f_j + \sum_{j=1}^n d_j f_j^2 \right) \\
+&amp;= \frac{1}{2} \sum_{i,j=1}^n w_{ij} (f_i - f_j)^2.
+\end{align*}\]</div>
+<p>(2) follows immediately from (1) since <span class="math notranslate nohighlight">\(f^TLf \geq 0\)</span> for all <span class="math notranslate nohighlight">\(f \in \mathbb{R}^n\)</span>. (3) is immediately verified by computing <span class="math notranslate nohighlight">\(L\mathbf{1}\)</span>. <span class="math notranslate nohighlight">\(\square\)</span></p>
+<p>A graph <em>connected component</em> is a maximal subgraph where every pair of vertices is connected by a path. For example, the following graph has two connected components:</p>
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../_images/graph_conn_component.png"><img alt="../_images/graph_conn_component.png" src="../_images/graph_conn_component.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 31.2 </span><span class="caption-text">A graph with two connected components.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>It is natural to ask for different connected components to not be part of the same cluster. The next result shows that the eigenvalues of <span class="math notranslate nohighlight">\(L\)</span> capture this information.</p>
+<div class="admonition-proposition admonition">
+<p class="admonition-title">Proposition</p>
+<p>Let <span class="math notranslate nohighlight">\(G\)</span> be an undirected graph with non-negative weights. Then:</p>
+<ol class="arabic simple">
+<li><p>The multiplicity <span class="math notranslate nohighlight">\(k\)</span> of the eigenvalue <span class="math notranslate nohighlight">\(0\)</span> of <span class="math notranslate nohighlight">\(L\)</span> equals the number of connected components <span class="math notranslate nohighlight">\(A_1 ,\dots , A_k\)</span> in the graph.</p></li>
+<li><p>The eigenspace of eigenvalue <span class="math notranslate nohighlight">\(0\)</span> is spanned by the indicator vectors <span class="math notranslate nohighlight">\(\mathbf{1}_{A_1}, \dots, \mathbf{1}_{A_k}\)</span> of those components.</p></li>
+</ol>
+</div>
+<p><strong>Proof:</strong> If <span class="math notranslate nohighlight">\(f\)</span> is an eigenvector associated to <span class="math notranslate nohighlight">\(\lambda = 0\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[
+0 = f^T L f = \sum_{i,j=1}^n w_{ij} (f_i-f_j)^2.
+\]</div>
+<p>It follows that <span class="math notranslate nohighlight">\(f_i = f_j\)</span> whenever <span class="math notranslate nohighlight">\(w_{ij} &gt; 0\)</span>. Thus <span class="math notranslate nohighlight">\(f\)</span> is constant on the connected components of <span class="math notranslate nohighlight">\(G\)</span>. We conclude that the eigenspace of <span class="math notranslate nohighlight">\(0\)</span> is contained in <span class="math notranslate nohighlight">\(\textrm{span}(\mathbf{1}_{A_1}, \dots, \mathbf{1}_{A_k})\)</span>. Conversely, it is not hard to see that each <span class="math notranslate nohighlight">\(\mathbf{1}_{A_i}\)</span> is an eigenvector associated to <span class="math notranslate nohighlight">\(0\)</span> (write <span class="math notranslate nohighlight">\(L\)</span> in block diagonal form).<span class="math notranslate nohighlight">\(\square\)</span></p>
+<p>The next subsection examine the analogous results for the normalized and the random walk Laplacians.</p>
+</section>
+<section id="the-normalized-and-random-walk-laplacians">
+<h3><span class="section-number">31.4.2. </span>The normalized and random walk Laplacians<a class="headerlink" href="#the-normalized-and-random-walk-laplacians" title="Link to this heading">#</a></h3>
+<div class="admonition-proposition admonition">
+<p class="admonition-title">Proposition</p>
+<p>The normalized Laplacians satisfy the following properties:</p>
+<ol class="arabic simple">
+<li><p>For every <span class="math notranslate nohighlight">\(f \in \mathbb{R}^n\)</span>, we have</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+f^T L_{\textrm{sym}} f = \frac{1}{2} \sum_{i,j=1}^n w_{ij} \left(\frac{f_i}{\sqrt{d_i}} - \frac{f_j}{\sqrt{d_j}}\right)^2.
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p><span class="math notranslate nohighlight">\(\lambda\)</span> is an eigenvalue of <span class="math notranslate nohighlight">\(L_{\textrm{rw}}\)</span> with eigenvector <span class="math notranslate nohighlight">\(u\)</span> if and only if <span class="math notranslate nohighlight">\(\lambda\)</span> is an eigenvalue of <span class="math notranslate nohighlight">\(L_{\textrm{sym}}\)</span> with eigenvector <span class="math notranslate nohighlight">\(w = D^{1/2} u\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lambda\)</span> is an eigenvalue of <span class="math notranslate nohighlight">\(L_{\textrm{rw}}\)</span> with eigenvector <span class="math notranslate nohighlight">\(u\)</span> if and only if <span class="math notranslate nohighlight">\(\lambda\)</span> and <span class="math notranslate nohighlight">\(u\)</span> solve the generalized eigenproblem <span class="math notranslate nohighlight">\(Lu = \lambda Du\)</span>.</p></li>
+</ol>
+</div>
+<p><strong>Proof:</strong> The proof of (1) is similar to the proof of the analogous result for the unnormalized Laplacian. (2) and (3) follow easily by using appropriate rescalings.</p>
+<div class="admonition-proposition admonition">
+<p class="admonition-title">Proposition</p>
+<p>Let <span class="math notranslate nohighlight">\(G\)</span> be an undirected graph with non-negative weights. Then:</p>
+<ol class="arabic simple">
+<li><p>The multiplicity <span class="math notranslate nohighlight">\(k\)</span> of the eigenvalue <span class="math notranslate nohighlight">\(0\)</span> of both <span class="math notranslate nohighlight">\(L_{\textrm{sym}}\)</span> and <span class="math notranslate nohighlight">\(L_{\textrm{rw}}\)</span> equals the number of connected components <span class="math notranslate nohighlight">\(A_1 ,\dots , A_k\)</span> in the graph.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(L_{\textrm{rw}}\)</span>, the eigenspace of eigenvalue <span class="math notranslate nohighlight">\(0\)</span> is spanned by the indicator vectors <span class="math notranslate nohighlight">\(\mathbf{1}_{A_i}\)</span>, <span class="math notranslate nohighlight">\(i=1,\dots, k\)</span>.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(L_{\textrm{sym}}\)</span>, the eigenspace of eigenvalue <span class="math notranslate nohighlight">\(0\)</span> is spanned by the vectors <span class="math notranslate nohighlight">\(D^{1/2} \mathbf{1}_{A_i}\)</span>, <span class="math notranslate nohighlight">\(i=1,\dots,k\)</span>.</p></li>
+</ol>
+</div>
+<p><strong>Proof:</strong> Similar to the proof of the analogous result for the unnormalized Laplacian.</p>
+</section>
+</section>
+<section id="spectral-clustering">
+<h2><span class="section-number">31.5. </span>Spectral clustering<a class="headerlink" href="#spectral-clustering" title="Link to this heading">#</a></h2>
+<p>We now return to the problem of producing a clustering from a similarity graph. We will explore an important approach called <em>spectral clustering</em>. As we will see, spectral clustering produces an embedding of the vertices of a graph in <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span> for a chosen value of <span class="math notranslate nohighlight">\(1 \leq p \leq n\)</span>. Once the embedding has been obtained, we can cluster the vertices using any Euclidean clustering algorithm (e.g. <span class="math notranslate nohighlight">\(K\)</span>-means).</p>
+<section id="graph-cuts">
+<h3><span class="section-number">31.5.1. </span>Graph cuts<a class="headerlink" href="#graph-cuts" title="Link to this heading">#</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(G = (V,E,w)\)</span> be a weighted graph. Given subsets of vertices <span class="math notranslate nohighlight">\(A, B \subseteq V\)</span>, we define the <em>cut weight</em> <span class="math notranslate nohighlight">\(W(A,B)\)</span> by:</p>
+<div class="math notranslate nohighlight">
+\[
+W(A,B) := \sum_{i \in A, j \in B} w_{ij}.
+\]</div>
+<p>In particular, when all edges have weight <span class="math notranslate nohighlight">\(1\)</span>, the cut weight is the number of edges going from <span class="math notranslate nohighlight">\(A\)</span> to <span class="math notranslate nohighlight">\(B\)</span>. This is the number of edges that need to be “cut” in order to separate <span class="math notranslate nohighlight">\(A\)</span> from <span class="math notranslate nohighlight">\(B\)</span>. We also denote by <span class="math notranslate nohighlight">\(|A|\)</span> the number of vertices in <span class="math notranslate nohighlight">\(A\)</span> and we let <span class="math notranslate nohighlight">\(\textrm{vol}(A) := \sum_{i \in A} d_i\)</span>.</p>
+<p>Given a partition <span class="math notranslate nohighlight">\(A_1, \dots, A_k\)</span> of the vertices of <span class="math notranslate nohighlight">\(G\)</span>, we let</p>
+<div class="math notranslate nohighlight">
+\[
+\textrm{cut}(A_1, \dots, A_k) := \frac{1}{2} \sum_{i=1}^k W(A_i, \overline{A}_i).
+\]</div>
+<p>Observe that a partition of the vertices having a small cut produces reasonable clusters in the sense that not too many edges go from one cluster to the other. The vertices in the different clusters are thus mostly “different”.</p>
+<p>The min-cut problem consists of minimizing the cut over all partitions of the vertex set:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\min_{\substack{V = A_1 \cup \dots \cup A_k \\ A_i \cap A_j = \emptyset\ \forall i\ne j}} \textrm{cut}(A_1, \dots, A_k).
+\end{split}\]</div>
+<p>The min-cut problem can be solved efficiently when <span class="math notranslate nohighlight">\(k=2\)</span> (see Stoer and Wagner 1997). However, in practice, it often does not lead to satisfactory clusters. In many cases, the solution of min-cut simply separates one individual vertex from the rest of the graph.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/mincut-graph.png"><img alt="../_images/mincut-graph.png" src="../_images/mincut-graph.png" style="width: 300px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 31.3 </span><span class="caption-text">Solving min-cut with <span class="math notranslate nohighlight">\(k=2\)</span> often results in disconnecting one vertex of small degree.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Ideally, we would like clusters to have a reasonably large number of points. We therefore modify the min-cut problem. Two popular approaches are:</p>
+<ol class="arabic simple">
+<li><p><strong>RatioCut</strong> (Hagen and Kahng, 1992):</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\textrm{RatioCut}(A_1, \dots, A_k) := \frac{1}{2} \sum_{i=1}^k \frac{W(A_i, \overline{A}_i)}{|A_i|} = \sum_{i=1}^k \frac{\textrm{cut}(A_i, \overline{A}_i)}{|A_i|}.
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Normalized cut</strong> (Shi and Malik, 2000):</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\textrm{Ncut}(A_1, \dots, A_k) := \frac{1}{2} \sum_{i=1}^k \frac{W(A_i, \overline{A}_i)}{\textrm{vol}(A_i)} = \sum_{i=1}^k \frac{\textrm{cut}(A_i, \overline{A}_i)}{\textrm{vol}(A_i)}.
+\]</div>
+<p>Both objective functions take larger values when the clusters <span class="math notranslate nohighlight">\(A_i\)</span> are “small”. This results on clusters that are more “balanced”. However, unfortunately, the resulting problems are <a href="https://en.wikipedia.org/wiki/NP-hardness" target="_blank">NP hard</a>. See Wagner and Wagner (1993) for more details.</p>
+<p>Spectral clustering provides a way to <em>relax</em> the RatioCut and the Normalized cut problems. The general strategy is to:</p>
+<ol class="arabic simple">
+<li><p>Express the original problem as a linear algebra problem involving discrete/combinatorial constraints.</p></li>
+<li><p>Relax/remove the constraints.</p></li>
+</ol>
+<p>We first consider the RatioCut problem with <span class="math notranslate nohighlight">\(k=2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{A \subset V} \textrm{RatioCut}(A, \overline{A}).
+\]</div>
+<p>Given <span class="math notranslate nohighlight">\(A \subset V\)</span>, let <span class="math notranslate nohighlight">\(f \in \mathbb{R}^n\)</span> be given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f_i := \begin{cases}
+\sqrt{|\overline{A}|/|A|} &amp; \textrm{ if } v_i \in A \\
+-\sqrt{|A|/|\overline{A}|} &amp; \textrm{ if } v_i \not\in A. 
+\end{cases}
+\end{split}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(L = D - W\)</span> be the unnormalized Laplacian of <span class="math notranslate nohighlight">\(G\)</span>. Then</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;f^T L f = \frac{1}{2} \sum_{i,j=1}^n w_{ij} (f_i-f_j)^2 \\
+&amp;= \frac{1}{2}\sum_{i \in A, j \in \overline{A}} w_{ij} \left(\sqrt{\frac{|\overline{A}|}{|A|}} + \sqrt{\frac{|A|}{|\overline{A}|}}\right)^2 + \frac{1}{2}\sum_{i \in \overline{A}, j \in A} w_{ij} \left(-\sqrt{\frac{|\overline{A}|}{|A|}} - \sqrt{\frac{|A|}{|\overline{A}|}}\right)^2 \\
+&amp;= W(A, \overline{A}) \left(2+\frac{|\overline{A}|}{|A|} + \frac{|A|}{|\overline{A}|}\right) \\
+&amp;= W(A, \overline{A}) \left(\frac{|A| + |\overline{A}|}{|A|} + \frac{|A| + |\overline{A}|}{|\overline{A}|}\right) \\
+&amp;= |V| \cdot \frac{1}{2} \left(\frac{W(A, \overline{A})}{|A|} + \frac{W(\overline{A}, A)}{|\overline{A}|}\right) \\
+&amp;= |V| \cdot \textrm{RatioCut}(A, \overline{A}). 
+\end{align*}\]</div>
+<p>since <span class="math notranslate nohighlight">\(|A| + |\overline{A}| = |V|\)</span>, and <span class="math notranslate nohighlight">\(W(A, \overline{A}) = W(\overline{A}, A)\)</span>. We have therefore proved that:</p>
+<div class="math notranslate nohighlight">
+\[
+f^T L f = \frac{1}{2} \sum_{i,j=1}^n w_{ij} (f_i-f_j)^2 = |V| \cdot \textrm{RatioCut}(A, \overline{A}).
+\]</div>
+<p>Moreover, note that</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{i=1}^n f_i = \sum_{i \in A} \sqrt{\frac{|\overline{A}|}{|A|}} - \sum_{i \in \overline{A}} \sqrt{\frac{|A|}{|\overline{A}|}} = |A| \cdot \sqrt{\frac{|\overline{A}|}{|A|}} - |\overline{A}| \cdot \sqrt{\frac{|A|}{|\overline{A}|}} = 0.
+\]</div>
+<p>Thus <span class="math notranslate nohighlight">\(f \perp \mathbf{1}\)</span>, i.e., <span class="math notranslate nohighlight">\(f\)</span> is perpendicular to the all-ones vector. Moreover,</p>
+<div class="math notranslate nohighlight">
+\[
+\|f\|_2^2 = \sum_{i=1}^n f_i^2 = |A| \cdot \frac{|\overline{A}|}{|A|} + |\overline{A}| \cdot \frac{|A|}{|\overline{A}|} = |V| = n.
+\]</div>
+<p>Thus, we have showed that the Ratio-Cut problem is equivalent to</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\min_{A \subset V} f^T L f \\
+&amp;\textrm{subject to } f \perp \mathbf{1}, \|f\| = \sqrt{n}, f_i \textrm{ defined as above}.  
+\end{align*}\]</div>
+<p>This is a discrete optimization problem since the entries of <span class="math notranslate nohighlight">\(f\)</span> can only take two values: <span class="math notranslate nohighlight">\(\sqrt{|\overline{A}|/|A|}\)</span> and <span class="math notranslate nohighlight">\(-\sqrt{|A|/|\overline{A}|}\)</span>. As mentioned above, the problem is known to be NP hard.</p>
+<p>A natural relaxation of the problem is to <strong>remove the discreteness condition</strong> on <span class="math notranslate nohighlight">\(f\)</span> and solve</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\min_{f \in \mathbb{R}^n} f^T L f \\
+&amp;\textrm{subject to } f \perp \mathbf{1}, \|f\| = \sqrt{n}.  
+\end{align*}\]</div>
+<p>Using properties of the <a class="reference internal" href="23-PCA.html#s-rayleigh"><span class="std std-ref">Rayleigh quotients</span></a>, it is not hard to show that the solution <span class="math notranslate nohighlight">\(\tilde{f}\)</span> of the above relaxed problem is an <strong>eigenvector of <span class="math notranslate nohighlight">\(L\)</span> corresponding to the second eigenvalue of <span class="math notranslate nohighlight">\(L\)</span></strong>.</p>
+<p>To obtain clusters from <span class="math notranslate nohighlight">\(\tilde{f}\)</span>, we can set</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+i \in A &amp; \textrm{ if } f_i \geq 0 \\
+i \in \overline{A} &amp; \textrm{ if } f_i &lt; 0.
+\end{cases}
+\end{split}\]</div>
+<p>More generally, we can cluster the coordinates of <span class="math notranslate nohighlight">\(f\)</span> using <span class="math notranslate nohighlight">\(K\)</span>-means.</p>
+<p>This is the <strong>unnormalized spectral clustering algorithm</strong> for <span class="math notranslate nohighlight">\(k=2\)</span>.</p>
+<p>The above process can be generalized to obtain <span class="math notranslate nohighlight">\(k\)</span> clusters. Given a partition <span class="math notranslate nohighlight">\(A_1, \dots, A_k\)</span> of <span class="math notranslate nohighlight">\(V\)</span>, we define <span class="math notranslate nohighlight">\(k\)</span> indicator vectors</p>
+<div class="math notranslate nohighlight">
+\[
+h_j = (h_{1,j}, \dots, h_{n,j}) \in \mathbb{R}^n \qquad (j=1,\dots,k)
+\]</div>
+<p>as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+h_{i,j} := \begin{cases}
+\frac{1}{\sqrt{|A_j|}} &amp; \textrm{ if } v_i \in A_j \\
+0 &amp; \textrm{otherwise}.
+\end{cases}
+\end{split}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(H := (h_{ij}) \in \mathbb{R}^{n \times k}\)</span>. Note that the columns <span class="math notranslate nohighlight">\(h_i\)</span> of <span class="math notranslate nohighlight">\(H\)</span> are orthonormal, i.e., <span class="math notranslate nohighlight">\(H^T H = I_{k \times k}\)</span>. A similar calculation as the one above shows that:</p>
+<div class="math notranslate nohighlight">
+\[
+h_i^T L h_i = \frac{\textrm{cut}(A_i, \overline{A}_i)}{|A_i|}.
+\]</div>
+<p>Now,</p>
+<div class="math notranslate nohighlight">
+\[
+h_i^T L h_i = (H^T L H)_{ii}.
+\]</div>
+<p>Thus,</p>
+<div class="math notranslate nohighlight">
+\[
+\textrm{RatioCut}(A_1, \dots, A_k) = \sum_{i=1}^k \frac{\textrm{cut}(A_i, \overline{A}_i)}{|A_i|} = \sum_{i=1}^k h_i^T L h_i = \textrm{Trace}(H^T L H).
+\]</div>
+<p>So the problem</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\min_{\substack{V = A_1 \cup \dots \cup A_k \\ A_i \cap A_j = \emptyset\ \forall i\ne j}} \textrm{RatioCut}(A_1, \dots, A_k)
+\end{split}\]</div>
+<p>is equivalent to</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\min_{H \in \mathbb{R}^{n \times k}} \textrm{Trace}(H^T L H) \\
+&amp;\textrm{subject to } H^T H = I_{k \times k}, H \textrm{ defined as above}.
+\end{align*}\]</div>
+<p>As before, we consider a natural relaxation of the problem:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\min_{H \in \mathbb{R}^{n \times k}} \textrm{Trace}(H^T L H) \\
+&amp;\textrm{subject to } H^T H = I_{k \times k}.
+\end{align*}\]</div>
+<p>Using the Rayleigh-Ritz theorem, we obtain that the solution of the problem</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\min_{H \in \mathbb{R}^{n \times k}} \textrm{Trace}(H^T L H) \\
+&amp;\textrm{subject to } H^T H = I_{k \times k}.
+\end{align*}\]</div>
+<p>is given by the matrix containing the first <span class="math notranslate nohighlight">\(k\)</span> (normalized) eigenvectors of <span class="math notranslate nohighlight">\(L\)</span>. Similar to what we did when <span class="math notranslate nohighlight">\(k=2\)</span>, we cluster the <strong>rows</strong> of the matrix <span class="math notranslate nohighlight">\(H\)</span> (containing the first <span class="math notranslate nohighlight">\(k\)</span> eigenvectors of <span class="math notranslate nohighlight">\(L\)</span> as columns) using the <span class="math notranslate nohighlight">\(K\)</span>-means algorithm. This is the general <strong>unnormalized spectral clustering algorithm with <span class="math notranslate nohighlight">\(k\)</span> clusters</strong>.</p>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../_images/unnorm-clustering-algo.png"><img alt="../_images/unnorm-clustering-algo.png" src="../_images/unnorm-clustering-algo.png" style="width: 800px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 31.4 </span><span class="caption-text">Summary of unnormalized spectral clustering. Source: von Luxburg, <a href="https://arxiv.org/abs/0711.0189" target="_blank">A tutorial on Spectral Clustering</a>.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>As we saw above, relaxing the RatioCut problem leads to unnormalized spectral clustering. By relaxing the Ncut problem, we obtain the <strong>Normalized spectral clustering</strong> algorithm of Shi and Malik (2000).</p>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../_images/ncut-clustering-algo.png"><img alt="../_images/ncut-clustering-algo.png" src="../_images/ncut-clustering-algo.png" style="width: 800px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 31.5 </span><span class="caption-text">Summary of normalized spectral clustering. Source: von Luxburg, <a href="https://arxiv.org/abs/0711.0189" target="_blank">A tutorial on Spectral Clustering</a>.</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Note: The solutions of <span class="math notranslate nohighlight">\(Lu = \lambda D u\)</span> are the eigenvectors of <span class="math notranslate nohighlight">\(L_{\textrm{rw}}\)</span>.</p>
+<p>Another popular variant of the spectral clustering algorithm was provided by Ng, Jordan, and Weiss (2002). The algorithm uses <span class="math notranslate nohighlight">\(L_{\textrm{sym}}\)</span> instead of <span class="math notranslate nohighlight">\(L\)</span> (unnormalized clustering) or <span class="math notranslate nohighlight">\(L_{\textrm{rw}}\)</span> (Shi and Malik’s normalized clustering).</p>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../_images/ng-clustering-algo.png"><img alt="../_images/ng-clustering-algo.png" src="../_images/ng-clustering-algo.png" style="width: 800px;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 31.6 </span><span class="caption-text">Summary of Ng et al.’s approach to spectral clustering. Source: von Luxburg, <a href="https://arxiv.org/abs/0711.0189" target="_blank">A tutorial on Spectral Clustering</a>.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="example-image-clustering">
+<h2><span class="section-number">31.6. </span>Example: image clustering<a class="headerlink" href="#example-image-clustering" title="Link to this heading">#</a></h2>
+<p>Let us go back to our downsampled image and look for <span class="math notranslate nohighlight">\(6\)</span> clusters using the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html" target="_blank">SpectralClustering</a> object from scikit-learn.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralClustering</span>
+
+<span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">6</span>
+
+<span class="n">sc</span> <span class="o">=</span> <span class="n">SpectralClustering</span><span class="p">(</span>
+    <span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">,</span>
+    <span class="n">affinity</span><span class="o">=</span><span class="s2">&quot;nearest_neighbors&quot;</span><span class="p">,</span>
+    <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">assign_labels</span><span class="o">=</span><span class="s2">&quot;kmeans&quot;</span>
+<span class="p">)</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">labels_img</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+
+<span class="c1"># ----------------------------------------------------------</span>
+<span class="c1"># 4. Visualization</span>
+<span class="c1"># ----------------------------------------------------------</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">small</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Downsampled Image&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">labels_img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;tab10&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spectral Clustering (</span><span class="si">{</span><span class="n">n_clusters</span><span class="si">}</span><span class="s2"> clusters)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/23c31ded110bed3b99de64c3cebd313373dcfa8425e9af561eea5ee196dff5cf.png" src="../_images/23c31ded110bed3b99de64c3cebd313373dcfa8425e9af561eea5ee196dff5cf.png" />
+</div>
+</div>
+<p>While not perfect, our clustering does a relatively good job at separating different relevant parts of the image. As above, you may want to play with the values of <span class="math notranslate nohighlight">\(\alpha^2\)</span> and <span class="math notranslate nohighlight">\(\beta^2\)</span> to see how they impact the clusters.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="31-clustering-1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">30. </span>Clustering 1</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-graph-theory">31.1. Basic graph theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#similarity-graphs">31.2. Similarity graphs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-epsilon-neighborhood-graph">31.2.1. The <span class="math notranslate nohighlight">\(\epsilon\)</span>-neighborhood graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-k-nearest-neighbor-graph">31.2.2. The <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbor graph</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-fully-connected-graph">31.2.3. The fully connected graph:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">31.3. Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#digression-graph-laplacians">31.4. Digression: graph laplacians</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-unnormalized-laplacian">31.4.1. The unnormalized Laplacian</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-normalized-and-random-walk-laplacians">31.4.2. The normalized and random walk Laplacians</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-clustering">31.5. Spectral clustering</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-cuts">31.5.1. Graph cuts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-image-clustering">31.6. Example: image clustering</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dominique Guillot
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
