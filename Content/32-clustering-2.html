@@ -546,18 +546,18 @@ w_{ij} = \exp(-d(x_i,x_j)^2/(2\sigma^2)),
 d(P_1, P_2) = \sqrt{\alpha^2 \|(x_1,y_1)-(x_2,y_2)\|_2^2 + \beta^2 \|(r_1,g_1,b_1)-(r_2,g_2,b_2)\|_2^2}, 
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\alpha^2, \beta^2 &gt; 0\)</span> are parameters that put more weight on either the coordinates or the pixel colors for determining the distance.</p>
-<p>We will now create a matrix whose rows contains the image pixels and whose columns contain the coordinates and pixel colors. This will therefore be a <span class="math notranslate nohighlight">\(N \times 5\)</span> matrix where <span class="math notranslate nohighlight">\(N\)</span> is the total number of pixels of the image. We will use <span class="math notranslate nohighlight">\(\alpha^2 = 1.0\)</span> and <span class="math notranslate nohighlight">\(\beta^2 = 0.05\)</span> and multiply the columns by these values. Later on, when building the graph, we will simply compute the Euclidean distance between these weighted coordinates.</p>
+<p>We will now create a matrix whose rows contains the image pixels and whose columns contain the coordinates and pixel colors. This will therefore be a <span class="math notranslate nohighlight">\(N \times 5\)</span> matrix where <span class="math notranslate nohighlight">\(N\)</span> is the total number of pixels of the image. We will use <span class="math notranslate nohighlight">\(\alpha = 1.0\)</span> and <span class="math notranslate nohighlight">\(\beta = 0.05\)</span> and multiply the columns by these values. Later on, when building the graph, we will simply compute the Euclidean distance between these weighted coordinates.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alphasq</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="n">betasq</span> <span class="o">=</span> <span class="mf">0.05</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.05</span>
 
 <span class="n">ys</span><span class="p">,</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">H</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">W</span><span class="p">),</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span> <span class="c1"># List of pixel coordinates</span>
 
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span>
-    <span class="n">alphasq</span> <span class="o">*</span> <span class="n">small</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>   <span class="c1"># R, G, B</span>
-    <span class="n">betasq</span>  <span class="o">*</span> <span class="n">xs</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>             <span class="c1"># x-coordinate</span>
-    <span class="n">betasq</span>  <span class="o">*</span> <span class="n">ys</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>              <span class="c1"># y-coordinate</span>
+    <span class="n">alpha</span> <span class="o">*</span> <span class="n">small</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>   <span class="c1"># R, G, B</span>
+    <span class="n">beta</span>  <span class="o">*</span> <span class="n">xs</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>             <span class="c1"># x-coordinate</span>
+    <span class="n">beta</span>  <span class="o">*</span> <span class="n">ys</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>              <span class="c1"># y-coordinate</span>
 <span class="p">])</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># Confirm that the shape is N x 5. </span>
@@ -955,7 +955,7 @@ h_i^T L h_i = (H^T L H)_{ii}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/23c31ded110bed3b99de64c3cebd313373dcfa8425e9af561eea5ee196dff5cf.png" src="../_images/23c31ded110bed3b99de64c3cebd313373dcfa8425e9af561eea5ee196dff5cf.png" />
+<img alt="../_images/585f970c76504ea63ab3d355322764c755cfc7e1dff12498ae173bb4559779a2.png" src="../_images/585f970c76504ea63ab3d355322764c755cfc7e1dff12498ae173bb4559779a2.png" />
 </div>
 </div>
 <p>While not perfect, our clustering does a relatively good job at separating different relevant parts of the image. As above, you may want to play with the values of <span class="math notranslate nohighlight">\(\alpha^2\)</span> and <span class="math notranslate nohighlight">\(\beta^2\)</span> to see how they impact the clusters.</p>
