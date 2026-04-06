@@ -652,29 +652,29 @@ g := \frac{\partial}{\partial x_i} \|y - X\beta\|_2^2=  2\left(X_i^T (X_{-i} \be
 <p>First,</p>
 <div class="math notranslate nohighlight">
 \[
-g-\lambda = 0 \Leftrightarrow \beta_i = \frac{2 X_i^T (y-X_{-i} \beta_{-i}) + \lambda}{X_i^T X_i} = g^\star + \frac{\lambda}{\|X_i\|_2^2}.
+g-\lambda = 0 \Leftrightarrow \beta_i = \frac{2 X_i^T (y-X_{-i} \beta_{-i}) + \lambda}{2X_i^T X_i} = g^\star + \frac{\lambda}{2\|X_i\|_2^2}.
 \]</div>
-<p>We therefore conclude that if <span class="math notranslate nohighlight">\(\beta_i = g^\star + \frac{\lambda}{\|X_i\|_2^2} &lt; 0\)</span>, i.e., if <span class="math notranslate nohighlight">\(g^\star &lt; -\frac{\lambda}{\|X_i\|_2^2}\)</span>, then <span class="math notranslate nohighlight">\(0 \in \partial f(\beta_i)\)</span>.</p>
+<p>We therefore conclude that if <span class="math notranslate nohighlight">\(\beta_i = g^\star + \frac{\lambda}{2\|X_i\|_2^2} &lt; 0\)</span>, i.e., if <span class="math notranslate nohighlight">\(g^\star &lt; -\frac{\lambda}{2\|X_i\|_2^2}\)</span>, then <span class="math notranslate nohighlight">\(0 \in \partial f(\beta_i)\)</span>.</p>
 <p>Similarly,</p>
 <div class="math notranslate nohighlight">
 \[
-g+\lambda = 0 \Leftrightarrow \beta_i = \frac{2 X_i^T (y-X_{-i} \beta_{-i}) - \lambda}{X_i^T X_i} = g^\star - \frac{\lambda}{\|X_i\|_2^2}.
+g+\lambda = 0 \Leftrightarrow \beta_i = \frac{2 X_i^T (y-X_{-i} \beta_{-i}) - \lambda}{2X_i^T X_i} = g^\star - \frac{\lambda}{2\|X_i\|_2^2}.
 \]</div>
-<p>Therefore, if <span class="math notranslate nohighlight">\(\beta_i = g^\star - \frac{\lambda}{\|X_i\|_2^2} &gt; 0\)</span>, i.e., if <span class="math notranslate nohighlight">\(g^\star &gt; \frac{\lambda}{\|X_i\|_2^2}\)</span>, then <span class="math notranslate nohighlight">\(0 \in \partial f(\beta_i)\)</span>.</p>
+<p>Therefore, if <span class="math notranslate nohighlight">\(\beta_i = g^\star - \frac{\lambda}{2\|X_i\|_2^2} &gt; 0\)</span>, i.e., if <span class="math notranslate nohighlight">\(g^\star &gt; \frac{\lambda}{2\|X_i\|_2^2}\)</span>, then <span class="math notranslate nohighlight">\(0 \in \partial f(\beta_i)\)</span>.</p>
 <p>What have thus proved so far:</p>
 <ol class="arabic simple">
-<li><p>There exists <span class="math notranslate nohighlight">\(\beta_i &lt; 0\)</span> such that <span class="math notranslate nohighlight">\(0 \in \{g-\lambda\}\)</span> if and only if <span class="math notranslate nohighlight">\(g^\star &lt; -\frac{\lambda}{\|X_i\|_2^2}\)</span>. In that case, the unique such <span class="math notranslate nohighlight">\(\beta_i\)</span> is</p></li>
+<li><p>There exists <span class="math notranslate nohighlight">\(\beta_i &lt; 0\)</span> such that <span class="math notranslate nohighlight">\(0 \in \{g-\lambda\}\)</span> if and only if <span class="math notranslate nohighlight">\(g^\star &lt; -\frac{\lambda}{2\|X_i\|_2^2}\)</span>. In that case, the unique such <span class="math notranslate nohighlight">\(\beta_i\)</span> is</p></li>
 </ol>
 <div class="math notranslate nohighlight">
 \[
-\beta_i = g^\star + \frac{\lambda}{\|X_i\|_2^2}.
+\beta_i = g^\star + \frac{\lambda}{2\|X_i\|_2^2}.
 \]</div>
 <ol class="arabic simple" start="2">
-<li><p>There exists <span class="math notranslate nohighlight">\(\beta_i &gt; 0\)</span> such that <span class="math notranslate nohighlight">\(0 \in \{g+\lambda\}\)</span> if and only if <span class="math notranslate nohighlight">\(g^\star &gt; \frac{\lambda}{\|X_i\|_2^2}\)</span>. In that case, the unique such <span class="math notranslate nohighlight">\(\beta_i\)</span> is</p></li>
+<li><p>There exists <span class="math notranslate nohighlight">\(\beta_i &gt; 0\)</span> such that <span class="math notranslate nohighlight">\(0 \in \{g+\lambda\}\)</span> if and only if <span class="math notranslate nohighlight">\(g^\star &gt; \frac{\lambda}{2\|X_i\|_2^2}\)</span>. In that case, the unique such <span class="math notranslate nohighlight">\(\beta_i\)</span> is</p></li>
 </ol>
 <div class="math notranslate nohighlight">
 \[
-\beta_i = g^\star - \frac{\lambda}{\|X_i\|_2^2}.
+\beta_i = g^\star - \frac{\lambda}{2\|X_i\|_2^2}.
 \]</div>
 <p>The remaining case is: <span class="math notranslate nohighlight">\(\beta_i = 0\)</span> and <span class="math notranslate nohighlight">\(0 \in [g-\lambda, g+\lambda]\)</span>.</p>
 <p>Recall that</p>
@@ -687,36 +687,36 @@ g = 2\left(X_i^T (X_{-i} \beta_{-i}-y) + X_i^T X_i \beta_i\right).
 \[\begin{align*}
 0 \in [g-\lambda, g+\lambda] &amp;\iff  g-\lambda \leq 0 \textrm{ and } g+\lambda \geq 0 \\
 &amp;\iff -\lambda \leq 2X_i^T (y-X_{-i} \beta_{-i}) \leq \lambda \\
-&amp;\iff  -\frac{\lambda}{\|X_i\|_2^2} \leq \frac{2 X_i^T (y-X_{-i} \beta_{-i})}{X_i^T X_i} \leq \frac{\lambda}{\|X_i\|_2^2} \\
-&amp;= -\frac{\lambda}{\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{\|X_i\|_2^2}.
+&amp;\iff  -\frac{\lambda}{2\|X_i\|_2^2} \leq \frac{ X_i^T (y-X_{-i} \beta_{-i})}{X_i^T X_i} \leq \frac{\lambda}{2\|X_i\|_2^2} \\
+&amp;= -\frac{\lambda}{2\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{2\|X_i\|_2^2}.
 \end{align*}\]</div>
 <p><strong>Conclusion:</strong> <span class="math notranslate nohighlight">\(\beta_i = 0\)</span> and <span class="math notranslate nohighlight">\(0 \in [g-\lambda, g+\lambda]\)</span> hold precisely when</p>
 <div class="math notranslate nohighlight">
 \[
- -\frac{\lambda}{\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{\|X_i\|_2^2}.
+ -\frac{\lambda}{2\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{2\|X_i\|_2^2}.
 \]</div>
 <p>We have shown the following:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 0 \in \partial f(\beta_i) \textrm{ if } \begin{cases}
-\beta_i = g^\star + \frac{\lambda}{\|X_i\|_2^2} &amp;\textrm{ and } g^\star &lt; -\frac{\lambda}{\|X_i\|_2^2} \\
-\beta_i = g^\star - \frac{\lambda}{\|X_i\|_2^2} &amp;\textrm{ and } g^\star &gt; \frac{\lambda}{\|X_i\|_2^2} \\
-\beta_i = 0 &amp;\textrm{ and } -\frac{\lambda}{\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{\|X_i\|_2^2}.
+\beta_i = g^\star + \frac{\lambda}{2\|X_i\|_2^2} &amp;\textrm{ and } g^\star &lt; -\frac{\lambda}{2\|X_i\|_2^2} \\
+\beta_i = g^\star - \frac{\lambda}{2\|X_i\|_2^2} &amp;\textrm{ and } g^\star &gt; \frac{\lambda}{2\|X_i\|_2^2} \\
+\beta_i = 0 &amp;\textrm{ and } -\frac{\lambda}{2\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{2\|X_i\|_2^2}.
 \end{cases}
 \end{split}\]</div>
 <p>Therefore, the minimum of <span class="math notranslate nohighlight">\(f(\beta_i)\)</span> is obtained at</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 x^\star = \begin{cases}
-g^\star + \frac{\lambda}{\|X_i\|_2^2} &amp; \textrm{ if } g^\star &lt; -\frac{\lambda}{\|X_i\|_2^2} \\
-g^\star - \frac{\lambda}{\|X_i\|_2^2} &amp; \textrm{ if } g^\star &gt; \frac{\lambda}{\|X_i\|_2^2} \\
-0 &amp; \textrm{ if }  -\frac{\lambda}{\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{\|X_i\|_2^2}.
+g^\star + \frac{\lambda}{2\|X_i\|_2^2} &amp; \textrm{ if } g^\star &lt; -\frac{\lambda}{2\|X_i\|_2^2} \\
+g^\star - \frac{\lambda}{2\|X_i\|_2^2} &amp; \textrm{ if } g^\star &gt; \frac{\lambda}{2\|X_i\|_2^2} \\
+0 &amp; \textrm{ if }  -\frac{\lambda}{2\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{2\|X_i\|_2^2}.
 \end{cases}
 \end{split}\]</div>
 <p>In other words,</p>
 <div class="math notranslate nohighlight">
 \[
-x^\star = \eta^S_{\lambda/\|X_i\|_2^2}(g^\star) = \eta^S_{\lambda/\|X_i\|_2^2} \left(\frac{X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right), 
+x^\star = \eta^S_{\lambda/2\|X_i\|_2^2}(g^\star) = \eta^S_{\lambda/2\|X_i\|_2^2} \left(\frac{X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right), 
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\eta_\epsilon\)</span> is the <em>soft-thresholding</em> function given by</p>
 <div class="math notranslate nohighlight">
@@ -753,7 +753,7 @@ x + \epsilon &amp; \textrm{ if } x &lt; -\epsilon \\
 </ol>
 <div class="math notranslate nohighlight">
 \[
-\beta_i \rightarrow \eta^S_{\lambda/\|X_i\|_2^2} \left(\frac{2 X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right).
+\beta_i \rightarrow \eta^S_{\lambda/2\|X_i\|_2^2} \left(\frac{ X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right).
 \]</div>
 <ol class="arabic simple" start="3">
 <li><p>Continue until convergence (i.e., stop when the coordinates vary less than some threshold).</p></li>

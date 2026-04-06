@@ -418,7 +418,7 @@ document.write(`
 \[
 \nabla f(x) = \left(\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \dots, \frac{\partial f}{\partial x_n}\right)^T.
 \]</div>
-<p>The gradient is closely related to the <em>directional derivative</em>, i.e., the derivative of <span class="math notranslate nohighlight">\(f\)</span> in a given direction <span class="math notranslate nohighlight">\(v \in \mathbb{R}^n\)</span>. Typically, we assume the direction is which we take the derivative is given by a vector of length <span class="math notranslate nohighlight">\(1\)</span>, i.e., <span class="math notranslate nohighlight">\(\|v\|_2 = (\sum_{i=1}^n v_i^2)^{1/2} = 1\)</span>. The directional derivative of <span class="math notranslate nohighlight">\(f\)</span> in the direction <span class="math notranslate nohighlight">\(v\)</span> at the point <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span>, denoted by <span class="math notranslate nohighlight">\(D_v f(x)\)</span> is then given by</p>
+<p>The gradient is closely related to the <em>directional derivative</em>, i.e., the derivative of <span class="math notranslate nohighlight">\(f\)</span> in a given direction <span class="math notranslate nohighlight">\(v \in \mathbb{R}^n\)</span>. Typically, we assume the direction in which we take the derivative is given by a vector of length <span class="math notranslate nohighlight">\(1\)</span>, i.e., <span class="math notranslate nohighlight">\(\|v\|_2 = (\sum_{i=1}^n v_i^2)^{1/2} = 1\)</span>. The directional derivative of <span class="math notranslate nohighlight">\(f\)</span> in the direction <span class="math notranslate nohighlight">\(v\)</span> at the point <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span>, denoted by <span class="math notranslate nohighlight">\(D_v f(x)\)</span> is then given by</p>
 <div class="math notranslate nohighlight">
 \[
 D_v f(x) = \lim_{h \to 0} \frac{f(x+h v)-f(x)}{h}. 
@@ -3271,7 +3271,7 @@ v = \frac{\nabla f(x)}{\|\nabla f(x)\|}.
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>In the code above, <em>default arguments</em> are passsed to the function <em>gradient_descent</em>. Please review <a href="https://lectures.scientific-python.org/intro/language/functions.html" target="_blank">Defining functions</a> in the Python tutorial for more details.</p>
+<p>In the code above, <em>default arguments</em> are passed to the function <em>gradient_descent</em>. Please review <a href="https://lectures.scientific-python.org/intro/language/functions.html" target="_blank">Defining functions</a> in the Python tutorial for more details.</p>
 </div>
 <p>Try the code with other functions. Are you able to find local minima? How does the starting point affects the convergence of the algorithm?</p>
 <div class="admonition-the-adam-optimizer admonition">

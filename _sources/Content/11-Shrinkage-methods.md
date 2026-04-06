@@ -131,7 +131,7 @@ Thus, the eigenvalues of $X^TX$ are non-negative. Adding $\lambda I$ to it adds 
 Amazingly, Ridge regression was originally developed by Arthur Hoerl and Robert "Bob" Kennard at the University of Delaware. See the following <a href="https://lerner.udel.edu/seeing-opportunity/blue-hens-revolutionize-precursor-to-machine-learning/" target="_blank">article</a> for more details. 
 ```
 
-The Scikot-learn package has a <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html" target="_blank">Ridge</a> object that can be used to solve the Ridge regression problem: 
+The Scikit-learn package has a <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html" target="_blank">Ridge</a> object that can be used to solve the Ridge regression problem: 
 
 ```python
 from sklearn.linear_model import Ridge

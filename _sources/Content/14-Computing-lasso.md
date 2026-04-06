@@ -291,31 +291,31 @@ We will find out when each of the above conditions hold.
 First, 
 
 $$
-g-\lambda = 0 \Leftrightarrow \beta_i = \frac{2 X_i^T (y-X_{-i} \beta_{-i}) + \lambda}{X_i^T X_i} = g^\star + \frac{\lambda}{\|X_i\|_2^2}.
+g-\lambda = 0 \Leftrightarrow \beta_i = \frac{2 X_i^T (y-X_{-i} \beta_{-i}) + \lambda}{2X_i^T X_i} = g^\star + \frac{\lambda}{2\|X_i\|_2^2}.
 $$
 
-We therefore conclude that if $\beta_i = g^\star + \frac{\lambda}{\|X_i\|_2^2} < 0$, i.e., if $g^\star < -\frac{\lambda}{\|X_i\|_2^2}$, then $0 \in \partial f(\beta_i)$. 
+We therefore conclude that if $\beta_i = g^\star + \frac{\lambda}{2\|X_i\|_2^2} < 0$, i.e., if $g^\star < -\frac{\lambda}{2\|X_i\|_2^2}$, then $0 \in \partial f(\beta_i)$. 
 
 Similarly, 
 
 $$
-g+\lambda = 0 \Leftrightarrow \beta_i = \frac{2 X_i^T (y-X_{-i} \beta_{-i}) - \lambda}{X_i^T X_i} = g^\star - \frac{\lambda}{\|X_i\|_2^2}.
+g+\lambda = 0 \Leftrightarrow \beta_i = \frac{2 X_i^T (y-X_{-i} \beta_{-i}) - \lambda}{2X_i^T X_i} = g^\star - \frac{\lambda}{2\|X_i\|_2^2}.
 $$
 
-Therefore, if $\beta_i = g^\star - \frac{\lambda}{\|X_i\|_2^2} > 0$, i.e., if $g^\star > \frac{\lambda}{\|X_i\|_2^2}$, then $0 \in \partial f(\beta_i)$. 
+Therefore, if $\beta_i = g^\star - \frac{\lambda}{2\|X_i\|_2^2} > 0$, i.e., if $g^\star > \frac{\lambda}{2\|X_i\|_2^2}$, then $0 \in \partial f(\beta_i)$. 
 
 What have thus proved so far: 
 
-1. There exists $\beta_i < 0$ such that $0 \in \{g-\lambda\}$ if and only if $g^\star < -\frac{\lambda}{\|X_i\|_2^2}$. In that case, the unique such $\beta_i$ is 
+1. There exists $\beta_i < 0$ such that $0 \in \{g-\lambda\}$ if and only if $g^\star < -\frac{\lambda}{2\|X_i\|_2^2}$. In that case, the unique such $\beta_i$ is 
 
 $$
-\beta_i = g^\star + \frac{\lambda}{\|X_i\|_2^2}.
+\beta_i = g^\star + \frac{\lambda}{2\|X_i\|_2^2}.
 $$
 
-2. There exists $\beta_i > 0$ such that $0 \in \{g+\lambda\}$ if and only if $g^\star > \frac{\lambda}{\|X_i\|_2^2}$. In that case, the unique such $\beta_i$ is 
+2. There exists $\beta_i > 0$ such that $0 \in \{g+\lambda\}$ if and only if $g^\star > \frac{\lambda}{2\|X_i\|_2^2}$. In that case, the unique such $\beta_i$ is 
 
 $$
-\beta_i = g^\star - \frac{\lambda}{\|X_i\|_2^2}.
+\beta_i = g^\star - \frac{\lambda}{2\|X_i\|_2^2}.
 $$ 
 
 The remaining case is: $\beta_i = 0$ and $0 \in [g-\lambda, g+\lambda]$.
@@ -331,14 +331,14 @@ Setting $\beta_i = 0$, we obtain:
 \begin{align*}
 0 \in [g-\lambda, g+\lambda] &\iff  g-\lambda \leq 0 \textrm{ and } g+\lambda \geq 0 \\
 &\iff -\lambda \leq 2X_i^T (y-X_{-i} \beta_{-i}) \leq \lambda \\
-&\iff  -\frac{\lambda}{\|X_i\|_2^2} \leq \frac{2 X_i^T (y-X_{-i} \beta_{-i})}{X_i^T X_i} \leq \frac{\lambda}{\|X_i\|_2^2} \\
-&= -\frac{\lambda}{\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{\|X_i\|_2^2}.
+&\iff  -\frac{\lambda}{2\|X_i\|_2^2} \leq \frac{ X_i^T (y-X_{-i} \beta_{-i})}{X_i^T X_i} \leq \frac{\lambda}{2\|X_i\|_2^2} \\
+&= -\frac{\lambda}{2\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{2\|X_i\|_2^2}.
 \end{align*}
 
 **Conclusion:** $\beta_i = 0$ and $0 \in [g-\lambda, g+\lambda]$ hold precisely when 
 
 $$
- -\frac{\lambda}{\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{\|X_i\|_2^2}.
+ -\frac{\lambda}{2\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{2\|X_i\|_2^2}.
 $$
 
 
@@ -346,9 +346,9 @@ We have shown the following:
 
 $$
 0 \in \partial f(\beta_i) \textrm{ if } \begin{cases}
-\beta_i = g^\star + \frac{\lambda}{\|X_i\|_2^2} &\textrm{ and } g^\star < -\frac{\lambda}{\|X_i\|_2^2} \\
-\beta_i = g^\star - \frac{\lambda}{\|X_i\|_2^2} &\textrm{ and } g^\star > \frac{\lambda}{\|X_i\|_2^2} \\
-\beta_i = 0 &\textrm{ and } -\frac{\lambda}{\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{\|X_i\|_2^2}.
+\beta_i = g^\star + \frac{\lambda}{2\|X_i\|_2^2} &\textrm{ and } g^\star < -\frac{\lambda}{2\|X_i\|_2^2} \\
+\beta_i = g^\star - \frac{\lambda}{2\|X_i\|_2^2} &\textrm{ and } g^\star > \frac{\lambda}{2\|X_i\|_2^2} \\
+\beta_i = 0 &\textrm{ and } -\frac{\lambda}{2\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{2\|X_i\|_2^2}.
 \end{cases}
 $$
 
@@ -356,16 +356,16 @@ Therefore, the minimum of $f(\beta_i)$ is obtained at
 
 $$
 x^\star = \begin{cases}
-g^\star + \frac{\lambda}{\|X_i\|_2^2} & \textrm{ if } g^\star < -\frac{\lambda}{\|X_i\|_2^2} \\
-g^\star - \frac{\lambda}{\|X_i\|_2^2} & \textrm{ if } g^\star > \frac{\lambda}{\|X_i\|_2^2} \\
-0 & \textrm{ if }  -\frac{\lambda}{\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{\|X_i\|_2^2}.
+g^\star + \frac{\lambda}{2\|X_i\|_2^2} & \textrm{ if } g^\star < -\frac{\lambda}{2\|X_i\|_2^2} \\
+g^\star - \frac{\lambda}{2\|X_i\|_2^2} & \textrm{ if } g^\star > \frac{\lambda}{2\|X_i\|_2^2} \\
+0 & \textrm{ if }  -\frac{\lambda}{2\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{2\|X_i\|_2^2}.
 \end{cases}
 $$
 
 In other words, 
 
 $$
-x^\star = \eta^S_{\lambda/\|X_i\|_2^2}(g^\star) = \eta^S_{\lambda/\|X_i\|_2^2} \left(\frac{X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right), 
+x^\star = \eta^S_{\lambda/2\|X_i\|_2^2}(g^\star) = \eta^S_{\lambda/2\|X_i\|_2^2} \left(\frac{X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right), 
 $$
 where $\eta_\epsilon$ is the *soft-thresholding* function given by
 
@@ -409,7 +409,7 @@ In conclusion, to solve the lasso problem using coordinate descent:
 2. Cycle through the coordinates and perform the updates
 
 $$
-\beta_i \rightarrow \eta^S_{\lambda/\|X_i\|_2^2} \left(\frac{2 X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right).
+\beta_i \rightarrow \eta^S_{\lambda/2\|X_i\|_2^2} \left(\frac{ X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right).
 $$
 
 3. Continue until convergence (i.e., stop when the coordinates vary less than some threshold).
