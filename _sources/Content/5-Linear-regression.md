@@ -1,6 +1,6 @@
 # Linear Regression
 
-The first family of models we will study are linear regression models. While such models may seem elementary at first sight, they are very useful and can often be used as a baseline before trying more sophisticated techniques. Another important advantage of linear models is that they are easy to **interpret**. In many situations, more complicated models (e.g., deep learning) may give better results, but provide no explanation of how they get their results. When working with large datasets, some of these models may also able to infer information such as gender and race, and use it indirectly. In some areas in the industry, this is a deal breaker. For example, the way mortgages are written is very regulated. Only specific information can typically be used to accept or decline a loan. On the other hand, in other areas (e.g., quantitative finance) building a model that produces excellent results can be the only thing that matters. Still, in general, being able to understand how a model arrived at a certain prediction is typically very important and desirable. 
+The first family of models we will study are linear regression models. While such models may seem elementary at first sight, they are very useful and can often be used as a baseline before trying more sophisticated techniques. Another important advantage of linear models is that they are easy to **interpret**. In many situations, more complicated models (e.g., deep learning) may give better results, but provide no explanation of how they get their results. When working with large datasets, some of these models may also be able to infer information such as gender and race, and use it indirectly. In some areas of industry, this is a deal breaker. For example, mortgage lending is heavily regulated. Only specific information can typically be used to accept or decline a loan. On the other hand, in other areas (e.g., quantitative finance) building a model that produces excellent results can be the only thing that matters. Still, in general, being able to understand how a model arrived at a certain prediction is typically very important and desirable. 
 
 ```{figure} images/black-box.png
 ---
@@ -41,9 +41,9 @@ In order to use the non-numerical features (e.g., the car make), one needs to *e
 |0|1|0
 |0|0|1|
 
-For example, in the table above, the first row represents an Acura, the second row a Buick, and the third row a Chevrolet. Notices that this approach replaces the make column by $3$ new columns (the new value of $p$ is now $13$). 
+For example, in the table above, the first row represents an Acura, the second row a Buick, and the third row a Chevrolet. Notice that this approach replaces the make column by $3$ new columns (the new value of $p$ is now $13$). 
 
-Using a one-hot encoding of non-numerical variables has the advantage of treating each possible value of the variable equally. One downside thought is that the number of features of the data can increase significantly if the variable takes a lot of different values (since one column is added for each possible value). 
+Using a one-hot encoding of non-numerical variables has the advantage of treating each possible value of the variable equally. One downside though is that the number of features of the data can increase significantly if the variable takes many different values (since one column is added for each possible value). 
 
 In the next chapter, you will analyze the JSE_Car_Lab dataset and will construct your own linear models to predict the price of cars. 
 
@@ -71,7 +71,7 @@ $$
 
 Note that the MSE depends on the regression coefficients since $f$ is a function of $\beta_0, \beta_1, \dots, \beta_p$. 
 
-When predicting an output variable taking finitely many possible values the *cross-entropy* loss function is typically used. We will discuss cross-entropy and loss functions in the chapter on [](C-categorical).
+When predicting an output variable taking finitely many possible values, the *cross-entropy* loss function is typically used. We will discuss cross-entropy and loss functions in the chapter on [](C-categorical).
 
 When fitting a model, the goal is to minimize the loss function in order for the model to match the data as best as possible. To find the optimal regression coefficients in Equation {eq}`E-lin-reg`, we therefore need to solve the optimization problem: 
 
@@ -83,11 +83,11 @@ where $f(\mathbf{x}) = \beta_0 + \beta_1 x_1 + \dots + \beta_p x_p$ and $\mathbf
 (sec-finding-optimal-coefficients)=
 ### Finding the optimal coefficients
 
-There are different approach to solve the optimization problem {eq}`E-lin-reg-optim`.
+There are different approachs to solve the optimization problem {eq}`E-lin-reg-optim`.
 
-Recall that when a smooth functions of several variables reaches a local minimum at an interior point of its domain, its gradient has to be the zero vector. We will therefore compute the gradient of the above loss function and set it to zero to find candidates for the minimum. 
+Recall that when a smooth function of several variables reaches a local minimum at an interior point of its domain, its gradient has to be the zero vector. We will therefore compute the gradient of the above loss function and set it to zero to find candidates for the minimum. 
 
-To simplify notation, let $y$ be the vector contains all the outputs of the regression, and let $X$ be the matrix with rows $\mathbf{x_1}^T, \mathbf{x_2}^T, \dots, \mathbf{x_n}^T$: 
+To simplify notation, let $y$ be the vector containing all the outputs of the regression, and let $X$ be the matrix with rows $\mathbf{x_1}^T, \mathbf{x_2}^T, \dots, \mathbf{x_n}^T$: 
 
 $$
 y = (y_1, y_2, \dots, y_n)^T \qquad X = \begin{pmatrix}
@@ -147,7 +147,7 @@ $$
 \boxed{X^TX \beta = X^T y}.
 $$
 
-The above linear system is called the **normal equations** associated to the linear regression problem. Since the loss function has to admit a minimum at some $\beta \in \mathbb{R}^p$, we are guaranteed that the normal equations have at least one solution. However, unless $X^TX$ has full rank (and is therefore invertible), the solution may not be unique. However, with some extra work, one can show that each solution of the normal equations achieves the minimum value of the loss function. We can therefore solve the normal equations to obtain all the minima of the loss function.
+The above linear system is called the **normal equations** associated with the linear regression problem. Since the loss function has to admit a minimum at some $\beta \in \mathbb{R}^p$, we are guaranteed that the normal equations have at least one solution. However, unless $X^TX$ has full rank (and is therefore invertible), the solution may not be unique. Nevertheless, with some extra work, one can show that each solution of the normal equations achieves the minimum value of the loss function. We can therefore solve the normal equations to obtain all the minima of the loss function.
 
 When $X^TX$ is invertible, the unique minimum of the loss function is:
 
@@ -155,6 +155,6 @@ $$
 \boxed{\widehat{\beta} = (X^TX)^{-1} X^T y}.
 $$
 
-We often call $\widehat{\beta}$ the *least squares* estimator as it minimizes the sum of squares of the error. 
+We often call $\widehat{\beta}$ the *least squares* estimator as it minimizes the sum of squares of the errors. 
 
 In conclusion, the above work shows that finding the optimal coefficients in linear regression is equivalent to solving a linear system of equations. In the next chapter, we will see how this can be done with Python.

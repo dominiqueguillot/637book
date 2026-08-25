@@ -406,7 +406,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="linear-regression">
 <h1><span class="section-number">4. </span>Linear Regression<a class="headerlink" href="#linear-regression" title="Link to this heading">#</a></h1>
-<p>The first family of models we will study are linear regression models. While such models may seem elementary at first sight, they are very useful and can often be used as a baseline before trying more sophisticated techniques. Another important advantage of linear models is that they are easy to <strong>interpret</strong>. In many situations, more complicated models (e.g., deep learning) may give better results, but provide no explanation of how they get their results. When working with large datasets, some of these models may also able to infer information such as gender and race, and use it indirectly. In some areas in the industry, this is a deal breaker. For example, the way mortgages are written is very regulated. Only specific information can typically be used to accept or decline a loan. On the other hand, in other areas (e.g., quantitative finance) building a model that produces excellent results can be the only thing that matters. Still, in general, being able to understand how a model arrived at a certain prediction is typically very important and desirable.</p>
+<p>The first family of models we will study are linear regression models. While such models may seem elementary at first sight, they are very useful and can often be used as a baseline before trying more sophisticated techniques. Another important advantage of linear models is that they are easy to <strong>interpret</strong>. In many situations, more complicated models (e.g., deep learning) may give better results, but provide no explanation of how they get their results. When working with large datasets, some of these models may also be able to infer information such as gender and race, and use it indirectly. In some areas of industry, this is a deal breaker. For example, mortgage lending is heavily regulated. Only specific information can typically be used to accept or decline a loan. On the other hand, in other areas (e.g., quantitative finance) building a model that produces excellent results can be the only thing that matters. Still, in general, being able to understand how a model arrived at a certain prediction is typically very important and desirable.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/black-box.png"><img alt="../_images/black-box.png" src="../_images/black-box.png" style="width: 300px;" />
 </a>
@@ -455,8 +455,8 @@ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p.
 </tbody>
 </table>
 </div>
-<p>For example, in the table above, the first row represents an Acura, the second row a Buick, and the third row a Chevrolet. Notices that this approach replaces the make column by <span class="math notranslate nohighlight">\(3\)</span> new columns (the new value of <span class="math notranslate nohighlight">\(p\)</span> is now <span class="math notranslate nohighlight">\(13\)</span>).</p>
-<p>Using a one-hot encoding of non-numerical variables has the advantage of treating each possible value of the variable equally. One downside thought is that the number of features of the data can increase significantly if the variable takes a lot of different values (since one column is added for each possible value).</p>
+<p>For example, in the table above, the first row represents an Acura, the second row a Buick, and the third row a Chevrolet. Notice that this approach replaces the make column by <span class="math notranslate nohighlight">\(3\)</span> new columns (the new value of <span class="math notranslate nohighlight">\(p\)</span> is now <span class="math notranslate nohighlight">\(13\)</span>).</p>
+<p>Using a one-hot encoding of non-numerical variables has the advantage of treating each possible value of the variable equally. One downside though is that the number of features of the data can increase significantly if the variable takes many different values (since one column is added for each possible value).</p>
 <p>In the next chapter, you will analyze the JSE_Car_Lab dataset and will construct your own linear models to predict the price of cars.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -476,7 +476,7 @@ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p.
 MSE(\beta_0, \beta_1, \dots, \beta_p) = \frac{1}{n} \sum_{i=1}^n (y_i - f(\mathbf{x_i}))^2. 
 \]</div>
 <p>Note that the MSE depends on the regression coefficients since <span class="math notranslate nohighlight">\(f\)</span> is a function of <span class="math notranslate nohighlight">\(\beta_0, \beta_1, \dots, \beta_p\)</span>.</p>
-<p>When predicting an output variable taking finitely many possible values the <em>cross-entropy</em> loss function is typically used. We will discuss cross-entropy and loss functions in the chapter on <a class="reference internal" href="17-categorical-data.html#c-categorical"><span class="std std-ref">Analyzing categorical data</span></a>.</p>
+<p>When predicting an output variable taking finitely many possible values, the <em>cross-entropy</em> loss function is typically used. We will discuss cross-entropy and loss functions in the chapter on <a class="reference internal" href="17-categorical-data.html#c-categorical"><span class="std std-ref">Analyzing categorical data</span></a>.</p>
 <p>When fitting a model, the goal is to minimize the loss function in order for the model to match the data as best as possible. To find the optimal regression coefficients in Equation <a class="reference internal" href="#equation-e-lin-reg">(4.1)</a>, we therefore need to solve the optimization problem:</p>
 <div class="math notranslate nohighlight" id="equation-e-lin-reg-optim">
 <span class="eqno">(4.2)<a class="headerlink" href="#equation-e-lin-reg-optim" title="Link to this equation">#</a></span>\[
@@ -486,9 +486,9 @@ MSE(\beta_0, \beta_1, \dots, \beta_p) = \frac{1}{n} \sum_{i=1}^n (y_i - f(\mathb
 </section>
 <section id="finding-the-optimal-coefficients">
 <span id="sec-finding-optimal-coefficients"></span><h3><span class="section-number">4.1.3. </span>Finding the optimal coefficients<a class="headerlink" href="#finding-the-optimal-coefficients" title="Link to this heading">#</a></h3>
-<p>There are different approach to solve the optimization problem <a class="reference internal" href="#equation-e-lin-reg-optim">(4.2)</a>.</p>
-<p>Recall that when a smooth functions of several variables reaches a local minimum at an interior point of its domain, its gradient has to be the zero vector. We will therefore compute the gradient of the above loss function and set it to zero to find candidates for the minimum.</p>
-<p>To simplify notation, let <span class="math notranslate nohighlight">\(y\)</span> be the vector contains all the outputs of the regression, and let <span class="math notranslate nohighlight">\(X\)</span> be the matrix with rows <span class="math notranslate nohighlight">\(\mathbf{x_1}^T, \mathbf{x_2}^T, \dots, \mathbf{x_n}^T\)</span>:</p>
+<p>There are different approachs to solve the optimization problem <a class="reference internal" href="#equation-e-lin-reg-optim">(4.2)</a>.</p>
+<p>Recall that when a smooth function of several variables reaches a local minimum at an interior point of its domain, its gradient has to be the zero vector. We will therefore compute the gradient of the above loss function and set it to zero to find candidates for the minimum.</p>
+<p>To simplify notation, let <span class="math notranslate nohighlight">\(y\)</span> be the vector containing all the outputs of the regression, and let <span class="math notranslate nohighlight">\(X\)</span> be the matrix with rows <span class="math notranslate nohighlight">\(\mathbf{x_1}^T, \mathbf{x_2}^T, \dots, \mathbf{x_n}^T\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 y = (y_1, y_2, \dots, y_n)^T \qquad X = \begin{pmatrix}
@@ -538,13 +538,13 @@ L(\beta_1, \dots, \beta_p) = \frac{1}{n} \sum_{i=1}^n \left(y_i - \sum_{j=1}^p x
 \[
 \boxed{X^TX \beta = X^T y}.
 \]</div>
-<p>The above linear system is called the <strong>normal equations</strong> associated to the linear regression problem. Since the loss function has to admit a minimum at some <span class="math notranslate nohighlight">\(\beta \in \mathbb{R}^p\)</span>, we are guaranteed that the normal equations have at least one solution. However, unless <span class="math notranslate nohighlight">\(X^TX\)</span> has full rank (and is therefore invertible), the solution may not be unique. However, with some extra work, one can show that each solution of the normal equations achieves the minimum value of the loss function. We can therefore solve the normal equations to obtain all the minima of the loss function.</p>
+<p>The above linear system is called the <strong>normal equations</strong> associated with the linear regression problem. Since the loss function has to admit a minimum at some <span class="math notranslate nohighlight">\(\beta \in \mathbb{R}^p\)</span>, we are guaranteed that the normal equations have at least one solution. However, unless <span class="math notranslate nohighlight">\(X^TX\)</span> has full rank (and is therefore invertible), the solution may not be unique. Nevertheless, with some extra work, one can show that each solution of the normal equations achieves the minimum value of the loss function. We can therefore solve the normal equations to obtain all the minima of the loss function.</p>
 <p>When <span class="math notranslate nohighlight">\(X^TX\)</span> is invertible, the unique minimum of the loss function is:</p>
 <div class="math notranslate nohighlight">
 \[
 \boxed{\widehat{\beta} = (X^TX)^{-1} X^T y}.
 \]</div>
-<p>We often call <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> the <em>least squares</em> estimator as it minimizes the sum of squares of the error.</p>
+<p>We often call <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> the <em>least squares</em> estimator as it minimizes the sum of squares of the errors.</p>
 <p>In conclusion, the above work shows that finding the optimal coefficients in linear regression is equivalent to solving a linear system of equations. In the next chapter, we will see how this can be done with Python.</p>
 </section>
 </section>

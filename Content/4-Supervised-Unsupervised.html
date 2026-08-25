@@ -399,7 +399,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-curse-of-dimensionality">3.3. The curse of dimensionality</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-data-in-1-d-and-2-d">3.3.1. Example: data in 1-D and 2-D</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-curse-of-dimensionality-phenomemon">3.3.2. The curse of dimensionality phenomemon</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-curse-of-dimensionality-phenomenon">3.3.2. The curse of dimensionality phenomenon</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-linear-regression">3.3.3. Example: linear regression</a></li>
 </ul>
 </li>
@@ -416,7 +416,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="supervised-vs-unsupervised-learning">
 <h1><span class="section-number">3. </span>Supervised vs Unsupervised learning<a class="headerlink" href="#supervised-vs-unsupervised-learning" title="Link to this heading">#</a></h1>
-<p>Two important type of problems commonly occur in data science: supervised learning and unsupervised learning.</p>
+<p>Two important types of problems commonly occur in data science: supervised learning and unsupervised learning.</p>
 <section id="supervised-learning">
 <h2><span class="section-number">3.1. </span>Supervised learning<a class="headerlink" href="#supervised-learning" title="Link to this heading">#</a></h2>
 <p>In supervised learning problems, an outcome variable guides the learning process.</p>
@@ -425,7 +425,7 @@ document.write(`
 <li><p>A set of input variables (predictors or independent variables).</p></li>
 <li><p>A set of output variables (response or dependent variables).</p></li>
 </ol>
-<p>The data is therefore <em>labelled</em>.</p>
+<p>The data is therefore <em>labeled</em>.</p>
 <p>We want to use the input to predict the output. Our goal is to build a model to learn patterns in the dataset, and to use the model to predict unobserved values.</p>
 <p><strong>Important:</strong> One should keep in mind that future predictions of the model are highly dependent on previously observed data.</p>
 <ul class="simple">
@@ -451,9 +451,9 @@ document.write(`
 </a>
 </figure>
 <ul class="simple">
-<li><p>You are provided a <a href="https://en.wikipedia.org/wiki/MNIST_database" target="_blank">dataset</a> containing images (16 x 16 grayscale images say) of digits.</p></li>
+<li><p>You are provided with a <a href="https://en.wikipedia.org/wiki/MNIST_database" target="_blank">dataset</a> containing images (16 x 16 grayscale images say) of digits.</p></li>
 <li><p>Each image contains a single digit.</p></li>
-<li><p>Each image is labelled with the corresponding digit.</p></li>
+<li><p>Each image is labeled with the corresponding digit.</p></li>
 <li><p>After reshaping, you can think of each image as a vector in <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{256}\)</span> and the label as a scalar <span class="math notranslate nohighlight">\(Y \in \{0,\dots,9\}\)</span>.</p></li>
 </ul>
 <p><strong>Idea:</strong> with a large enough dataset, we should be able to <em>learn</em> to identify/predict digits automatically.</p>
@@ -464,7 +464,7 @@ document.write(`
 </section>
 <section id="example-gene-expression-data">
 <span id="e-gene-expression"></span><h3><span class="section-number">3.1.2. </span>Example: Gene expression data<a class="headerlink" href="#example-gene-expression-data" title="Link to this heading">#</a></h3>
-<p>DNA microarrays can be used to measure the <a href="https://en.wikipedia.org/wiki/Gene_expression" target="_blank">expression</a> of a gene in a cell – see figure below (rows = genes, columns = sample).</p>
+<p>DNA microarrays can be used to measure the <a href="https://en.wikipedia.org/wiki/Gene_expression" target="_blank">expression</a> of a gene in a cell – see figure below (rows = genes, columns = samples).</p>
 <figure class="align-default" id="id2">
 <a class="reference internal image-reference" href="../_images/gene_expression.png"><img alt="../_images/gene_expression.png" src="../_images/gene_expression.png" style="width: 300px;" />
 </a>
@@ -472,8 +472,8 @@ document.write(`
 <p><span class="caption-number">Fig. 3.2 </span><span class="caption-text">ESL, Figure 1.3.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Suppose the gene expression of millions of genes are measured for cells from patients with and without a certain type of cancer. (Note how the data is <em>labelled</em>, i.e., we know if each sample is associated to cancer or not.)</p>
-<p>Can a model be constructed to predict if a patient has the cancer based on their gene expression? Note that such a model may be able to detect the cancer before signs of the cancer start to appear.</p>
+<p>Suppose the gene expression of thousands of genes is measured for cells from patients with and without a certain type of cancer. (Note how the data is <em>labeled</em>, i.e., we know if each sample is associated with cancer or not.)</p>
+<p>Can a model be constructed to predict if a patient has cancer based on their gene expression? Note that such a model may be able to detect the cancer before signs of the cancer start to appear.</p>
 </section>
 <section id="example-spam-data">
 <h3><span class="section-number">3.1.3. </span>Example: Spam data<a class="headerlink" href="#example-spam-data" title="Link to this heading">#</a></h3>
@@ -489,19 +489,19 @@ document.write(`
 </figcaption>
 </figure>
 <ul class="simple">
-<li><p>Each message is labelled as spam/email.</p></li>
+<li><p>Each message is labeled as spam/email.</p></li>
 <li><p>Each message contains characteristics such as the count of different words and symbols.</p></li>
 </ul>
 <p>We would like to build a model that automatically identifies if a given email is spam or not.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The common feature in supervised learning is that the data is labelled. Obtaining labelled data of good quality can be tedious and expensive, especially if it involves the intervention of a human to perform the labelling. This is a serious limitation to supervised learning.</p>
+<p>The common feature in supervised learning is that the data is labeled. Obtaining labeled data of good quality can be tedious and expensive, especially if it involves the intervention of a human to perform the labeling. This is a serious limitation to supervised learning.</p>
 </div>
 </section>
 </section>
 <section id="unsupervised-learning">
 <h2><span class="section-number">3.2. </span>Unsupervised learning<a class="headerlink" href="#unsupervised-learning" title="Link to this heading">#</a></h2>
-<p>In unsupervised learning problems, we observe only features. There is therefore <strong>no dependent variable</strong> (or label). Our goal is to detect structure, patterns, etc..</p>
+<p>In unsupervised learning problems, we observe only features. There is therefore <strong>no dependent variable</strong> (or label). Our goal is to detect structure, patterns, etc.</p>
 <section id="example-clustering">
 <h3><span class="section-number">3.2.1. </span>Example: clustering<a class="headerlink" href="#example-clustering" title="Link to this heading">#</a></h3>
 <p>A typical unsupervised learning problem is to automatically detect <em>clusters</em> in data.</p>
@@ -510,12 +510,12 @@ document.write(`
 <a class="reference internal image-reference" href="../_images/clusters_bw.png"><img alt="../_images/clusters_bw.png" src="../_images/clusters_bw.png" style="width: 300px;" />
 </a>
 </figure>
-<p>One very naturally groups (or <em>clusters</em>) the data. The figure below was produced with a computer algorithm that labelled the data points according to the group structure present in the data:</p>
+<p>One very naturally groups (or <em>clusters</em>) the data. The figure below was produced with a computer algorithm that labeled the data points according to the group structure present in the data:</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/clusters.png"><img alt="../_images/clusters.png" src="../_images/clusters.png" style="width: 300px;" />
 </a>
 </figure>
-<p>Notice that the original data points have no labels. Nevertheless, the cluster structure can reveal a lot of information about the data. For example, in a database containing customers’ information, customers with similar characteristics or behavior may create clusters. One can then try to identify what are the common characteristics of customers in a given cluster. This can yield significant insights about customer behavior.</p>
+<p>Notice that the original data points have no labels. Nevertheless, the cluster structure can reveal a lot of information about the data. For example, in a database containing customers’ information, customers with similar characteristics or behavior may create clusters. One can then try to identify what the common characteristics of customers are in a given cluster. This can yield significant insights about customer behavior.</p>
 <p>Another nice application of clustering is image segmentation, where the goal is to divide an image into meaningful parts (e.g., separate objects).</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/image_seg.jpg"><img alt="../_images/image_seg.jpg" src="../_images/image_seg.jpg" style="width: 300px;" />
@@ -526,10 +526,10 @@ document.write(`
 </section>
 <section id="the-curse-of-dimensionality">
 <h2><span class="section-number">3.3. </span>The curse of dimensionality<a class="headerlink" href="#the-curse-of-dimensionality" title="Link to this heading">#</a></h2>
-<p>In modern problems, we typically have to work with a very large number of variables (also called <em>features</em>). For example, the customer database of a large insurance company may contain dozens of features of each customer (e.g., their age, income, number of recent accidents, the model of car they own, their car value, etc.). Recall that future predictions made by a model heavily dependent on previous data. As a result, in order to make accurate predictions, it is important to have observations (also called <em>samples</em>) that cover the possible range of the features very well. It is important to realize that, as the number of features increases, the number of samples required to get a good coverage <strong>dramatically increases</strong>.</p>
+<p>In modern problems, we typically have to work with a very large number of variables (also called <em>features</em>). For example, the customer database of a large insurance company may contain dozens of features of each customer (e.g., their age, income, number of recent accidents, the model of car they own, their car value, etc.). Recall that future predictions made by a model are heavily dependent on previous data. As a result, in order to make accurate predictions, it is important to have observations (also called <em>samples</em>) that cover the possible range of the features very well. It is important to realize that, as the number of features increases, the number of samples required to get a good coverage <strong>dramatically increases</strong>.</p>
 <section id="example-data-in-1-d-and-2-d">
 <h3><span class="section-number">3.3.1. </span>Example: data in 1-D and 2-D<a class="headerlink" href="#example-data-in-1-d-and-2-d" title="Link to this heading">#</a></h3>
-<p>Consider a dataset where only one feature is measured. For example, let us say we are trying to determine if a person has a cancer based on the gene expression of a single one of their genes (see the <a class="reference internal" href="#e-gene-expression"><span class="std std-ref">Example: Gene expression data</span></a> above). Assume the gene measurements lie in the interval <span class="math notranslate nohighlight">\([0,1]\)</span>. Suppose the following data is available (where <span class="math notranslate nohighlight">\(0=\)</span>no cancer, and <span class="math notranslate nohighlight">\(1=\)</span>cancer):</p>
+<p>Consider a dataset where only one feature is measured. For example, let us say we are trying to determine if a person has cancer based on the gene expression of a single one of their genes (see the <a class="reference internal" href="#e-gene-expression"><span class="std std-ref">Example: Gene expression data</span></a> above). Assume the gene measurements lie in the interval <span class="math notranslate nohighlight">\([0,1]\)</span>. Suppose the following data is available (where <span class="math notranslate nohighlight">\(0=\)</span>no cancer, and <span class="math notranslate nohighlight">\(1=\)</span>cancer):</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Gene #1</p></th>
@@ -573,7 +573,7 @@ document.write(`
 </tbody>
 </table>
 </div>
-<p>Representing the data on the real line, one may be fairly confident to have enough coverage of the interval <span class="math notranslate nohighlight">\([0,1]\)</span> to be able to be able to capture which regions are more prone to representing cancer or not.</p>
+<p>Representing the data on the real line, one may be fairly confident to have enough coverage of the interval <span class="math notranslate nohighlight">\([0,1]\)</span> to be able to capture which regions are more prone to representing cancer or not.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/no-cancer.png"><img alt="../_images/no-cancer.png" src="../_images/no-cancer.png" style="width: 700px;" />
 </a>
@@ -584,15 +584,15 @@ document.write(`
 <a class="reference internal image-reference" href="../_images/no-cancer-2d.png"><img alt="../_images/no-cancer-2d.png" src="../_images/no-cancer-2d.png" style="width: 700px;" />
 </a>
 </figure>
-<p>Observe how we now need 121 points on a <span class="math notranslate nohighlight">\(0.1 \times 0.1\)</span> grid to mimic the coverage we had in 1-dimension. Also observe that the coverage is not even as good: points in the middle of every <span class="math notranslate nohighlight">\(0.1 \times 0.1\)</span> “square” are at a distance <span class="math notranslate nohighlight">\(\sqrt{0.05^2 + 0.05^2} = 0.05 \sqrt{2} \approx 0.0707\)</span> from any of the samples.</p>
-<p>More generally, in dimension <span class="math notranslate nohighlight">\(d\)</span>, a “hyper-grid” with sidelength <span class="math notranslate nohighlight">\(0.1\)</span> in the hypercube <span class="math notranslate nohighlight">\([0,1]^d\)</span> contains <span class="math notranslate nohighlight">\(11^d\)</span> grid points. For example, with <span class="math notranslate nohighlight">\(d = 15\)</span> (still a small number of genes to try to predict cancer), the number of grid points is about <span class="math notranslate nohighlight">\(4.177 \times 10^{15}\)</span>. As a fun comparison, this is rougly the number of grains of sand in a <span class="math notranslate nohighlight">\(65\)</span> cubic meter of sand! This is also about <span class="math notranslate nohighlight">\(522,500\)</span> times the 2025 population of the Earth! There is no way we can collect so many samples to solve our cancer problem…</p>
+<p>Observe how we now need 121 points on a <span class="math notranslate nohighlight">\(0.1 \times 0.1\)</span> grid to mimic the coverage we had in one dimension. Also observe that the coverage is not even as good: points in the middle of every <span class="math notranslate nohighlight">\(0.1 \times 0.1\)</span> “square” are at a distance <span class="math notranslate nohighlight">\(\sqrt{0.05^2 + 0.05^2} = 0.05 \sqrt{2} \approx 0.0707\)</span> from any of the samples.</p>
+<p>More generally, in dimension <span class="math notranslate nohighlight">\(d\)</span>, a “hyper-grid” with sidelength <span class="math notranslate nohighlight">\(0.1\)</span> in the hypercube <span class="math notranslate nohighlight">\([0,1]^d\)</span> contains <span class="math notranslate nohighlight">\(11^d\)</span> grid points. For example, with <span class="math notranslate nohighlight">\(d = 15\)</span> (still a small number of genes to try to predict cancer), the number of grid points is about <span class="math notranslate nohighlight">\(4.177 \times 10^{15}\)</span>. As a fun comparison, this is roughly the number of grains of sand in a <span class="math notranslate nohighlight">\(65\)</span> cubic meters of sand! This is also about <span class="math notranslate nohighlight">\(522,500\)</span> times the 2025 population of the Earth! There is no way we can collect so many samples to solve our cancer problem…</p>
 </section>
-<section id="the-curse-of-dimensionality-phenomemon">
-<h3><span class="section-number">3.3.2. </span>The curse of dimensionality phenomemon<a class="headerlink" href="#the-curse-of-dimensionality-phenomemon" title="Link to this heading">#</a></h3>
-<p>The above illustrates that, as the number of features increases, the volume of the space grows so fast that data becomes sparse (i.e., the data does not cover the space well at all). This phenomenon is known as the <strong>curse of dimensionality</strong>. Without any supplementary structure, one would expect needing a number of samples exponential in the number of features in order to build a model that makes good prediction. Thankfully, in the real world, there is typically structure that we can exploit to construct good models without needing an excessive amount of data.</p>
+<section id="the-curse-of-dimensionality-phenomenon">
+<h3><span class="section-number">3.3.2. </span>The curse of dimensionality phenomenon<a class="headerlink" href="#the-curse-of-dimensionality-phenomenon" title="Link to this heading">#</a></h3>
+<p>The above illustrates that, as the number of features increases, the volume of the space grows so fast that data becomes sparse (i.e., the data does not cover the space well at all). This phenomenon is known as the <strong>curse of dimensionality</strong>. Without any supplementary structure, one would expect to need a number of samples exponential in the number of features in order to build a model that makes good predictions. Thankfully, in the real world, there is typically structure that we can exploit to construct good models without needing an excessive amount of data.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>In mathematics, a <em>sparse</em> vector is a vector that contains a lot of zero entries. The <em>sparsity</em> of a vector is the percentage of its entries that are equal to <span class="math notranslate nohighlight">\(0\)</span>. Similarly, a sparse matrix is a matrix with a large percentage of its entries equal to <span class="math notranslate nohighlight">\(0\)</span>. In contrast, a matrix that does not contain any significant number of zero entries is said to be <em>dense</em>. Many numerical algorithms in linear algebra can be developed to exploit sparsity and efficiently solve problems in very high dimensions. One example is sparse linear solvers. A typical laptop in 2025 can solve a system of equations with ten millions of unknowns and about 10 nonzeros per row in a few seconds to a few minutes. In contrast, an algorithm that doesn’t exploit the sparsity of the system can take days or even weeks to solve the same system on the same machine.</p>
+<p>In mathematics, a <em>sparse</em> vector is a vector that contains a lot of zero entries. The <em>sparsity</em> of a vector is the percentage of its entries that are equal to <span class="math notranslate nohighlight">\(0\)</span>. Similarly, a sparse matrix is a matrix with a large percentage of its entries equal to <span class="math notranslate nohighlight">\(0\)</span>. In contrast, a matrix that does not contain any significant number of zero entries is said to be <em>dense</em>. Many numerical algorithms in linear algebra can be developed to exploit sparsity and efficiently solve problems in very high dimensions. One example is sparse linear solvers. A typical laptop in 2025 can solve a system of equations with ten million of unknowns and about 10 nonzeros per row in a few seconds to a few minutes. In contrast, an algorithm that doesn’t exploit the sparsity of the system can take days or even weeks to solve the same system on the same machine.</p>
 </div>
 </section>
 <section id="example-linear-regression">
@@ -601,7 +601,7 @@ document.write(`
 <p><span class="math notranslate nohighlight">\(
 Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p.
 \)</span></p>
-<p>In traditional statistics, it is common to assume the number of samples available to observe this relationship (usually denoted by <span class="math notranslate nohighlight">\(n\)</span>) is much larger than the number of variables (<span class="math notranslate nohighlight">\(p\)</span>), and is at least greater than <span class="math notranslate nohighlight">\(p\)</span>. However, in many modern problems, the number of variables is often much larger than the number of samples. Think for example of the gene expression problem (<a class="reference internal" href="#e-gene-expression"><span class="std std-ref">Example: Gene expression data</span></a>), where there are millions of genes a researcher may want to consider to detect a cancer, but there is only a small number of patients available in the study (e.g., 100). Here, one needs to make use of additional structure in order to be able to build a good model. In that case, it is natural to assume only a handful of genes are good predictors for a given cancer (i.e., many of the regression coefficients <span class="math notranslate nohighlight">\(\beta_i\)</span> are equal to <span class="math notranslate nohighlight">\(0\)</span>). The problem though is we do not know which ones are non-zero. As we will see in future chapters, there are well-known methods (e.g., LASSO regression) that attempt to detect non-zero coefficients in linear regression. Such methods can be used to build linear models even when the sample size is much smaller than the number of variables.</p>
+<p>In traditional statistics, it is common to assume the number of samples available to observe this relationship (usually denoted by <span class="math notranslate nohighlight">\(n\)</span>) is much larger than the number of variables (<span class="math notranslate nohighlight">\(p\)</span>), and is at least greater than <span class="math notranslate nohighlight">\(p\)</span>. However, in many modern problems, the number of variables is often much larger than the number of samples. Think for example of the gene expression problem (<a class="reference internal" href="#e-gene-expression"><span class="std std-ref">Example: Gene expression data</span></a>), where there are thousands of genes a researcher may want to consider to detect a cancer, but there is only a small number of patients available in the study (e.g., 100). Here, one needs to make use of additional structure in order to be able to build a good model. In that case, it is natural to assume only a handful of genes are good predictors for a given cancer (i.e., many of the regression coefficients <span class="math notranslate nohighlight">\(\beta_i\)</span> are equal to <span class="math notranslate nohighlight">\(0\)</span>). The problem though is we do not know which ones are non-zero. As we will see in future chapters, there are well-known methods (e.g., LASSO regression) that attempt to detect non-zero coefficients in linear regression. Such methods can be used to build linear models even when the sample size is much smaller than the number of variables.</p>
 </section>
 </section>
 </section>
@@ -682,7 +682,7 @@ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p.
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-curse-of-dimensionality">3.3. The curse of dimensionality</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-data-in-1-d-and-2-d">3.3.1. Example: data in 1-D and 2-D</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-curse-of-dimensionality-phenomemon">3.3.2. The curse of dimensionality phenomemon</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-curse-of-dimensionality-phenomenon">3.3.2. The curse of dimensionality phenomenon</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-linear-regression">3.3.3. Example: linear regression</a></li>
 </ul>
 </li>

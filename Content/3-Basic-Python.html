@@ -412,12 +412,12 @@ document.write(`
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are a Matlab user, the following thesaurus</p>
+<p>If you are a MATLAB user, the following thesaurus</p>
 <p><a href="http://mathesaurus.sourceforge.net/matlab-numpy.html" target="_blank">http://mathesaurus.sourceforge.net/matlab-numpy.html</a></p>
 <p>could be useful to get started with Python.</p>
 </div>
 <p>Python is a powerful open-source programming language. You can use it to perform many tasks including scientific computing and building full applications. This chapter provides a very brief introduction to Python.</p>
-<p>As you go through the commands below, please copy them into your own notebook and try some variants to become more familiarized with the language.</p>
+<p>As you go through the commands below, please copy them into your own notebook and try some variants to become more familiar with the language.</p>
 <section id="assigning-variables-and-basic-arithmetic">
 <h2><span class="section-number">2.1. </span>Assigning variables and basic arithmetic<a class="headerlink" href="#assigning-variables-and-basic-arithmetic" title="Link to this heading">#</a></h2>
 <p>You can assign values to variables directly using the “=” symbol.</p>
@@ -443,7 +443,7 @@ document.write(`
 <section id="control-flow-indentation-matters">
 <h2><span class="section-number">2.2. </span>Control flow: indentation matters<a class="headerlink" href="#control-flow-indentation-matters" title="Link to this heading">#</a></h2>
 <p>You can execute pieces of code only when some conditions are verified using the “if” and “else” commands.</p>
-<p>Important: Notice how the code within the “if” and “then” statements are indented. Apart from improving readability, this is <strong>required</strong> in Python. The code will not execute if it is not indented properly.</p>
+<p>Important: Notice how the code within the “if” and “else” statements are indented. Apart from improving readability, this is <strong>required</strong> in Python. The code will not execute if it is not indented properly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span> 
@@ -488,7 +488,7 @@ document.write(`
 </section>
 <section id="lists-and-tuples">
 <h2><span class="section-number">2.4. </span>Lists and tuples<a class="headerlink" href="#lists-and-tuples" title="Link to this heading">#</a></h2>
-<p>Pythons provides several ways to create ordered lists. A list is defined using brackets “[…]”. The elements of a list can be accessed and modified at any time. As mentioned above, keep in mind that indexing always starts at 0 in Python. Thus a[0] is the first element of “a”, not a[1].</p>
+<p>Python provides several ways to create ordered lists. A list is defined using brackets “[…]”. The elements of a list can be accessed and modified at any time. As mentioned above, keep in mind that indexing always starts at 0 in Python. Thus a[0] is the first element of “a”, not a[1].</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
@@ -507,7 +507,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>A <em>tuple</em> is similar to a list, but must be constant. Once a tuple is created, its values cannot be modified. Tuples are created using parenteses “(…)”.</p>
+<p>A <em>tuple</em> is similar to a list, but must be constant/immutable. Once a tuple is created, its values cannot be modified. Tuples are created using parentheses “(…)”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
@@ -537,7 +537,7 @@ document.write(`
 <h2><span class="section-number">2.5. </span>Importing other modules<a class="headerlink" href="#importing-other-modules" title="Link to this heading">#</a></h2>
 <p>The basic Python language can be extended by importing modules. One module that we will use all the time to perform numerical calculations is <em>NumPy</em> (numerical Python). There are various ways to load a package as illustrated in the following example.</p>
 <p>(1) import numpy</p>
-<p>This loads the whole numpy package. The objects and methods of the package can now be access by typing “numpy.<em>something</em>”. For example, the following creates a matrix</p>
+<p>This loads the whole NumPy package. The objects and methods of the package can now be accessed by typing “numpy.<em>something</em>”. For example, the following creates a matrix</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
@@ -556,7 +556,7 @@ document.write(`
 </div>
 <p>(2) When importing modules, it is common to change their name to reduce the amount of typing. For NumPy, it is very common to import it as “np”.</p>
 <p>import numpy as np</p>
-<p>The various objects and methods of numpy can now be accessed by typing “np.<em>something</em>” instead of “numpy.<em>something</em>”.</p>
+<p>The various objects and methods of NumPy can now be accessed by typing “np.<em>something</em>” instead of “numpy.<em>something</em>”.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -578,13 +578,13 @@ document.write(`
 <p class="admonition-title">Note</p>
 <p>When doing data analysis or scientific computing, almost all of your code will probably start with “import numpy as np” as the NumPy module is the backbone of scientific computing in Python.</p>
 </div>
-<p>Numpy has many constructors to created standard matrices. Try them to see what they are.</p>
+<p>Numpy has many constructors to create standard matrices. Try them to see what they are.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># Random uniform [0,1] entries</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># Random uniform [0,1) entries</span>
 </pre></div>
 </div>
 </div>
@@ -605,7 +605,7 @@ document.write(`
 <p>Matrices are added with the “+” symbol.</p>
 <p><strong>Warning:</strong> The “*” symbol performs <em>entrywise</em> (entry-by-entry) multiplication. This is <strong>not</strong> the standard matrix product.</p>
 <p>Use the “&#64;” operator for matrix products.</p>
-<p>Note: The matrix product of A and B can also be computed using: A.dot(B) and np.matmult(A,B).</p>
+<p>Note: The matrix product of A and B can also be computed using: A.dot(B) and np.matmul(A,B).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">+</span><span class="n">B</span>  <span class="c1"># Addition of matrices</span>
@@ -655,7 +655,7 @@ document.write(`
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Up to numerical precision, a small value (e.g. 1e-17) can be interpreted at “0”.</p>
+<p>Up to numerical precision, a small value (e.g. 1e-17) can typically be interpreted as “0”.</p>
 </div>
 <p>Some other common matrix operations include:</p>
 <div class="cell docutils container">
@@ -687,14 +687,14 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">201</span><span class="p">)</span>  <span class="c1"># Creates 201 equally spaces points between -1 and 1.</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">201</span><span class="p">)</span>  <span class="c1"># Creates 201 equally spaced points between -1 and 1.</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Values of x&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Values of y&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;A quadratic polynomial!&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>    <span class="c1"># Note: not required if using the Ipython notebook.</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>    <span class="c1"># Note: not required if using the IPython notebook.</span>
 </pre></div>
 </div>
 </div>
@@ -720,7 +720,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Now that the class has been created, we can create new dog object. The new dog is an <em>instance</em> of the dog class.</p>
+<p>Now that the class has been created, we can create a new dog object. The new dog is an <em>instance</em> of the dog class.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mydog</span> <span class="o">=</span> <span class="n">dog</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Rufus&quot;</span><span class="p">)</span>
@@ -729,7 +729,7 @@ document.write(`
 </div>
 </div>
 <p>When “dog” is called, it executes the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method and stores “age” and “name” as attributes of the new dog. Notice how “self” in the class code represents the instance of the class.</p>
-<p>The attribute of the new object can be accessed as follows:</p>
+<p>The attributes of the new object can be accessed as follows:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">mydog</span><span class="o">.</span><span class="n">age</span><span class="p">)</span>
@@ -761,7 +761,7 @@ Rufus
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When creating a class, the first argument of each method needs to be “self”. When we call a method such as “mydog.print_name()”, Python passes “mydog” as an argument of the “print_name” function. The command “mydog.print_name” is thus a shortcut for “print_name(mydog)”.</p>
+<p>When defining an instance method, its first parameter is conventionally named self. When we call a method such as mydog.print_name(), Python automatically passes mydog as this first argument. Thus, mydog.print_name() is essentially equivalent to dog.print_name(mydog).</p>
 </div>
 <p>Constructing classes is very useful to re-use code. For example, as you will see in the next chapter, many models for data in the <a href="https://scikit-learn.org/stable/" target="_blank">scikit-learn</a> package are implemented as objects. These have methods to perform various tasks such as estimating the model’s parameters and measuring the model’s performance.</p>
 <div class="admonition-exercise admonition">
@@ -771,7 +771,7 @@ Rufus
 </section>
 <section id="going-deeper">
 <h2><span class="section-number">2.8. </span>Going deeper<a class="headerlink" href="#going-deeper" title="Link to this heading">#</a></h2>
-<p>There are many resources (tutorial, videos, etc.) available on the internet. A great resource to continue exploring Python is</p>
+<p>There are many resources (tutorials, videos, etc.) available on the internet. A great resource to continue exploring Python is</p>
 <p><a href="https://lectures.scientific-python.org/" target="_blank">https://lectures.scientific-python.org/</a></p>
 <p>Please review Sections 1.2, 1.3, 1.4 to continue building your knowledge of Python.</p>
 </section>
