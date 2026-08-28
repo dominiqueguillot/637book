@@ -415,7 +415,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="learning-outside-the-training-set">
 <span id="c-learning-outside"></span><h1><span class="section-number">6. </span>Learning outside the training set<a class="headerlink" href="#learning-outside-the-training-set" title="Link to this heading">#</a></h1>
-<p>We will now examine in more details the learning problem and its different components.</p>
+<p>We will now examine in more detail the learning problem and its different components.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/learning_pb.png"><img alt="../_images/learning_pb.png" src="../_images/learning_pb.png" style="width: 600px;" />
 </a>
@@ -423,8 +423,8 @@ document.write(`
 <p><span class="caption-number">Fig. 6.1 </span><span class="caption-text">Source: Abu-Mostafa et al., ``Learning from data’’.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>In a typical learning problem, one is interested to learn a function <span class="math notranslate nohighlight">\(f: \mathcal{X} \to \mathcal{Y}\)</span> connecting inputs to outputs. For example, the input could be a grayscale image containing a handwritten digit and the output the corresponding digit. One could imagine there is some optimal function <span class="math notranslate nohighlight">\(f\)</span> connecting such inputs to outputs. In order for the machine to approximate that function, several training pairs of inputs/outputs are provided.</p>
-<p>The <em>hypothesis set</em> is a set of function that is being considered for <span class="math notranslate nohighlight">\(f\)</span>. This is often a set of functions parametrized by a finite dimensional vector space. For example, in linear regression, the hypothesis set <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> is the set of linear functions.</p>
+<p>In a typical learning problem, one is interested in learning a function <span class="math notranslate nohighlight">\(f: \mathcal{X} \to \mathcal{Y}\)</span> connecting inputs to outputs. For example, the input could be a grayscale image containing a handwritten digit and the output the corresponding digit. One could imagine there is some optimal function <span class="math notranslate nohighlight">\(f\)</span> connecting such inputs to outputs. In order for the machine to approximate that function, several training pairs of inputs/outputs are provided.</p>
+<p>The <em>hypothesis set</em> is a set of functions that is being considered for <span class="math notranslate nohighlight">\(f\)</span>. This is often a set of functions parametrized by a finite dimensional vector space. For example, in linear regression, the hypothesis set <span class="math notranslate nohighlight">\(\mathcal{H}\)</span> is the set of linear functions.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In machine learning, we usually restrict ourselves to a particular hypothesis set as the set of all functions from <span class="math notranslate nohighlight">\(\mathcal{X}\)</span> to <span class="math notranslate nohighlight">\(\mathcal{Y}\)</span> is usually too big to search.</p>
@@ -482,7 +482,7 @@ compute the <strong>test error</strong> (This estimates the performance of the m
 </figure>
 <p>For example, in a linear regression model:</p>
 <ul class="simple">
-<li><p>As we keep adding more variables, the training error <strong>always</strong> decreases. This is because, when we add variables, the original model is contained in the bigger one (just set the regression coefficients corresponding to the new variables to <span class="math notranslate nohighlight">\(0\)</span>).</p></li>
+<li><p>As we keep adding more variables, the training error is <strong>always</strong> nondecreasing. This is because, when we add variables, the original model is contained in the bigger one (just set the regression coefficients corresponding to the new variables to <span class="math notranslate nohighlight">\(0\)</span>).</p></li>
 <li><p>However, typically, the test error will start increasing at some point. This is because the model with too many variables becomes very flexible and starts learning irrelevant patterns in the data (the model is <strong>overfitting</strong>).</p></li>
 </ul>
 <div class="admonition-splitting-a-dataset-into-training-and-test-sets-with-python admonition" id="r-train-test-split">
@@ -510,7 +510,7 @@ us. Try it to measure the test error of the different linear models you previous
 \[
 R^2 = 1 - \frac{\sum_{i=1}^n(y_i-\hat{y_i})^2}{\sum_{i=1}^n (y_i-\overline{y})^2}, 
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\overline{y} := \frac{1}{n} \sum_{i=1}^n y_i\)</span> is the average of the <span class="math notranslate nohighlight">\(y_i\)</span>’s. Equivalently, the <span class="math notranslate nohighlight">\(R^2\)</span> equals 1 minus the ratio of the MSE of the model, divided by the MSE of a model that predicts <span class="math notranslate nohighlight">\(\widehat{y}_i = \overline{y}\)</span> for all <span class="math notranslate nohighlight">\(i=1,\dots,n\)</span>. Observe that <span class="math notranslate nohighlight">\(0 \leq R^2 \leq 1\)</span> for any linear regression model (assuming the model has an intercept). This is because the model is guaranteed to have a MSE smaller than a model with only an intercept.</p>
+<p>where <span class="math notranslate nohighlight">\(\overline{y} := \frac{1}{n} \sum_{i=1}^n y_i\)</span> is the average of the <span class="math notranslate nohighlight">\(y_i\)</span>’s. Equivalently, the <span class="math notranslate nohighlight">\(R^2\)</span> equals 1 minus the ratio of the MSE of the model, divided by the MSE of a model that predicts <span class="math notranslate nohighlight">\(\widehat{y}_i = \overline{y}\)</span> for all <span class="math notranslate nohighlight">\(i=1,\dots,n\)</span>. For an ordinary least-squares model with an intercept, the <span class="math notranslate nohighlight">\(R^2\)</span> computed on the training data always satisfies <span class="math notranslate nohighlight">\(0\leq R^2\leq 1\)</span>. This is because the model is guaranteed to have a MSE smaller than a model with only an intercept. On new or test data, however, the <span class="math notranslate nohighlight">\(R^2\)</span> can be negative.</p>
 <p>When the <span class="math notranslate nohighlight">\(R^2\)</span> is close to <span class="math notranslate nohighlight">\(0\)</span>, the linear regression model is not doing much better than a constant prediction. The model becomes better as the <span class="math notranslate nohighlight">\(R^2\)</span> approaches <span class="math notranslate nohighlight">\(1\)</span>.</p>
 <div class="admonition-exercise admonition">
 <p class="admonition-title">Exercise</p>
@@ -530,7 +530,7 @@ g(\beta_0) = \frac{1}{n} \sum_{i=1}^n (y_i - \beta_0)^2.
 </section>
 <section id="cross-validation">
 <span id="sec-cross-validation"></span><h2><span class="section-number">6.5. </span>Cross validation<a class="headerlink" href="#cross-validation" title="Link to this heading">#</a></h2>
-<p>A refined approach to splitting a dataset into a training and testing set is to use <strong>cross-validation</strong>. In cross-validation (CV), the samples are split into several subsets (called <em>folds</em>) that have roughly equal size. The model is fitted to all the folds <em>except the first one</em>. The testing error is then computed on the first fold. This process is repeated with the second fold removed, the third fold removed, etc.. At the end of the process, the average testing error can be computed and provides a rough estimate of how the model will perform on new data.</p>
+<p>A refined approach to splitting a dataset into a training and testing set is to use <strong>cross-validation</strong>. In cross-validation (CV), the samples are split into several subsets (called <em>folds</em>) that have roughly equal size. The model is fitted to all the folds <em>except the first one</em>. The testing error is then computed on the first fold. This process is repeated with the second fold removed, the third fold removed, etc. At the end of the process, the average testing error can be computed and provides a rough estimate of how the model will perform on new data.</p>
 <figure class="align-default" id="id3">
 <a class="reference internal image-reference" href="../_images/cv.png"><img alt="../_images/cv.png" src="../_images/cv.png" style="width: 500px;" />
 </a>
@@ -550,7 +550,7 @@ g(\beta_0) = \frac{1}{n} \sum_{i=1}^n (y_i - \beta_0)^2.
 <p>The average error computed in the last step is called the <em>cross-validation error</em>. As we will see later, the cross-validation error provides a rigorous way to compare models and to pick the best one (in terms of its ability to predict new values well).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>A typical choice for <span class="math notranslate nohighlight">\(K\)</span> is <span class="math notranslate nohighlight">\(10\)</span>. However, if the number of samples is small, one may want to pick a smaller value (e.g. 3 or 5) to make sure enough samples are available for training and testing during the cross-validation process.</p>
+<p>A typical choice for <span class="math notranslate nohighlight">\(K\)</span> is <span class="math notranslate nohighlight">\(10\)</span>. However, if the number of samples is small, one may want to pick a smaller value (e.g. 3 or 5) to make sure enough samples are available for training and validation during the cross-validation process.</p>
 </div>
 </section>
 <section id="the-no-free-lunch-theorem">
@@ -558,12 +558,12 @@ g(\beta_0) = \frac{1}{n} \sum_{i=1}^n (y_i - \beta_0)^2.
 <p>So far, we have only looked at the linear regression model. We will examine many other models in the upcoming chapters. One may wonder if there is a model that is uniformly superior to all others. For example, for learning things around us, we like to think our brain is pretty effective. An interesting theorem proved in 1996 by Wolpert shows that, in some sense, no learning algorithm is superior to all the others.</p>
 <div class="admonition-no-free-lunch-theorem-wolpert-1996 admonition">
 <p class="admonition-title">No Free Lunch Theorem (Wolpert, 1996)</p>
-<p>Averaged over all possible data-generating distribution, every classification algorithm has the same error rate when classifying previously unobserved points.</p>
+<p>Averaged over all possible data-generating distributions, every classification algorithm has the same error rate when classifying previously unobserved points.</p>
 </div>
-<p>We are not going to rigorously define what it means to “average over all possible data-generating distribution”, but roughly speaking, the theorem says that if you generate data according to a very large number of probability distributions, then the average test error of all models is about the same. Hence, given <strong>any</strong> learning algorithm, there is at least one dataset where it will not perform well. There is thus no <em>universal</em> learning algorithm that performs well in all situations.</p>
+<p>We are not going to rigorously define what it means to “average over all possible data-generating distributions”, but roughly speaking, the theorem says that if you generate data according to a very large number of probability distributions, then the average test error of all models is about the same. Hence, given <strong>any</strong> learning algorithm, there is at least one dataset where it will not perform well. There is thus no <em>universal</em> learning algorithm that performs well in all situations.</p>
 <p>In practice, however, we do not care about doing well on <strong>all</strong> datasets. A more reasonable goal is to understand what kind of data distributions are
 relevant to the “real world” or in a certain field of study, and find learning algorithms that perform well on such datasets. For example, one can look for learning algorithms that work well for detecting objects in images.</p>
-<p>In some sense, even our brain is very specialized: it works well for learning tasks involving the objects we regularly interact with (e.g., for distinguishing different animals). However, our brain is not effective for any task. For example, the images below contain 51% and 49% white pixels respectively. Is our brain really effective at learning to differentiate the two types of pictures? Would looking at thousands of images of each kind really help?</p>
+<p>In some sense, even our brain is very specialized: it works well for learning tasks involving the objects we regularly interact with (e.g., for distinguishing different animals). However, our brain is not effective at every task. For example, the images below contain 51% and 49% white pixels respectively. Is our brain really effective at learning to differentiate the two types of pictures? Would looking at thousands of images of each kind really help?</p>
 <figure class="align-default" id="id4">
 <a class="reference internal image-reference" href="../_images/pixels-51.png"><img alt="../_images/pixels-51.png" src="../_images/pixels-51.png" style="width: 500px;" />
 </a>
@@ -583,7 +583,7 @@ relevant to the “real world” or in a certain field of study, and find learni
 <h2><span class="section-number">6.7. </span>Theoretical guarantees<a class="headerlink" href="#theoretical-guarantees" title="Link to this heading">#</a></h2>
 <p>We now discuss how some theoretical guarantees can be provided that a model will perform well if it is trained on a large random sample.</p>
 <p>As above, let <span class="math notranslate nohighlight">\(f: \mathcal{X} \to \mathcal{Y}\)</span> be a target function we are trying to approximate (e.g. how images of hand-written digits are related to the actual digit). Let <span class="math notranslate nohighlight">\(\mathcal{D}\)</span> be our training dataset.</p>
-<p><strong>Question:</strong> Does the training data tells us anything <em>outside</em> <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>?</p>
+<p><strong>Question:</strong> Does the training data tell us anything <em>outside</em> <span class="math notranslate nohighlight">\(\mathcal{D}\)</span>?</p>
 <section id="example-learning-a-boolean-function-abu-mostafa-et-al-section-1-3-1">
 <h3><span class="section-number">6.7.1. </span>Example: learning a boolean function (Abu-Mostafa et al., Section 1.3.1)<a class="headerlink" href="#example-learning-a-boolean-function-abu-mostafa-et-al-section-1-3-1" title="Link to this heading">#</a></h3>
 <p>Suppose <span class="math notranslate nohighlight">\(\mathcal{X} = \{0,1\}^3\)</span> and <span class="math notranslate nohighlight">\(\mathcal{Y} = \{0,1\}\)</span>, i.e., we are trying to learn a boolean function on <span class="math notranslate nohighlight">\(\{0,1\}^3\)</span>.</p>
@@ -599,7 +599,7 @@ relevant to the “real world” or in a certain field of study, and find learni
 <p><span class="caption-number">Fig. 6.6 </span><span class="caption-text">Source: Abu-Mostafa et al., ``Learning from data’’.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Observe that we know the values of <span class="math notranslate nohighlight">\(f\)</span> on <span class="math notranslate nohighlight">\(5\)</span> of the <span class="math notranslate nohighlight">\(2^3 = 8\)</span> inputs (62.5% of the possible values). Does that tell us anything about the values of <span class="math notranslate nohighlight">\(f\)</span> on the remaining three possible inputs? The figure below displays all the functions that match out training data</p>
+<p>Observe that we know the values of <span class="math notranslate nohighlight">\(f\)</span> on <span class="math notranslate nohighlight">\(5\)</span> of the <span class="math notranslate nohighlight">\(2^3 = 8\)</span> inputs (62.5% of the possible values). Does that tell us anything about the values of <span class="math notranslate nohighlight">\(f\)</span> on the remaining three possible inputs? The figure below displays all the functions that match our training data</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/Learning_1.3.3_b.png"><img alt="../_images/Learning_1.3.3_b.png" src="../_images/Learning_1.3.3_b.png" style="width: 500px;" />
 </a>
@@ -623,7 +623,7 @@ relevant to the “real world” or in a certain field of study, and find learni
 <p class="admonition-title">Note</p>
 <p>Notice how the above problem arises when performing a survey to estimate the proportion of people having a given opinion (e.g. in an election poll).</p>
 </div>
-<p>Suppose we sample <span class="math notranslate nohighlight">\(N\)</span> marbles with replacement to infer the value of <span class="math notranslate nohighlight">\(\mu\)</span>. Note that there is no guarantee that we can learn <span class="math notranslate nohighlight">\(\mu\)</span> <em>exactly</em>. For example, even if <span class="math notranslate nohighlight">\(\mu = 0.1\)</span>, we could end up picking the same red marble <span class="math notranslate nohighlight">\(N\)</span> times and conclude <span class="math notranslate nohighlight">\(\mu = 1\)</span>. However, the probability of the above happening is ridiculously small. We <em>can</em> learn <span class="math notranslate nohighlight">\(\mu\)</span> <em>with high probability</em> if we sample enough marbles.</p>
+<p>Suppose we sample <span class="math notranslate nohighlight">\(N\)</span> marbles with replacement to infer the value of <span class="math notranslate nohighlight">\(\mu\)</span>. Note that there is no guarantee that we can learn <span class="math notranslate nohighlight">\(\mu\)</span> <em>exactly</em>. For example, even if <span class="math notranslate nohighlight">\(\mu = 0.1\)</span>, we could end up picking a red marble <span class="math notranslate nohighlight">\(N\)</span> times and conclude <span class="math notranslate nohighlight">\(\mu = 1\)</span>. However, the probability of the above happening is ridiculously small. We <em>can</em> learn <span class="math notranslate nohighlight">\(\mu\)</span> <em>with high probability</em> if we sample enough marbles.</p>
 <p>The following inequality provides a bound on how good our estimate of <span class="math notranslate nohighlight">\(\mu\)</span> is as a function of the number of marbles <span class="math notranslate nohighlight">\(N\)</span> we sampled.</p>
 <div class="admonition-theorem-hoeffding-s-inequality admonition">
 <p class="admonition-title"><strong>Theorem:</strong> (Hoeffding’s Inequality)</p>
@@ -667,13 +667,13 @@ P(|\nu - \mu| &gt; \epsilon) = P(|S_N - E(S_N)| \geq \epsilon N) \leq 2\exp\left
 \[
 P(|\nu - \mu| &gt; \epsilon) \to 0 \textrm{ as } N \to \infty. 
 \]</div>
-<p>Thus, for any choice of error <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>, the probability tha the estimated value <span class="math notranslate nohighlight">\(\nu\)</span> differs from <span class="math notranslate nohighlight">\(\mu\)</span> by more than <span class="math notranslate nohighlight">\(\epsilon\)</span> becomes very small as the number of samples <span class="math notranslate nohighlight">\(N\)</span> increases.</p>
+<p>Thus, for any choice of error <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>, the probability that the estimated value <span class="math notranslate nohighlight">\(\nu\)</span> differs from <span class="math notranslate nohighlight">\(\mu\)</span> by more than <span class="math notranslate nohighlight">\(\epsilon\)</span> becomes very small as the number of samples <span class="math notranslate nohighlight">\(N\)</span> increases.</p>
 <p>We can say even more. Suppose we want to make sure our estimate is accurate at <span class="math notranslate nohighlight">\(\pm 5\%\)</span> with a <span class="math notranslate nohighlight">\(95\%\)</span> probability. Can we pick the value of <span class="math notranslate nohighlight">\(N\)</span> to guarantee that? In that case, we have</p>
 <div class="math notranslate nohighlight">
 \[
 P(|\nu - \mu| &gt; 0.05) \leq 2 e^{-2 \times 0.05^2 N}. 
 \]</div>
-<p>Hence, we want to pick <span class="math notranslate nohighlight">\(N\)</span> large enough so that <span class="math notranslate nohighlight">\(2 e^{-2 \times 0.05^2 N} \geq 0.95\)</span>. Solving for <span class="math notranslate nohighlight">\(N\)</span>, we obtain <span class="math notranslate nohighlight">\(N \geq  149\)</span>. We can thus guarantee that our estimate is accurate at <span class="math notranslate nohighlight">\(\pm 5\%\)</span> with probability <span class="math notranslate nohighlight">\(95\%\)</span> if <span class="math notranslate nohighlight">\(N \geq 149\)</span>.</p>
+<p>Hence, we want to pick <span class="math notranslate nohighlight">\(N\)</span> large enough so that <span class="math notranslate nohighlight">\(2 e^{-2 \times 0.05^2 N} \leq 0.05\)</span>. Solving for <span class="math notranslate nohighlight">\(N\)</span>, we obtain <span class="math notranslate nohighlight">\(N \geq  738.78\)</span>. We can thus guarantee that our estimate is accurate at <span class="math notranslate nohighlight">\(\pm 5\%\)</span> with probability <span class="math notranslate nohighlight">\(95\%\)</span> if <span class="math notranslate nohighlight">\(N \geq 739\)</span>.</p>
 <p>In general, observe that if <span class="math notranslate nohighlight">\(\epsilon\)</span> is very small (the estimate is very precise), the sample size <span class="math notranslate nohighlight">\(N\)</span> needs to be larger to guarantee accuracy of the estimator.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -682,12 +682,12 @@ P(|\nu - \mu| &gt; 0.05) \leq 2 e^{-2 \times 0.05^2 N}.
 </section>
 <section id="back-to-predicting-outside-the-training-set">
 <h4><span class="section-number">6.7.2.2. </span>Back to predicting outside the training set<a class="headerlink" href="#back-to-predicting-outside-the-training-set" title="Link to this heading">#</a></h4>
-<p>We will now show how the above arguments can be applied to the learning problem. Assume in our learning problem that the data is given to us at random according to some unknown probability distribution. Also assume we already have a training dataset of size <span class="math notranslate nohighlight">\(N\)</span>. We want to know if a model trainined on the training set is guaranteed to perform well on the test set.</p>
+<p>We will now show how the above arguments can be applied to the learning problem. Assume in our learning problem that the data is given to us at random according to some unknown probability distribution. Also assume we already have a training dataset of size <span class="math notranslate nohighlight">\(N\)</span>. We want to know if a model trained on the training set is guaranteed to perform well on the test set.</p>
 <p>We will use the following notation:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 [[\textrm{statement}]] = \begin{cases}
-1 &amp; \textrm{ if statement is true and }\\
+1 &amp; \textrm{ if statement is true }\\
 0 &amp; \textrm{ otherwise}.
 \end{cases}
 \end{split}\]</div>
@@ -710,7 +710,7 @@ E_{\textrm{out}}(g) = P(g({\bf x}) \ne f({\bf x})),
 <p>where <span class="math notranslate nohighlight">\({\bf x}\)</span> is sampled according to the unknown data distribution.</p>
 <p>Our goal is to:</p>
 <ul class="simple">
-<li><p>Find an hypothesis <span class="math notranslate nohighlight">\(g\)</span> for which <span class="math notranslate nohighlight">\(E_{\textrm{in}}(g)\)</span> is small (good training error).</p></li>
+<li><p>Find a hypothesis <span class="math notranslate nohighlight">\(g\)</span> for which <span class="math notranslate nohighlight">\(E_{\textrm{in}}(g)\)</span> is small (good training error).</p></li>
 <li><p>Prove that <span class="math notranslate nohighlight">\(E_{\textrm{out}}(g)\)</span> and <span class="math notranslate nohighlight">\(E_{\textrm{in}}(g)\)</span> are not too different with high probability.</p></li>
 <li><p>Conclude that <span class="math notranslate nohighlight">\(E_{\textrm{out}}(g)\)</span> is small with high probability.</p></li>
 </ul>
@@ -732,8 +732,8 @@ E_{\textrm{out}}(g) = P(g({\bf x}) \ne f({\bf x})),
 \[
 P(|E_{\textrm{in}}(h_i) - E_{\textrm{out}}(h_i)| &gt; \epsilon) \leq 2e^{-2\epsilon^2 N} \qquad (i=1,\dots, M)
 \]</div>
-<p>and guarantees that if a model does well on the training set (proportion of red marbles is small), then it will do well on the test set (assuming <span class="math notranslate nohighlight">\(N\)</span> is large enough).</p>
-<p>There is just one more subtlety that we need to address before concluding out model will do well on the test set: the above bound assumes <span class="math notranslate nohighlight">\(h_i\)</span> is fixed before the sample is seen. However, in practice, we want to pick the “best” <span class="math notranslate nohighlight">\(h_i\)</span> (the one with the smallest in-sample error). We therefore decide which <span class="math notranslate nohighlight">\(h_i\)</span> to pick <em>after</em> seeing the data so the above bound does not immediately apply. Right now, we know:</p>
+<p>and guarantees that if a model does well on the training set (proportion of red marbles is small), then it will do well out of sample (assuming <span class="math notranslate nohighlight">\(N\)</span> is large enough).</p>
+<p>There is just one more subtlety that we need to address before concluding our model will do well on the test set: the above bound assumes <span class="math notranslate nohighlight">\(h_i\)</span> is fixed before the sample is seen. However, in practice, we want to pick the “best” <span class="math notranslate nohighlight">\(h_i\)</span> (the one with the smallest in-sample error). We therefore decide which <span class="math notranslate nohighlight">\(h_i\)</span> to pick <em>after</em> seeing the data so the above bound does not immediately apply. Right now, we know:</p>
 <div class="math notranslate nohighlight">
 \[
 P(|E_{\textrm{in}}(h_i) - E_{\textrm{out}}(h_i)| &gt; \epsilon) \textrm{ is small for any particular } h_i.
@@ -780,8 +780,8 @@ P(E_1 \cup E_2 \cup \dots \cup E_M) \leq \sum_{i=1}^M P(E_i).
 &amp;= 2M e^{-2\epsilon^2 N}.
 \end{align*}\]</div>
 <p><strong>Conclusion:</strong> We get <span class="math notranslate nohighlight">\(P(|E_{\textrm{in}}(g) - E_{\textrm{out}}(g)| &gt; \epsilon) \to 0\)</span> as <span class="math notranslate nohighlight">\(N \to \infty\)</span> (with an explicit control on the error).</p>
-<p>The downside of the above argument is it requires <span class="math notranslate nohighlight">\(M\)</span> to be finite (and we get a looser bound). This can be improved with more work.</p>
-<p>The above calculations show that (under the assumptions we made), we are guaranteed that a chosen model that performs well on a large enough training set will also perform well on new data with high probability. This provides a <strong>theoretical guarantee</strong> that learning the function <span class="math notranslate nohighlight">\(f\)</span> is possible (with high probability). We note, however, the the kind of bounds we obtained are typically not very useful in practice in the learning problem (for example, to guide the choice of the training set size, as we did above for the pooling problem).</p>
+<p>The downside of the above argument is that it requires <span class="math notranslate nohighlight">\(M\)</span> to be finite (and we get a looser bound). This can be improved with more work.</p>
+<p>The above calculations show that (under the assumptions we made), we are guaranteed that a chosen model that performs well on a large enough training set will also perform well on new data with high probability. This provides a <strong>theoretical guarantee</strong> that learning the function <span class="math notranslate nohighlight">\(f\)</span> is possible (with high probability). We note, however, the kind of bounds we obtained are typically not very useful in practice in the learning problem (for example, to guide the choice of the training set size, as we did above for the polling problem).</p>
 </section>
 </section>
 </section>
