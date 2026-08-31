@@ -482,7 +482,7 @@ compute the <strong>test error</strong> (This estimates the performance of the m
 </figure>
 <p>For example, in a linear regression model:</p>
 <ul class="simple">
-<li><p>As we keep adding more variables, the training error is <strong>always</strong> nondecreasing. This is because, when we add variables, the original model is contained in the bigger one (just set the regression coefficients corresponding to the new variables to <span class="math notranslate nohighlight">\(0\)</span>).</p></li>
+<li><p>As we keep adding more variables, the training error is <strong>always</strong> nonincreasing. This is because, when we add variables, the original model is contained in the bigger one (just set the regression coefficients corresponding to the new variables to <span class="math notranslate nohighlight">\(0\)</span>).</p></li>
 <li><p>However, typically, the test error will start increasing at some point. This is because the model with too many variables becomes very flexible and starts learning irrelevant patterns in the data (the model is <strong>overfitting</strong>).</p></li>
 </ul>
 <div class="admonition-splitting-a-dataset-into-training-and-test-sets-with-python admonition" id="r-train-test-split">

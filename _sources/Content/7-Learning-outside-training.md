@@ -75,7 +75,7 @@ Source: ESL, Figure 2.11.
 ```
 
 For example, in a linear regression model: 
-* As we keep adding more variables, the training error is **always** nondecreasing. This is because, when we add variables, the original model is contained in the bigger one (just set the regression coefficients corresponding to the new variables to $0$). 
+* As we keep adding more variables, the training error is **always** nonincreasing. This is because, when we add variables, the original model is contained in the bigger one (just set the regression coefficients corresponding to the new variables to $0$). 
 * However, typically, the test error will start increasing at some point. This is because the model with too many variables becomes very flexible and starts learning irrelevant patterns in the data (the model is **overfitting**).
 
 ```{admonition} Splitting a dataset into training and test sets with Python
