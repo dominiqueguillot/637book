@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -207,7 +207,10 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1b-podcast.html">Podcast</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
@@ -508,23 +511,25 @@ m_i^{(t+1)} := \frac{1}{|S_i^{(t)}|} \sum_{x_j \in S_i^{(t)}} x_j \qquad (i=1,\d
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initialization complete
-Iteration 0, inertia 2123245.0.
-Iteration 1, inertia 1280480.579126918.
-Iteration 2, inertia 1227463.7120908.
-Iteration 3, inertia 1199161.736615593.
-Iteration 4, inertia 1183281.9384429478.
-Iteration 5, inertia 1173395.7580561675.
-Iteration 6, inertia 1168524.5688055896.
-Iteration 7, inertia 1166834.0312563563.
-Iteration 8, inertia 1166261.9590430735.
-Iteration 9, inertia 1166071.3107649114.
-Iteration 10, inertia 1165669.6972720837.
-Iteration 11, inertia 1165564.5933775674.
-Iteration 12, inertia 1165515.7516920418.
-Iteration 13, inertia 1165439.4847528595.
-Iteration 14, inertia 1165417.305371157.
-Iteration 15, inertia 1165407.806373831.
-Converged at iteration 15: strict convergence.
+Iteration 0, inertia 2030608.0.
+Iteration 1, inertia 1254110.6107707098.
+Iteration 2, inertia 1225582.653371681.
+Iteration 3, inertia 1219324.9728400167.
+Iteration 4, inertia 1216641.751505824.
+Iteration 5, inertia 1215675.8042092805.
+Iteration 6, inertia 1214748.3140349684.
+Iteration 7, inertia 1214324.8514445412.
+Iteration 8, inertia 1214193.9166877242.
+Iteration 9, inertia 1213998.4421945806.
+Iteration 10, inertia 1213882.8217108985.
+Iteration 11, inertia 1213777.3420904344.
+Iteration 12, inertia 1213610.0745514121.
+Iteration 13, inertia 1213116.1568242323.
+Iteration 14, inertia 1212284.3282769748.
+Iteration 15, inertia 1211578.1640235798.
+Iteration 16, inertia 1211455.099679183.
+Iteration 17, inertia 1211438.251667648.
+Converged at iteration 17: strict convergence.
 </pre></div>
 </div>
 </div>
@@ -537,16 +542,16 @@ Converged at iteration 15: strict convergence.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 0.    0.72  0.    1.44  0.   90.65  0.    0.    3.6   3.6 ]
- [ 0.   43.81  3.54  3.1   1.33  0.    1.33  0.88 45.13  0.88]
- [ 0.59  0.    0.    0.   98.22  1.18  0.    0.    0.    0.  ]
- [ 0.    0.    0.4   3.63  0.   20.56  0.    0.   20.16 55.24]
- [ 0.    1.1   0.    0.    0.    0.55 97.25  0.    1.1   0.  ]
- [ 0.   13.64 84.09  0.57  0.    0.    0.    0.    1.7   0.  ]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 0.    0.68  0.    1.37  0.   94.52  0.    0.    1.37  2.05]
  [98.88  0.    0.56  0.    0.    0.    0.56  0.    0.    0.  ]
- [ 0.   62.5   2.27  0.    3.41  0.    0.    2.27  6.82 22.73]
- [ 0.    0.54  7.57 84.86  0.    1.08  0.    0.    1.08  4.86]
- [ 0.    0.    1.46  3.41  4.39  0.    0.   85.37  1.95  3.41]]
+ [ 0.   12.99 83.62  1.69  0.    0.    0.    0.    1.69  0.  ]
+ [ 0.6   0.    0.    0.   95.24  1.19  0.    0.    0.    2.98]
+ [ 0.   76.02  3.51  0.    7.02  0.    0.58  0.   10.53  2.34]
+ [ 0.    0.    1.01  4.02  2.51  0.    0.   84.92  1.51  6.03]
+ [ 0.    4.62  4.62  5.78  2.31  0.    0.58  5.78 74.57  1.73]
+ [ 0.    4.25  3.   40.    0.   10.    0.    0.    4.5  38.25]
+ [ 0.    0.    0.    0.    0.    2.2  97.8   0.    0.    0.  ]
+ [ 1.06  3.19  0.    0.    0.    0.   94.68  0.    1.06  0.  ]]
 </pre></div>
 </div>
 </div>
@@ -574,26 +579,26 @@ Converged at iteration 15: strict convergence.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&lt;matplotlib.axis.XTick at 0x780164201940&gt;,
-  &lt;matplotlib.axis.XTick at 0x780164215810&gt;,
-  &lt;matplotlib.axis.XTick at 0x78016441afd0&gt;,
-  &lt;matplotlib.axis.XTick at 0x7801642165d0&gt;,
-  &lt;matplotlib.axis.XTick at 0x780164216d50&gt;,
-  &lt;matplotlib.axis.XTick at 0x7801642174d0&gt;,
-  &lt;matplotlib.axis.XTick at 0x780164217c50&gt;,
-  &lt;matplotlib.axis.XTick at 0x780164248410&gt;,
-  &lt;matplotlib.axis.XTick at 0x780164248b90&gt;,
-  &lt;matplotlib.axis.XTick at 0x780164249310&gt;,
-  &lt;matplotlib.axis.XTick at 0x780164249a90&gt;,
-  &lt;matplotlib.axis.XTick at 0x78016424a210&gt;,
-  &lt;matplotlib.axis.XTick at 0x78016424a990&gt;,
-  &lt;matplotlib.axis.XTick at 0x78016424b110&gt;,
-  &lt;matplotlib.axis.XTick at 0x78016424b890&gt;,
-  &lt;matplotlib.axis.XTick at 0x780164270050&gt;,
-  &lt;matplotlib.axis.XTick at 0x7801642707d0&gt;,
-  &lt;matplotlib.axis.XTick at 0x780164270f50&gt;,
-  &lt;matplotlib.axis.XTick at 0x7801642716d0&gt;,
-  &lt;matplotlib.axis.XTick at 0x780164271e50&gt;],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>([&lt;matplotlib.axis.XTick at 0x79b5f2d55a90&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b05810&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2d0efd0&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b065d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b06d50&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b074d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b07c50&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b38410&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b38b90&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b39310&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b39a90&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b3a210&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b3a990&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b3b110&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b3b890&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b64050&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b647d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b64f50&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b656d0&gt;,
+  &lt;matplotlib.axis.XTick at 0x79b5f2b65e50&gt;],
  [Text(1, 0, &#39;1&#39;),
   Text(2, 0, &#39;2&#39;),
   Text(3, 0, &#39;3&#39;),

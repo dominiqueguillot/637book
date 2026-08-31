@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -207,7 +207,10 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1b-podcast.html">Podcast</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
@@ -413,7 +416,7 @@ document.write(`
 <p>A very popular approach in machine learning is to use the <em>gradient descent</em> algorithm. This is a <em>first-order method</em> in the sense that it only uses the first derivatives of the function to perform the optimization. While many higher-order methods also exist, they are often too computationally intensive to be applied to large datasets.</p>
 <section id="the-direction-of-steepest-descent">
 <h2><span class="section-number">9.1. </span>The direction of steepest descent<a class="headerlink" href="#the-direction-of-steepest-descent" title="Link to this heading">#</a></h2>
-<p>Let <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> be a function of <span class="math notranslate nohighlight">\(n\)</span> variables. Recall that its gradient of <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span> is the vector</p>
+<p>Let <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> be a function of <span class="math notranslate nohighlight">\(n\)</span> variables. Recall that the gradient of <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x \in \mathbb{R}^n\)</span> is the vector</p>
 <div class="math notranslate nohighlight">
 \[
 \nabla f(x) = \left(\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \dots, \frac{\partial f}{\partial x_n}\right)^T.
@@ -425,7 +428,7 @@ D_v f(x) = \lim_{h \to 0} \frac{f(x+h v)-f(x)}{h}.
 \]</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>As a special case, if <span class="math notranslate nohighlight">\(f: \mathbb{R}^2 \to \mathbb{R}\)</span> is a function of two variables, then for <span class="math notranslate nohighlight">\(v = (1,0)^T\)</span>, we have <span class="math notranslate nohighlight">\(D_v f(x,y) = \frac{\partial f}{\partial x}\)</span>. Similarly, when <span class="math notranslate nohighlight">\(v = (0,1)^T\)</span>, we obtain <span class="math notranslate nohighlight">\(D_v f(x,y) = \frac{\partial f}{\partial y}\)</span>. These are the derivatives of <span class="math notranslate nohighlight">\(f\)</span> taken along the <span class="math notranslate nohighlight">\(x\)</span> and the <span class="math notranslate nohighlight">\(y\)</span> axis respectively.</p>
+<p>As a special case, if <span class="math notranslate nohighlight">\(f: \mathbb{R}^2 \to \mathbb{R}\)</span> is a function of two variables, then for <span class="math notranslate nohighlight">\(v = (1,0)^T\)</span>, we have <span class="math notranslate nohighlight">\(D_v f(x,y) = \frac{\partial f}{\partial x}\)</span>. Similarly, when <span class="math notranslate nohighlight">\(v = (0,1)^T\)</span>, we obtain <span class="math notranslate nohighlight">\(D_v f(x,y) = \frac{\partial f}{\partial y}\)</span>. These are the derivatives of <span class="math notranslate nohighlight">\(f\)</span> taken along the <span class="math notranslate nohighlight">\(x\)</span> and the <span class="math notranslate nohighlight">\(y\)</span> axes respectively.</p>
 </div>
 <p>One can show that the directional derivative in the direction <span class="math notranslate nohighlight">\(v\)</span> is given by:</p>
 <div class="math notranslate nohighlight">
@@ -435,10 +438,10 @@ D_v f(x) = \nabla f(x) \cdot v,
 <p>where, for vectors <span class="math notranslate nohighlight">\(u, v \in \mathbb{R}^n\)</span>, we use the notation <span class="math notranslate nohighlight">\(u \cdot v = \sum_{i=1}^n u_i v_i\)</span> for the <em>dot-product</em> of <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(v\)</span>. As a consequence of this formula, we can show that the directional derivative is maximal in the direction of the gradient. This is the direction of <em>steepest ascent</em>, i.e., the direction where the function <span class="math notranslate nohighlight">\(f\)</span> increases the most around the point <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <div class="admonition-theorem-direction-of-steepest-ascent admonition">
 <p class="admonition-title">Theorem: (Direction of steepest ascent)</p>
-<p>Let <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span>. Then the direction <span class="math notranslate nohighlight">\(v \in \mathbb{R}^n\)</span> with <span class="math notranslate nohighlight">\(\|v\|_2 = 1\)</span> for which <span class="math notranslate nohighlight">\(D_v f(x)\)</span> is the largest is</p>
+<p>Let <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> and suppose <span class="math notranslate nohighlight">\(\nabla f(x) \ne 0\)</span>. Then the direction <span class="math notranslate nohighlight">\(v \in \mathbb{R}^n\)</span> with <span class="math notranslate nohighlight">\(\|v\|_2 = 1\)</span> for which <span class="math notranslate nohighlight">\(D_v f(x)\)</span> is the largest is</p>
 <div class="math notranslate nohighlight">
 \[
-v = \frac{\nabla f(x)}{\|\nabla f(x)\|}.  
+v = \frac{\nabla f(x)}{\|\nabla f(x)\|_2}.  
 \]</div>
 </div>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
@@ -460,20 +463,20 @@ v = \frac{\nabla f(x)}{\|\nabla f(x)\|}.
 </section>
 <section id="the-gradient-descent-algorithm">
 <h2><span class="section-number">9.2. </span>The gradient descent algorithm<a class="headerlink" href="#the-gradient-descent-algorithm" title="Link to this heading">#</a></h2>
-<p>The gradient descent algorithm minimizes a function <span class="math notranslate nohighlight">\(f\)</span> by starting at some location provided by the user, and making small steps in the direction of steepest descent to decrease the value of the function. This is a <em>greedy algorithm</em> in the sense that it always makes the best local move to decrease the value of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>The gradient descent algorithm minimizes a function <span class="math notranslate nohighlight">\(f\)</span> by starting at some location provided by the user, and making small steps in the direction of steepest descent to decrease the value of the function. For a sufficiently small step size, moving in this direction decreases <span class="math notranslate nohighlight">\(f\)</span> locally.This is a <em>greedy algorithm</em> in the sense that it always makes the best local move to decrease the value of <span class="math notranslate nohighlight">\(f\)</span>.</p>
 <div class="admonition-the-gradient-descent-algorithm admonition">
 <p class="admonition-title">The gradient descent algorithm</p>
-<p><strong>Input:</strong> A function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span>, a starting point <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span>, a step size <span class="math notranslate nohighlight">\(\eta &gt; 0\)</span>, and a tolerence <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>.</p>
+<p><strong>Input:</strong> A function <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span>, a starting point <span class="math notranslate nohighlight">\(x_0 \in \mathbb{R}^n\)</span>, a step size <span class="math notranslate nohighlight">\(\eta &gt; 0\)</span>, and a tolerance <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>.</p>
 <p><span class="math notranslate nohighlight">\(i = 0\)</span></p>
 <p><strong>while</strong> <span class="math notranslate nohighlight">\(\|\nabla f(x_i)\|_2 &gt; \epsilon\)</span>:</p>
 <p><span class="math notranslate nohighlight">\(\ \ \ x_{i+1} \leftarrow x_i - \eta \nabla f(x_i)\)</span></p>
 <p><span class="math notranslate nohighlight">\(\ \ \ i \leftarrow i+1\)</span></p>
-<p><strong>output:</strong> A point <span class="math notranslate nohighlight">\(x_n \in \mathbb{R}^n\)</span> such that <span class="math notranslate nohighlight">\(\|\nabla f(x_n)\|_2 \leq \epsilon\)</span>.</p>
+<p><strong>output:</strong> A point <span class="math notranslate nohighlight">\(x_k \in \mathbb{R}^n\)</span> for some integer <span class="math notranslate nohighlight">\(k\)</span> such that <span class="math notranslate nohighlight">\(\|\nabla f(x_k)\|_2 \leq \epsilon\)</span>.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The starting point <span class="math notranslate nohighlight">\(x_0\)</span> in gradient descent needs to be provided by the user. This is the initial guess to start the process. The starting point can be chosen using some heuristic or some previous knowledge when available. Otherwise, it can be a fixed number or can be chosen at random. Note that the starting point can have a big impact on the convergence of gradient descent.</p>
-<p>Observe that the gradient descent algorithm converges to points where the gradient of <span class="math notranslate nohighlight">\(f\)</span> is approximately <span class="math notranslate nohighlight">\(0\)</span>. These may be local min, local max, or neither of them. Recall that if <span class="math notranslate nohighlight">\(f\)</span> has a local minimum or maximum at <span class="math notranslate nohighlight">\(x\)</span>, then <span class="math notranslate nohighlight">\(\nabla f(x) = 0\)</span>. When <span class="math notranslate nohighlight">\(f\)</span> has several local min/max, the gradient descent algorithm typically converges to a local min/max near the starting point. It is therefore important to run gradient descent with many different starting points if one does not know that the function to optimize has a unique min/max.</p>
+<p>If gradient descent converges to a point where the gradient vanishes, that point is a stationary point. A stationary point can be a local minimum, a local maximum, or neither (for example, a saddle point). Gradient descent is designed to find local minima, although for nonconvex functions it can also approach other stationary points. The result may depend strongly on the starting point. When a function has several local minima, it can be useful to run gradient descent from several different starting points.</p>
 </div>
 </section>
 <section id="implementing-a-basic-gradient-descent">
@@ -513,12 +516,12 @@ v = \frac{\nabla f(x)}{\|\nabla f(x)\|}.
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%1.4f</span><span class="s2"> </span><span class="se">\t</span><span class="s2"> </span><span class="si">%1.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">grad_norm</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">it</span> <span class="o">==</span> <span class="n">max_iterations</span><span class="p">:</span> 
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: maximum number of iterations reached. Increase the step size or the number of iterations.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: maximum number of iterations reached. Adjust the step size or the number of iterations.&quot;</span><span class="p">)</span>
     
     <span class="k">return</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 <span class="c1"># Run the gradient descent</span>
-<span class="c1"># Let&#39;s say our initial guess for the minimum of 1.2. </span>
+<span class="c1"># Let&#39;s say our initial guess for the location of the minimum is 1.2. </span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -3273,19 +3276,19 @@ v = \frac{\nabla f(x)}{\|\nabla f(x)\|}.
 <p class="admonition-title">Note</p>
 <p>In the code above, <em>default arguments</em> are passed to the function <em>gradient_descent</em>. Please review <a href="https://lectures.scientific-python.org/intro/language/functions.html" target="_blank">Defining functions</a> in the Python tutorial for more details.</p>
 </div>
-<p>Try the code with other functions. Are you able to find local minima? How does the starting point affects the convergence of the algorithm?</p>
+<p>Try the code with other functions. Are you able to find local minima? How does the starting point affect the convergence of the algorithm?</p>
 <div class="admonition-the-adam-optimizer admonition">
 <p class="admonition-title">The Adam optimizer</p>
-<p>A popular variant of the gradient descent algorithm that is used a lot in data science is the <strong>Adam</strong> (Adaptive Moment Estimation) optimizer. Adam uses <em>momentum</em> and <em>Root Mean Square Propagation</em> (RMSProp) to speed up convergence.</p>
+<p>A popular variant of the gradient descent algorithm that is used a lot in data science is the <strong>Adam</strong> (Adaptive Moment Estimation) optimizer. Adam combines ideas from <em>momentum</em> and <em>RMSProp</em>.</p>
 <ol class="arabic simple">
-<li><p>In the momentum approach a combination of the previous gradient and the new gradient is used to make updates. This helps smoothing out noisy gradients and provides a more stable path for optimization.</p></li>
+<li><p>In the momentum approach a combination of the previous gradient and the new gradient is used to make updates. This helps smooth out noisy gradients and provides a more stable path for optimization.</p></li>
 <li><p>RMSProp adjusts the learning rate depending on the magnitude of the gradient (large gradient: smaller learning rate, small gradient: larger learning rate). This prevents overshooting and slow convergence.</p></li>
 </ol>
 </div>
 </section>
 <section id="using-pytorch">
 <span id="s-pytorch"></span><h2><span class="section-number">9.4. </span>Using PyTorch<a class="headerlink" href="#using-pytorch" title="Link to this heading">#</a></h2>
-<p>A popular Python package that can be used to construct models for data is <strong>PyTorch</strong>. The package was developed by Facebook AI Research lab. One of its main strenghts is that it automatically computes the gradient of functions <em>symbolically</em> . This greatly simplifies the process of optimizing functions, such as loss functions.. As we perform calculations, PyTorch keeps track of all the operations performed in the form of a <em>computational graph</em>.</p>
+<p>A popular Python package that can be used to construct models for data is <strong>PyTorch</strong>. The package was developed by Facebook AI Research lab. One of its main strengths is that it automatically computes the gradient of functions using <em>automatic differentiation</em>. This greatly simplifies the process of optimizing functions, such as loss functions. As we perform calculations, PyTorch keeps track of all the operations performed in the form of a <em>computational graph</em>.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/f_x_y_graph.png"><img alt="../_images/f_x_y_graph.png" src="../_images/f_x_y_graph.png" style="width: 500px;" />
 </a>
@@ -3293,7 +3296,7 @@ v = \frac{\nabla f(x)}{\|\nabla f(x)\|}.
 <p><span class="caption-number">Fig. 9.1 </span><span class="caption-text">Example of a computational graph for evaluating <span class="math notranslate nohighlight">\(w = \log v = \log(xy)\)</span>.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Using the computational graph, PyTorch can automatically evaluate gradients symbolically by applying the <em>chain rule</em>. PyTorch also supports multi-dimensional arrays (tensors) and is optimized for both CPU and GPU.</p>
+<p>Using the computational graph, PyTorch can automatically evaluate gradients using automatic differentiation by applying the <em>chain rule</em> to the computational graph. PyTorch also supports multi-dimensional arrays (tensors) and is optimized for both CPU and GPU.</p>
 <p>The following code shows how one can use PyTorch to minimize the function <span class="math notranslate nohighlight">\(f(x) = x^2\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3314,302 +3317,309 @@ v = \frac{\nabla f(x)}{\|\nabla f(x)\|}.
 <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Iteration counter</span>
 <span class="n">grad</span> <span class="o">=</span> <span class="mf">1e6</span>  <span class="c1"># Keeps track of derivative with respect to x</span>
 
-<span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">maxit</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-3</span><span class="p">:</span> 
-     <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span> 
-     <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>  <span class="c1"># Clear the gradients</span>
-     <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Calculate the function value</span>
-     <span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>  <span class="c1"># Compute the gradients</span>
-     <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>  <span class="c1"># Update the parameters (here: the value of x)</span>
-     <span class="n">grad</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iter: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\t</span><span class="s2"> x= </span><span class="si">{:.6f}</span><span class="s2"> </span><span class="se">\t</span><span class="s2"> y= </span><span class="si">{:.6f}</span><span class="s2"> </span><span class="se">\t</span><span class="s2"> grad= </span><span class="si">{:.6f}</span><span class="s2">&quot;</span>
-                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">grad</span><span class="p">))</span>
+<span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">maxit</span><span class="p">:</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="n">grad</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iter: </span><span class="si">{}</span><span class="s2"> </span><span class="se">\t</span><span class="s2"> x= </span><span class="si">{:.6f}</span><span class="s2"> </span><span class="se">\t</span><span class="s2"> y= </span><span class="si">{:.6f}</span><span class="s2"> </span><span class="se">\t</span><span class="s2"> grad= </span><span class="si">{:.6f}</span><span class="s2">&quot;</span>
+          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">grad</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-3</span><span class="p">:</span>
+        <span class="k">break</span>
+
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter: 1 	 x= 0.990000 	 y= 1.000000 	 grad= 2.000000
-Iter: 2 	 x= 0.980003 	 y= 0.980100 	 grad= 1.980000
-Iter: 3 	 x= 0.970010 	 y= 0.960405 	 grad= 1.960006
-Iter: 4 	 x= 0.960024 	 y= 0.940920 	 grad= 1.940020
-Iter: 5 	 x= 0.950046 	 y= 0.921646 	 grad= 1.920048
-Iter: 6 	 x= 0.940079 	 y= 0.902588 	 grad= 1.900092
-Iter: 7 	 x= 0.930123 	 y= 0.883748 	 grad= 1.880157
-Iter: 8 	 x= 0.920182 	 y= 0.865130 	 grad= 1.860247
-Iter: 9 	 x= 0.910257 	 y= 0.846735 	 grad= 1.840364
-Iter: 10 	 x= 0.900350 	 y= 0.828568 	 grad= 1.820514
-Iter: 11 	 x= 0.890462 	 y= 0.810630 	 grad= 1.800699
-Iter: 12 	 x= 0.880596 	 y= 0.792923 	 grad= 1.780924
-Iter: 13 	 x= 0.870754 	 y= 0.775450 	 grad= 1.761193
-Iter: 14 	 x= 0.860937 	 y= 0.758213 	 grad= 1.741508
-Iter: 15 	 x= 0.851147 	 y= 0.741212 	 grad= 1.721874
-Iter: 16 	 x= 0.841386 	 y= 0.724452 	 grad= 1.702294
-Iter: 17 	 x= 0.831656 	 y= 0.707931 	 grad= 1.682773
-Iter: 18 	 x= 0.821958 	 y= 0.691652 	 grad= 1.663312
-Iter: 19 	 x= 0.812294 	 y= 0.675615 	 grad= 1.643916
-Iter: 20 	 x= 0.802666 	 y= 0.659822 	 grad= 1.624589
-Iter: 21 	 x= 0.793076 	 y= 0.644273 	 grad= 1.605333
-Iter: 22 	 x= 0.783524 	 y= 0.628969 	 grad= 1.586151
-Iter: 23 	 x= 0.774012 	 y= 0.613910 	 grad= 1.567048
-Iter: 24 	 x= 0.764543 	 y= 0.599095 	 grad= 1.548025
-Iter: 25 	 x= 0.755116 	 y= 0.584526 	 grad= 1.529085
-Iter: 26 	 x= 0.745735 	 y= 0.570201 	 grad= 1.510233
-Iter: 27 	 x= 0.736399 	 y= 0.556120 	 grad= 1.491470
-Iter: 28 	 x= 0.727111 	 y= 0.542284 	 grad= 1.472798
-Iter: 29 	 x= 0.717871 	 y= 0.528690 	 grad= 1.454222
-Iter: 30 	 x= 0.708681 	 y= 0.515339 	 grad= 1.435742
-Iter: 31 	 x= 0.699542 	 y= 0.502229 	 grad= 1.417362
-Iter: 32 	 x= 0.690455 	 y= 0.489359 	 grad= 1.399084
-Iter: 33 	 x= 0.681421 	 y= 0.476728 	 grad= 1.380910
-Iter: 34 	 x= 0.672442 	 y= 0.464335 	 grad= 1.362843
-Iter: 35 	 x= 0.663517 	 y= 0.452178 	 grad= 1.344883
-Iter: 36 	 x= 0.654649 	 y= 0.440255 	 grad= 1.327034
-Iter: 37 	 x= 0.645837 	 y= 0.428565 	 grad= 1.309298
-Iter: 38 	 x= 0.637084 	 y= 0.417106 	 grad= 1.291675
-Iter: 39 	 x= 0.628389 	 y= 0.405876 	 grad= 1.274168
-Iter: 40 	 x= 0.619754 	 y= 0.394873 	 grad= 1.256778
-Iter: 41 	 x= 0.611179 	 y= 0.384095 	 grad= 1.239507
-Iter: 42 	 x= 0.602664 	 y= 0.373539 	 grad= 1.222357
-Iter: 43 	 x= 0.594212 	 y= 0.363204 	 grad= 1.205329
-Iter: 44 	 x= 0.585822 	 y= 0.353088 	 grad= 1.188424
-Iter: 45 	 x= 0.577495 	 y= 0.343187 	 grad= 1.171644
-Iter: 46 	 x= 0.569231 	 y= 0.333500 	 grad= 1.154989
-Iter: 47 	 x= 0.561031 	 y= 0.324024 	 grad= 1.138461
-Iter: 48 	 x= 0.552896 	 y= 0.314756 	 grad= 1.122062
-Iter: 49 	 x= 0.544826 	 y= 0.305694 	 grad= 1.105791
-Iter: 50 	 x= 0.536821 	 y= 0.296835 	 grad= 1.089651
-Iter: 51 	 x= 0.528883 	 y= 0.288177 	 grad= 1.073642
-Iter: 52 	 x= 0.521010 	 y= 0.279717 	 grad= 1.057765
-Iter: 53 	 x= 0.513205 	 y= 0.271452 	 grad= 1.042021
-Iter: 54 	 x= 0.505467 	 y= 0.263379 	 grad= 1.026410
-Iter: 55 	 x= 0.497796 	 y= 0.255497 	 grad= 1.010934
-Iter: 56 	 x= 0.490193 	 y= 0.247801 	 grad= 0.995592
-Iter: 57 	 x= 0.482659 	 y= 0.240289 	 grad= 0.980386
-Iter: 58 	 x= 0.475192 	 y= 0.232959 	 grad= 0.965317
-Iter: 59 	 x= 0.467794 	 y= 0.225808 	 grad= 0.950384
-Iter: 60 	 x= 0.460466 	 y= 0.218832 	 grad= 0.935589
-Iter: 61 	 x= 0.453206 	 y= 0.212029 	 grad= 0.920931
-Iter: 62 	 x= 0.446016 	 y= 0.205396 	 grad= 0.906412
-Iter: 63 	 x= 0.438895 	 y= 0.198930 	 grad= 0.892031
-Iter: 64 	 x= 0.431844 	 y= 0.192629 	 grad= 0.877790
-Iter: 65 	 x= 0.424862 	 y= 0.186489 	 grad= 0.863687
-Iter: 66 	 x= 0.417951 	 y= 0.180508 	 grad= 0.849724
-Iter: 67 	 x= 0.411109 	 y= 0.174683 	 grad= 0.835901
-Iter: 68 	 x= 0.404338 	 y= 0.169011 	 grad= 0.822218
-Iter: 69 	 x= 0.397637 	 y= 0.163489 	 grad= 0.808676
-Iter: 70 	 x= 0.391006 	 y= 0.158115 	 grad= 0.795273
-Iter: 71 	 x= 0.384445 	 y= 0.152885 	 grad= 0.782011
-Iter: 72 	 x= 0.377955 	 y= 0.147798 	 grad= 0.768890
-Iter: 73 	 x= 0.371535 	 y= 0.142850 	 grad= 0.755910
-Iter: 74 	 x= 0.365185 	 y= 0.138038 	 grad= 0.743070
-Iter: 75 	 x= 0.358906 	 y= 0.133360 	 grad= 0.730370
-Iter: 76 	 x= 0.352697 	 y= 0.128813 	 grad= 0.717812
-Iter: 77 	 x= 0.346558 	 y= 0.124395 	 grad= 0.705394
-Iter: 78 	 x= 0.340489 	 y= 0.120102 	 grad= 0.693116
-Iter: 79 	 x= 0.334491 	 y= 0.115933 	 grad= 0.680979
-Iter: 80 	 x= 0.328562 	 y= 0.111884 	 grad= 0.668982
-Iter: 81 	 x= 0.322704 	 y= 0.107953 	 grad= 0.657125
-Iter: 82 	 x= 0.316915 	 y= 0.104138 	 grad= 0.645408
-Iter: 83 	 x= 0.311196 	 y= 0.100435 	 grad= 0.633830
-Iter: 84 	 x= 0.305546 	 y= 0.096843 	 grad= 0.622392
-Iter: 85 	 x= 0.299966 	 y= 0.093359 	 grad= 0.611093
-Iter: 86 	 x= 0.294455 	 y= 0.089980 	 grad= 0.599932
-Iter: 87 	 x= 0.289013 	 y= 0.086704 	 grad= 0.588910
-Iter: 88 	 x= 0.283640 	 y= 0.083529 	 grad= 0.578026
-Iter: 89 	 x= 0.278336 	 y= 0.080452 	 grad= 0.567280
-Iter: 90 	 x= 0.273099 	 y= 0.077471 	 grad= 0.556671
-Iter: 91 	 x= 0.267932 	 y= 0.074583 	 grad= 0.546199
-Iter: 92 	 x= 0.262832 	 y= 0.071787 	 grad= 0.535863
-Iter: 93 	 x= 0.257799 	 y= 0.069080 	 grad= 0.525663
-Iter: 94 	 x= 0.252835 	 y= 0.066461 	 grad= 0.515599
-Iter: 95 	 x= 0.247937 	 y= 0.063925 	 grad= 0.505669
-Iter: 96 	 x= 0.243106 	 y= 0.061473 	 grad= 0.495874
-Iter: 97 	 x= 0.238342 	 y= 0.059101 	 grad= 0.486213
-Iter: 98 	 x= 0.233644 	 y= 0.056807 	 grad= 0.476684
-Iter: 99 	 x= 0.229012 	 y= 0.054590 	 grad= 0.467289
-Iter: 100 	 x= 0.224446 	 y= 0.052447 	 grad= 0.458025
-Iter: 101 	 x= 0.219945 	 y= 0.050376 	 grad= 0.448892
-Iter: 102 	 x= 0.215509 	 y= 0.048376 	 grad= 0.439890
-Iter: 103 	 x= 0.211138 	 y= 0.046444 	 grad= 0.431018
-Iter: 104 	 x= 0.206830 	 y= 0.044579 	 grad= 0.422275
-Iter: 105 	 x= 0.202587 	 y= 0.042779 	 grad= 0.413661
-Iter: 106 	 x= 0.198407 	 y= 0.041041 	 grad= 0.405174
-Iter: 107 	 x= 0.194290 	 y= 0.039365 	 grad= 0.396814
-Iter: 108 	 x= 0.190236 	 y= 0.037749 	 grad= 0.388580
-Iter: 109 	 x= 0.186244 	 y= 0.036190 	 grad= 0.380471
-Iter: 110 	 x= 0.182313 	 y= 0.034687 	 grad= 0.372487
-Iter: 111 	 x= 0.178444 	 y= 0.033238 	 grad= 0.364627
-Iter: 112 	 x= 0.174636 	 y= 0.031842 	 grad= 0.356889
-Iter: 113 	 x= 0.170889 	 y= 0.030498 	 grad= 0.349273
-Iter: 114 	 x= 0.167201 	 y= 0.029203 	 grad= 0.341778
-Iter: 115 	 x= 0.163573 	 y= 0.027956 	 grad= 0.334403
-Iter: 116 	 x= 0.160005 	 y= 0.026756 	 grad= 0.327147
-Iter: 117 	 x= 0.156494 	 y= 0.025601 	 grad= 0.320009
-Iter: 118 	 x= 0.153042 	 y= 0.024490 	 grad= 0.312989
-Iter: 119 	 x= 0.149648 	 y= 0.023422 	 grad= 0.306084
-Iter: 120 	 x= 0.146310 	 y= 0.022394 	 grad= 0.299295
-Iter: 121 	 x= 0.143030 	 y= 0.021407 	 grad= 0.292621
-Iter: 122 	 x= 0.139805 	 y= 0.020457 	 grad= 0.286059
-Iter: 123 	 x= 0.136636 	 y= 0.019545 	 grad= 0.279610
-Iter: 124 	 x= 0.133522 	 y= 0.018669 	 grad= 0.273272
-Iter: 125 	 x= 0.130462 	 y= 0.017828 	 grad= 0.267044
-Iter: 126 	 x= 0.127457 	 y= 0.017020 	 grad= 0.260925
-Iter: 127 	 x= 0.124505 	 y= 0.016245 	 grad= 0.254914
-Iter: 128 	 x= 0.121606 	 y= 0.015501 	 grad= 0.249010
-Iter: 129 	 x= 0.118759 	 y= 0.014788 	 grad= 0.243212
-Iter: 130 	 x= 0.115964 	 y= 0.014104 	 grad= 0.237518
-Iter: 131 	 x= 0.113221 	 y= 0.013448 	 grad= 0.231929
-Iter: 132 	 x= 0.110528 	 y= 0.012819 	 grad= 0.226441
-Iter: 133 	 x= 0.107885 	 y= 0.012216 	 grad= 0.221056
-Iter: 134 	 x= 0.105292 	 y= 0.011639 	 grad= 0.215770
-Iter: 135 	 x= 0.102748 	 y= 0.011086 	 grad= 0.210584
-Iter: 136 	 x= 0.100252 	 y= 0.010557 	 grad= 0.205496
-Iter: 137 	 x= 0.097805 	 y= 0.010051 	 grad= 0.200505
-Iter: 138 	 x= 0.095404 	 y= 0.009566 	 grad= 0.195609
-Iter: 139 	 x= 0.093050 	 y= 0.009102 	 grad= 0.190808
-Iter: 140 	 x= 0.090743 	 y= 0.008658 	 grad= 0.186101
-Iter: 141 	 x= 0.088481 	 y= 0.008234 	 grad= 0.181486
-Iter: 142 	 x= 0.086264 	 y= 0.007829 	 grad= 0.176962
-Iter: 143 	 x= 0.084091 	 y= 0.007441 	 grad= 0.172528
-Iter: 144 	 x= 0.081963 	 y= 0.007071 	 grad= 0.168183
-Iter: 145 	 x= 0.079877 	 y= 0.006718 	 grad= 0.163925
-Iter: 146 	 x= 0.077834 	 y= 0.006380 	 grad= 0.159754
-Iter: 147 	 x= 0.075834 	 y= 0.006058 	 grad= 0.155669
-Iter: 148 	 x= 0.073874 	 y= 0.005751 	 grad= 0.151667
-Iter: 149 	 x= 0.071956 	 y= 0.005457 	 grad= 0.147749
-Iter: 150 	 x= 0.070078 	 y= 0.005178 	 grad= 0.143912
-Iter: 151 	 x= 0.068240 	 y= 0.004911 	 grad= 0.140157
-Iter: 152 	 x= 0.066441 	 y= 0.004657 	 grad= 0.136480
-Iter: 153 	 x= 0.064681 	 y= 0.004414 	 grad= 0.132882
-Iter: 154 	 x= 0.062959 	 y= 0.004184 	 grad= 0.129362
-Iter: 155 	 x= 0.061274 	 y= 0.003964 	 grad= 0.125917
-Iter: 156 	 x= 0.059626 	 y= 0.003754 	 grad= 0.122548
-Iter: 157 	 x= 0.058014 	 y= 0.003555 	 grad= 0.119252
-Iter: 158 	 x= 0.056439 	 y= 0.003366 	 grad= 0.116029
-Iter: 159 	 x= 0.054898 	 y= 0.003185 	 grad= 0.112877
-Iter: 160 	 x= 0.053392 	 y= 0.003014 	 grad= 0.109796
-Iter: 161 	 x= 0.051920 	 y= 0.002851 	 grad= 0.106784
-Iter: 162 	 x= 0.050482 	 y= 0.002696 	 grad= 0.103840
-Iter: 163 	 x= 0.049076 	 y= 0.002548 	 grad= 0.100963
-Iter: 164 	 x= 0.047703 	 y= 0.002408 	 grad= 0.098152
-Iter: 165 	 x= 0.046362 	 y= 0.002276 	 grad= 0.095406
-Iter: 166 	 x= 0.045052 	 y= 0.002149 	 grad= 0.092724
-Iter: 167 	 x= 0.043773 	 y= 0.002030 	 grad= 0.090104
-Iter: 168 	 x= 0.042524 	 y= 0.001916 	 grad= 0.087546
-Iter: 169 	 x= 0.041305 	 y= 0.001808 	 grad= 0.085049
-Iter: 170 	 x= 0.040115 	 y= 0.001706 	 grad= 0.082611
-Iter: 171 	 x= 0.038954 	 y= 0.001609 	 grad= 0.080231
-Iter: 172 	 x= 0.037821 	 y= 0.001517 	 grad= 0.077908
-Iter: 173 	 x= 0.036716 	 y= 0.001430 	 grad= 0.075642
-Iter: 174 	 x= 0.035637 	 y= 0.001348 	 grad= 0.073431
-Iter: 175 	 x= 0.034586 	 y= 0.001270 	 grad= 0.071275
-Iter: 176 	 x= 0.033560 	 y= 0.001196 	 grad= 0.069172
-Iter: 177 	 x= 0.032560 	 y= 0.001126 	 grad= 0.067120
-Iter: 178 	 x= 0.031586 	 y= 0.001060 	 grad= 0.065121
-Iter: 179 	 x= 0.030635 	 y= 0.000998 	 grad= 0.063171
-Iter: 180 	 x= 0.029709 	 y= 0.000939 	 grad= 0.061271
-Iter: 181 	 x= 0.028807 	 y= 0.000883 	 grad= 0.059419
-Iter: 182 	 x= 0.027928 	 y= 0.000830 	 grad= 0.057614
-Iter: 183 	 x= 0.027072 	 y= 0.000780 	 grad= 0.055856
-Iter: 184 	 x= 0.026238 	 y= 0.000733 	 grad= 0.054144
-Iter: 185 	 x= 0.025426 	 y= 0.000688 	 grad= 0.052476
-Iter: 186 	 x= 0.024635 	 y= 0.000646 	 grad= 0.050851
-Iter: 187 	 x= 0.023865 	 y= 0.000607 	 grad= 0.049270
-Iter: 188 	 x= 0.023116 	 y= 0.000570 	 grad= 0.047730
-Iter: 189 	 x= 0.022386 	 y= 0.000534 	 grad= 0.046231
-Iter: 190 	 x= 0.021677 	 y= 0.000501 	 grad= 0.044773
-Iter: 191 	 x= 0.020987 	 y= 0.000470 	 grad= 0.043354
-Iter: 192 	 x= 0.020315 	 y= 0.000440 	 grad= 0.041973
-Iter: 193 	 x= 0.019662 	 y= 0.000413 	 grad= 0.040630
-Iter: 194 	 x= 0.019027 	 y= 0.000387 	 grad= 0.039324
-Iter: 195 	 x= 0.018409 	 y= 0.000362 	 grad= 0.038054
-Iter: 196 	 x= 0.017809 	 y= 0.000339 	 grad= 0.036819
-Iter: 197 	 x= 0.017226 	 y= 0.000317 	 grad= 0.035618
-Iter: 198 	 x= 0.016659 	 y= 0.000297 	 grad= 0.034451
-Iter: 199 	 x= 0.016108 	 y= 0.000278 	 grad= 0.033317
-Iter: 200 	 x= 0.015573 	 y= 0.000259 	 grad= 0.032216
-Iter: 201 	 x= 0.015053 	 y= 0.000243 	 grad= 0.031145
-Iter: 202 	 x= 0.014548 	 y= 0.000227 	 grad= 0.030105
-Iter: 203 	 x= 0.014057 	 y= 0.000212 	 grad= 0.029096
-Iter: 204 	 x= 0.013582 	 y= 0.000198 	 grad= 0.028115
-Iter: 205 	 x= 0.013119 	 y= 0.000184 	 grad= 0.027163
-Iter: 206 	 x= 0.012671 	 y= 0.000172 	 grad= 0.026239
-Iter: 207 	 x= 0.012236 	 y= 0.000161 	 grad= 0.025342
-Iter: 208 	 x= 0.011814 	 y= 0.000150 	 grad= 0.024472
-Iter: 209 	 x= 0.011404 	 y= 0.000140 	 grad= 0.023627
-Iter: 210 	 x= 0.011007 	 y= 0.000130 	 grad= 0.022808
-Iter: 211 	 x= 0.010622 	 y= 0.000121 	 grad= 0.022014
-Iter: 212 	 x= 0.010248 	 y= 0.000113 	 grad= 0.021244
-Iter: 213 	 x= 0.009886 	 y= 0.000105 	 grad= 0.020497
-Iter: 214 	 x= 0.009535 	 y= 0.000098 	 grad= 0.019772
-Iter: 215 	 x= 0.009195 	 y= 0.000091 	 grad= 0.019071
-Iter: 216 	 x= 0.008866 	 y= 0.000085 	 grad= 0.018391
-Iter: 217 	 x= 0.008547 	 y= 0.000079 	 grad= 0.017732
-Iter: 218 	 x= 0.008237 	 y= 0.000073 	 grad= 0.017093
-Iter: 219 	 x= 0.007938 	 y= 0.000068 	 grad= 0.016475
-Iter: 220 	 x= 0.007648 	 y= 0.000063 	 grad= 0.015876
-Iter: 221 	 x= 0.007367 	 y= 0.000058 	 grad= 0.015296
-Iter: 222 	 x= 0.007096 	 y= 0.000054 	 grad= 0.014735
-Iter: 223 	 x= 0.006833 	 y= 0.000050 	 grad= 0.014192
-Iter: 224 	 x= 0.006579 	 y= 0.000047 	 grad= 0.013666
-Iter: 225 	 x= 0.006332 	 y= 0.000043 	 grad= 0.013157
-Iter: 226 	 x= 0.006094 	 y= 0.000040 	 grad= 0.012665
-Iter: 227 	 x= 0.005864 	 y= 0.000037 	 grad= 0.012189
-Iter: 228 	 x= 0.005642 	 y= 0.000034 	 grad= 0.011729
-Iter: 229 	 x= 0.005427 	 y= 0.000032 	 grad= 0.011283
-Iter: 230 	 x= 0.005219 	 y= 0.000029 	 grad= 0.010853
-Iter: 231 	 x= 0.005018 	 y= 0.000027 	 grad= 0.010437
-Iter: 232 	 x= 0.004824 	 y= 0.000025 	 grad= 0.010035
-Iter: 233 	 x= 0.004636 	 y= 0.000023 	 grad= 0.009647
-Iter: 234 	 x= 0.004455 	 y= 0.000021 	 grad= 0.009272
-Iter: 235 	 x= 0.004280 	 y= 0.000020 	 grad= 0.008910
-Iter: 236 	 x= 0.004111 	 y= 0.000018 	 grad= 0.008560
-Iter: 237 	 x= 0.003948 	 y= 0.000017 	 grad= 0.008222
-Iter: 238 	 x= 0.003791 	 y= 0.000016 	 grad= 0.007896
-Iter: 239 	 x= 0.003639 	 y= 0.000014 	 grad= 0.007582
-Iter: 240 	 x= 0.003493 	 y= 0.000013 	 grad= 0.007278
-Iter: 241 	 x= 0.003351 	 y= 0.000012 	 grad= 0.006985
-Iter: 242 	 x= 0.003215 	 y= 0.000011 	 grad= 0.006703
-Iter: 243 	 x= 0.003084 	 y= 0.000010 	 grad= 0.006430
-Iter: 244 	 x= 0.002957 	 y= 0.000010 	 grad= 0.006167
-Iter: 245 	 x= 0.002835 	 y= 0.000009 	 grad= 0.005914
-Iter: 246 	 x= 0.002717 	 y= 0.000008 	 grad= 0.005670
-Iter: 247 	 x= 0.002604 	 y= 0.000007 	 grad= 0.005435
-Iter: 248 	 x= 0.002495 	 y= 0.000007 	 grad= 0.005208
-Iter: 249 	 x= 0.002390 	 y= 0.000006 	 grad= 0.004990
-Iter: 250 	 x= 0.002289 	 y= 0.000006 	 grad= 0.004780
-Iter: 251 	 x= 0.002191 	 y= 0.000005 	 grad= 0.004578
-Iter: 252 	 x= 0.002098 	 y= 0.000005 	 grad= 0.004383
-Iter: 253 	 x= 0.002007 	 y= 0.000004 	 grad= 0.004195
-Iter: 254 	 x= 0.001921 	 y= 0.000004 	 grad= 0.004015
-Iter: 255 	 x= 0.001837 	 y= 0.000004 	 grad= 0.003841
-Iter: 256 	 x= 0.001757 	 y= 0.000003 	 grad= 0.003674
-Iter: 257 	 x= 0.001680 	 y= 0.000003 	 grad= 0.003514
-Iter: 258 	 x= 0.001606 	 y= 0.000003 	 grad= 0.003360
-Iter: 259 	 x= 0.001534 	 y= 0.000003 	 grad= 0.003211
-Iter: 260 	 x= 0.001466 	 y= 0.000002 	 grad= 0.003069
-Iter: 261 	 x= 0.001400 	 y= 0.000002 	 grad= 0.002932
-Iter: 262 	 x= 0.001337 	 y= 0.000002 	 grad= 0.002800
-Iter: 263 	 x= 0.001276 	 y= 0.000002 	 grad= 0.002674
-Iter: 264 	 x= 0.001218 	 y= 0.000002 	 grad= 0.002552
-Iter: 265 	 x= 0.001162 	 y= 0.000001 	 grad= 0.002436
-Iter: 266 	 x= 0.001108 	 y= 0.000001 	 grad= 0.002324
-Iter: 267 	 x= 0.001057 	 y= 0.000001 	 grad= 0.002217
-Iter: 268 	 x= 0.001008 	 y= 0.000001 	 grad= 0.002114
-Iter: 269 	 x= 0.000960 	 y= 0.000001 	 grad= 0.002015
-Iter: 270 	 x= 0.000915 	 y= 0.000001 	 grad= 0.001921
-Iter: 271 	 x= 0.000872 	 y= 0.000001 	 grad= 0.001830
-Iter: 272 	 x= 0.000830 	 y= 0.000001 	 grad= 0.001743
-Iter: 273 	 x= 0.000790 	 y= 0.000001 	 grad= 0.001660
-Iter: 274 	 x= 0.000752 	 y= 0.000001 	 grad= 0.001580
-Iter: 275 	 x= 0.000715 	 y= 0.000001 	 grad= 0.001504
-Iter: 276 	 x= 0.000680 	 y= 0.000001 	 grad= 0.001431
-Iter: 277 	 x= 0.000647 	 y= 0.000000 	 grad= 0.001361
-Iter: 278 	 x= 0.000615 	 y= 0.000000 	 grad= 0.001294
-Iter: 279 	 x= 0.000584 	 y= 0.000000 	 grad= 0.001229
-Iter: 280 	 x= 0.000555 	 y= 0.000000 	 grad= 0.001168
-Iter: 281 	 x= 0.000527 	 y= 0.000000 	 grad= 0.001110
-Iter: 282 	 x= 0.000500 	 y= 0.000000 	 grad= 0.001053
-Iter: 283 	 x= 0.000474 	 y= 0.000000 	 grad= 0.001000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter: 0 	 x= 1.000000 	 y= 1.000000 	 grad= 2.000000
+Iter: 1 	 x= 0.990000 	 y= 0.980100 	 grad= 1.980000
+Iter: 2 	 x= 0.980003 	 y= 0.960405 	 grad= 1.960006
+Iter: 3 	 x= 0.970010 	 y= 0.940920 	 grad= 1.940020
+Iter: 4 	 x= 0.960024 	 y= 0.921646 	 grad= 1.920048
+Iter: 5 	 x= 0.950046 	 y= 0.902588 	 grad= 1.900092
+Iter: 6 	 x= 0.940079 	 y= 0.883748 	 grad= 1.880157
+Iter: 7 	 x= 0.930123 	 y= 0.865130 	 grad= 1.860247
+Iter: 8 	 x= 0.920182 	 y= 0.846735 	 grad= 1.840364
+Iter: 9 	 x= 0.910257 	 y= 0.828568 	 grad= 1.820514
+Iter: 10 	 x= 0.900350 	 y= 0.810630 	 grad= 1.800699
+Iter: 11 	 x= 0.890462 	 y= 0.792923 	 grad= 1.780924
+Iter: 12 	 x= 0.880596 	 y= 0.775450 	 grad= 1.761193
+Iter: 13 	 x= 0.870754 	 y= 0.758213 	 grad= 1.741508
+Iter: 14 	 x= 0.860937 	 y= 0.741212 	 grad= 1.721874
+Iter: 15 	 x= 0.851147 	 y= 0.724452 	 grad= 1.702294
+Iter: 16 	 x= 0.841386 	 y= 0.707931 	 grad= 1.682773
+Iter: 17 	 x= 0.831656 	 y= 0.691652 	 grad= 1.663312
+Iter: 18 	 x= 0.821958 	 y= 0.675615 	 grad= 1.643916
+Iter: 19 	 x= 0.812294 	 y= 0.659822 	 grad= 1.624589
+Iter: 20 	 x= 0.802666 	 y= 0.644273 	 grad= 1.605333
+Iter: 21 	 x= 0.793076 	 y= 0.628969 	 grad= 1.586151
+Iter: 22 	 x= 0.783524 	 y= 0.613910 	 grad= 1.567048
+Iter: 23 	 x= 0.774012 	 y= 0.599095 	 grad= 1.548025
+Iter: 24 	 x= 0.764543 	 y= 0.584526 	 grad= 1.529085
+Iter: 25 	 x= 0.755116 	 y= 0.570201 	 grad= 1.510233
+Iter: 26 	 x= 0.745735 	 y= 0.556120 	 grad= 1.491470
+Iter: 27 	 x= 0.736399 	 y= 0.542284 	 grad= 1.472798
+Iter: 28 	 x= 0.727111 	 y= 0.528690 	 grad= 1.454222
+Iter: 29 	 x= 0.717871 	 y= 0.515339 	 grad= 1.435742
+Iter: 30 	 x= 0.708681 	 y= 0.502229 	 grad= 1.417362
+Iter: 31 	 x= 0.699542 	 y= 0.489359 	 grad= 1.399084
+Iter: 32 	 x= 0.690455 	 y= 0.476728 	 grad= 1.380910
+Iter: 33 	 x= 0.681421 	 y= 0.464335 	 grad= 1.362843
+Iter: 34 	 x= 0.672442 	 y= 0.452178 	 grad= 1.344883
+Iter: 35 	 x= 0.663517 	 y= 0.440255 	 grad= 1.327034
+Iter: 36 	 x= 0.654649 	 y= 0.428565 	 grad= 1.309298
+Iter: 37 	 x= 0.645837 	 y= 0.417106 	 grad= 1.291675
+Iter: 38 	 x= 0.637084 	 y= 0.405876 	 grad= 1.274168
+Iter: 39 	 x= 0.628389 	 y= 0.394873 	 grad= 1.256778
+Iter: 40 	 x= 0.619754 	 y= 0.384095 	 grad= 1.239507
+Iter: 41 	 x= 0.611179 	 y= 0.373539 	 grad= 1.222357
+Iter: 42 	 x= 0.602664 	 y= 0.363204 	 grad= 1.205329
+Iter: 43 	 x= 0.594212 	 y= 0.353088 	 grad= 1.188424
+Iter: 44 	 x= 0.585822 	 y= 0.343187 	 grad= 1.171644
+Iter: 45 	 x= 0.577495 	 y= 0.333500 	 grad= 1.154989
+Iter: 46 	 x= 0.569231 	 y= 0.324024 	 grad= 1.138461
+Iter: 47 	 x= 0.561031 	 y= 0.314756 	 grad= 1.122062
+Iter: 48 	 x= 0.552896 	 y= 0.305694 	 grad= 1.105791
+Iter: 49 	 x= 0.544826 	 y= 0.296835 	 grad= 1.089651
+Iter: 50 	 x= 0.536821 	 y= 0.288177 	 grad= 1.073642
+Iter: 51 	 x= 0.528883 	 y= 0.279717 	 grad= 1.057765
+Iter: 52 	 x= 0.521010 	 y= 0.271452 	 grad= 1.042021
+Iter: 53 	 x= 0.513205 	 y= 0.263379 	 grad= 1.026410
+Iter: 54 	 x= 0.505467 	 y= 0.255497 	 grad= 1.010934
+Iter: 55 	 x= 0.497796 	 y= 0.247801 	 grad= 0.995592
+Iter: 56 	 x= 0.490193 	 y= 0.240289 	 grad= 0.980386
+Iter: 57 	 x= 0.482659 	 y= 0.232959 	 grad= 0.965317
+Iter: 58 	 x= 0.475192 	 y= 0.225808 	 grad= 0.950384
+Iter: 59 	 x= 0.467794 	 y= 0.218832 	 grad= 0.935589
+Iter: 60 	 x= 0.460466 	 y= 0.212029 	 grad= 0.920931
+Iter: 61 	 x= 0.453206 	 y= 0.205396 	 grad= 0.906412
+Iter: 62 	 x= 0.446016 	 y= 0.198930 	 grad= 0.892031
+Iter: 63 	 x= 0.438895 	 y= 0.192629 	 grad= 0.877790
+Iter: 64 	 x= 0.431844 	 y= 0.186489 	 grad= 0.863687
+Iter: 65 	 x= 0.424862 	 y= 0.180508 	 grad= 0.849724
+Iter: 66 	 x= 0.417951 	 y= 0.174683 	 grad= 0.835901
+Iter: 67 	 x= 0.411109 	 y= 0.169011 	 grad= 0.822218
+Iter: 68 	 x= 0.404338 	 y= 0.163489 	 grad= 0.808676
+Iter: 69 	 x= 0.397637 	 y= 0.158115 	 grad= 0.795273
+Iter: 70 	 x= 0.391006 	 y= 0.152885 	 grad= 0.782011
+Iter: 71 	 x= 0.384445 	 y= 0.147798 	 grad= 0.768890
+Iter: 72 	 x= 0.377955 	 y= 0.142850 	 grad= 0.755910
+Iter: 73 	 x= 0.371535 	 y= 0.138038 	 grad= 0.743070
+Iter: 74 	 x= 0.365185 	 y= 0.133360 	 grad= 0.730370
+Iter: 75 	 x= 0.358906 	 y= 0.128813 	 grad= 0.717812
+Iter: 76 	 x= 0.352697 	 y= 0.124395 	 grad= 0.705394
+Iter: 77 	 x= 0.346558 	 y= 0.120102 	 grad= 0.693116
+Iter: 78 	 x= 0.340489 	 y= 0.115933 	 grad= 0.680979
+Iter: 79 	 x= 0.334491 	 y= 0.111884 	 grad= 0.668982
+Iter: 80 	 x= 0.328562 	 y= 0.107953 	 grad= 0.657125
+Iter: 81 	 x= 0.322704 	 y= 0.104138 	 grad= 0.645408
+Iter: 82 	 x= 0.316915 	 y= 0.100435 	 grad= 0.633830
+Iter: 83 	 x= 0.311196 	 y= 0.096843 	 grad= 0.622392
+Iter: 84 	 x= 0.305546 	 y= 0.093359 	 grad= 0.611093
+Iter: 85 	 x= 0.299966 	 y= 0.089980 	 grad= 0.599932
+Iter: 86 	 x= 0.294455 	 y= 0.086704 	 grad= 0.588910
+Iter: 87 	 x= 0.289013 	 y= 0.083529 	 grad= 0.578026
+Iter: 88 	 x= 0.283640 	 y= 0.080452 	 grad= 0.567280
+Iter: 89 	 x= 0.278336 	 y= 0.077471 	 grad= 0.556671
+Iter: 90 	 x= 0.273099 	 y= 0.074583 	 grad= 0.546199
+Iter: 91 	 x= 0.267932 	 y= 0.071787 	 grad= 0.535863
+Iter: 92 	 x= 0.262832 	 y= 0.069080 	 grad= 0.525663
+Iter: 93 	 x= 0.257799 	 y= 0.066461 	 grad= 0.515599
+Iter: 94 	 x= 0.252835 	 y= 0.063925 	 grad= 0.505669
+Iter: 95 	 x= 0.247937 	 y= 0.061473 	 grad= 0.495874
+Iter: 96 	 x= 0.243106 	 y= 0.059101 	 grad= 0.486213
+Iter: 97 	 x= 0.238342 	 y= 0.056807 	 grad= 0.476684
+Iter: 98 	 x= 0.233644 	 y= 0.054590 	 grad= 0.467289
+Iter: 99 	 x= 0.229012 	 y= 0.052447 	 grad= 0.458025
+Iter: 100 	 x= 0.224446 	 y= 0.050376 	 grad= 0.448892
+Iter: 101 	 x= 0.219945 	 y= 0.048376 	 grad= 0.439890
+Iter: 102 	 x= 0.215509 	 y= 0.046444 	 grad= 0.431018
+Iter: 103 	 x= 0.211138 	 y= 0.044579 	 grad= 0.422275
+Iter: 104 	 x= 0.206830 	 y= 0.042779 	 grad= 0.413661
+Iter: 105 	 x= 0.202587 	 y= 0.041041 	 grad= 0.405174
+Iter: 106 	 x= 0.198407 	 y= 0.039365 	 grad= 0.396814
+Iter: 107 	 x= 0.194290 	 y= 0.037749 	 grad= 0.388580
+Iter: 108 	 x= 0.190236 	 y= 0.036190 	 grad= 0.380471
+Iter: 109 	 x= 0.186244 	 y= 0.034687 	 grad= 0.372487
+Iter: 110 	 x= 0.182313 	 y= 0.033238 	 grad= 0.364627
+Iter: 111 	 x= 0.178444 	 y= 0.031842 	 grad= 0.356889
+Iter: 112 	 x= 0.174636 	 y= 0.030498 	 grad= 0.349273
+Iter: 113 	 x= 0.170889 	 y= 0.029203 	 grad= 0.341778
+Iter: 114 	 x= 0.167201 	 y= 0.027956 	 grad= 0.334403
+Iter: 115 	 x= 0.163573 	 y= 0.026756 	 grad= 0.327147
+Iter: 116 	 x= 0.160005 	 y= 0.025601 	 grad= 0.320009
+Iter: 117 	 x= 0.156494 	 y= 0.024490 	 grad= 0.312989
+Iter: 118 	 x= 0.153042 	 y= 0.023422 	 grad= 0.306084
+Iter: 119 	 x= 0.149648 	 y= 0.022394 	 grad= 0.299295
+Iter: 120 	 x= 0.146310 	 y= 0.021407 	 grad= 0.292621
+Iter: 121 	 x= 0.143030 	 y= 0.020457 	 grad= 0.286059
+Iter: 122 	 x= 0.139805 	 y= 0.019545 	 grad= 0.279610
+Iter: 123 	 x= 0.136636 	 y= 0.018669 	 grad= 0.273272
+Iter: 124 	 x= 0.133522 	 y= 0.017828 	 grad= 0.267044
+Iter: 125 	 x= 0.130462 	 y= 0.017020 	 grad= 0.260925
+Iter: 126 	 x= 0.127457 	 y= 0.016245 	 grad= 0.254914
+Iter: 127 	 x= 0.124505 	 y= 0.015501 	 grad= 0.249010
+Iter: 128 	 x= 0.121606 	 y= 0.014788 	 grad= 0.243212
+Iter: 129 	 x= 0.118759 	 y= 0.014104 	 grad= 0.237518
+Iter: 130 	 x= 0.115964 	 y= 0.013448 	 grad= 0.231929
+Iter: 131 	 x= 0.113221 	 y= 0.012819 	 grad= 0.226441
+Iter: 132 	 x= 0.110528 	 y= 0.012216 	 grad= 0.221056
+Iter: 133 	 x= 0.107885 	 y= 0.011639 	 grad= 0.215770
+Iter: 134 	 x= 0.105292 	 y= 0.011086 	 grad= 0.210584
+Iter: 135 	 x= 0.102748 	 y= 0.010557 	 grad= 0.205496
+Iter: 136 	 x= 0.100252 	 y= 0.010051 	 grad= 0.200505
+Iter: 137 	 x= 0.097805 	 y= 0.009566 	 grad= 0.195609
+Iter: 138 	 x= 0.095404 	 y= 0.009102 	 grad= 0.190808
+Iter: 139 	 x= 0.093050 	 y= 0.008658 	 grad= 0.186101
+Iter: 140 	 x= 0.090743 	 y= 0.008234 	 grad= 0.181486
+Iter: 141 	 x= 0.088481 	 y= 0.007829 	 grad= 0.176962
+Iter: 142 	 x= 0.086264 	 y= 0.007441 	 grad= 0.172528
+Iter: 143 	 x= 0.084091 	 y= 0.007071 	 grad= 0.168183
+Iter: 144 	 x= 0.081963 	 y= 0.006718 	 grad= 0.163925
+Iter: 145 	 x= 0.079877 	 y= 0.006380 	 grad= 0.159754
+Iter: 146 	 x= 0.077834 	 y= 0.006058 	 grad= 0.155669
+Iter: 147 	 x= 0.075834 	 y= 0.005751 	 grad= 0.151667
+Iter: 148 	 x= 0.073874 	 y= 0.005457 	 grad= 0.147749
+Iter: 149 	 x= 0.071956 	 y= 0.005178 	 grad= 0.143912
+Iter: 150 	 x= 0.070078 	 y= 0.004911 	 grad= 0.140157
+Iter: 151 	 x= 0.068240 	 y= 0.004657 	 grad= 0.136480
+Iter: 152 	 x= 0.066441 	 y= 0.004414 	 grad= 0.132882
+Iter: 153 	 x= 0.064681 	 y= 0.004184 	 grad= 0.129362
+Iter: 154 	 x= 0.062959 	 y= 0.003964 	 grad= 0.125917
+Iter: 155 	 x= 0.061274 	 y= 0.003754 	 grad= 0.122548
+Iter: 156 	 x= 0.059626 	 y= 0.003555 	 grad= 0.119252
+Iter: 157 	 x= 0.058014 	 y= 0.003366 	 grad= 0.116029
+Iter: 158 	 x= 0.056439 	 y= 0.003185 	 grad= 0.112877
+Iter: 159 	 x= 0.054898 	 y= 0.003014 	 grad= 0.109796
+Iter: 160 	 x= 0.053392 	 y= 0.002851 	 grad= 0.106784
+Iter: 161 	 x= 0.051920 	 y= 0.002696 	 grad= 0.103840
+Iter: 162 	 x= 0.050482 	 y= 0.002548 	 grad= 0.100963
+Iter: 163 	 x= 0.049076 	 y= 0.002408 	 grad= 0.098152
+Iter: 164 	 x= 0.047703 	 y= 0.002276 	 grad= 0.095406
+Iter: 165 	 x= 0.046362 	 y= 0.002149 	 grad= 0.092724
+Iter: 166 	 x= 0.045052 	 y= 0.002030 	 grad= 0.090104
+Iter: 167 	 x= 0.043773 	 y= 0.001916 	 grad= 0.087546
+Iter: 168 	 x= 0.042524 	 y= 0.001808 	 grad= 0.085049
+Iter: 169 	 x= 0.041305 	 y= 0.001706 	 grad= 0.082611
+Iter: 170 	 x= 0.040115 	 y= 0.001609 	 grad= 0.080231
+Iter: 171 	 x= 0.038954 	 y= 0.001517 	 grad= 0.077908
+Iter: 172 	 x= 0.037821 	 y= 0.001430 	 grad= 0.075642
+Iter: 173 	 x= 0.036716 	 y= 0.001348 	 grad= 0.073431
+Iter: 174 	 x= 0.035637 	 y= 0.001270 	 grad= 0.071275
+Iter: 175 	 x= 0.034586 	 y= 0.001196 	 grad= 0.069172
+Iter: 176 	 x= 0.033560 	 y= 0.001126 	 grad= 0.067120
+Iter: 177 	 x= 0.032560 	 y= 0.001060 	 grad= 0.065121
+Iter: 178 	 x= 0.031586 	 y= 0.000998 	 grad= 0.063171
+Iter: 179 	 x= 0.030635 	 y= 0.000939 	 grad= 0.061271
+Iter: 180 	 x= 0.029709 	 y= 0.000883 	 grad= 0.059419
+Iter: 181 	 x= 0.028807 	 y= 0.000830 	 grad= 0.057614
+Iter: 182 	 x= 0.027928 	 y= 0.000780 	 grad= 0.055856
+Iter: 183 	 x= 0.027072 	 y= 0.000733 	 grad= 0.054144
+Iter: 184 	 x= 0.026238 	 y= 0.000688 	 grad= 0.052476
+Iter: 185 	 x= 0.025426 	 y= 0.000646 	 grad= 0.050851
+Iter: 186 	 x= 0.024635 	 y= 0.000607 	 grad= 0.049270
+Iter: 187 	 x= 0.023865 	 y= 0.000570 	 grad= 0.047730
+Iter: 188 	 x= 0.023116 	 y= 0.000534 	 grad= 0.046231
+Iter: 189 	 x= 0.022386 	 y= 0.000501 	 grad= 0.044773
+Iter: 190 	 x= 0.021677 	 y= 0.000470 	 grad= 0.043354
+Iter: 191 	 x= 0.020987 	 y= 0.000440 	 grad= 0.041973
+Iter: 192 	 x= 0.020315 	 y= 0.000413 	 grad= 0.040630
+Iter: 193 	 x= 0.019662 	 y= 0.000387 	 grad= 0.039324
+Iter: 194 	 x= 0.019027 	 y= 0.000362 	 grad= 0.038054
+Iter: 195 	 x= 0.018409 	 y= 0.000339 	 grad= 0.036819
+Iter: 196 	 x= 0.017809 	 y= 0.000317 	 grad= 0.035618
+Iter: 197 	 x= 0.017226 	 y= 0.000297 	 grad= 0.034451
+Iter: 198 	 x= 0.016659 	 y= 0.000278 	 grad= 0.033317
+Iter: 199 	 x= 0.016108 	 y= 0.000259 	 grad= 0.032216
+Iter: 200 	 x= 0.015573 	 y= 0.000243 	 grad= 0.031145
+Iter: 201 	 x= 0.015053 	 y= 0.000227 	 grad= 0.030105
+Iter: 202 	 x= 0.014548 	 y= 0.000212 	 grad= 0.029096
+Iter: 203 	 x= 0.014057 	 y= 0.000198 	 grad= 0.028115
+Iter: 204 	 x= 0.013582 	 y= 0.000184 	 grad= 0.027163
+Iter: 205 	 x= 0.013119 	 y= 0.000172 	 grad= 0.026239
+Iter: 206 	 x= 0.012671 	 y= 0.000161 	 grad= 0.025342
+Iter: 207 	 x= 0.012236 	 y= 0.000150 	 grad= 0.024472
+Iter: 208 	 x= 0.011814 	 y= 0.000140 	 grad= 0.023627
+Iter: 209 	 x= 0.011404 	 y= 0.000130 	 grad= 0.022808
+Iter: 210 	 x= 0.011007 	 y= 0.000121 	 grad= 0.022014
+Iter: 211 	 x= 0.010622 	 y= 0.000113 	 grad= 0.021244
+Iter: 212 	 x= 0.010248 	 y= 0.000105 	 grad= 0.020497
+Iter: 213 	 x= 0.009886 	 y= 0.000098 	 grad= 0.019772
+Iter: 214 	 x= 0.009535 	 y= 0.000091 	 grad= 0.019071
+Iter: 215 	 x= 0.009195 	 y= 0.000085 	 grad= 0.018391
+Iter: 216 	 x= 0.008866 	 y= 0.000079 	 grad= 0.017732
+Iter: 217 	 x= 0.008547 	 y= 0.000073 	 grad= 0.017093
+Iter: 218 	 x= 0.008237 	 y= 0.000068 	 grad= 0.016475
+Iter: 219 	 x= 0.007938 	 y= 0.000063 	 grad= 0.015876
+Iter: 220 	 x= 0.007648 	 y= 0.000058 	 grad= 0.015296
+Iter: 221 	 x= 0.007367 	 y= 0.000054 	 grad= 0.014735
+Iter: 222 	 x= 0.007096 	 y= 0.000050 	 grad= 0.014192
+Iter: 223 	 x= 0.006833 	 y= 0.000047 	 grad= 0.013666
+Iter: 224 	 x= 0.006579 	 y= 0.000043 	 grad= 0.013157
+Iter: 225 	 x= 0.006332 	 y= 0.000040 	 grad= 0.012665
+Iter: 226 	 x= 0.006094 	 y= 0.000037 	 grad= 0.012189
+Iter: 227 	 x= 0.005864 	 y= 0.000034 	 grad= 0.011729
+Iter: 228 	 x= 0.005642 	 y= 0.000032 	 grad= 0.011283
+Iter: 229 	 x= 0.005427 	 y= 0.000029 	 grad= 0.010853
+Iter: 230 	 x= 0.005219 	 y= 0.000027 	 grad= 0.010437
+Iter: 231 	 x= 0.005018 	 y= 0.000025 	 grad= 0.010035
+Iter: 232 	 x= 0.004824 	 y= 0.000023 	 grad= 0.009647
+Iter: 233 	 x= 0.004636 	 y= 0.000021 	 grad= 0.009272
+Iter: 234 	 x= 0.004455 	 y= 0.000020 	 grad= 0.008910
+Iter: 235 	 x= 0.004280 	 y= 0.000018 	 grad= 0.008560
+Iter: 236 	 x= 0.004111 	 y= 0.000017 	 grad= 0.008222
+Iter: 237 	 x= 0.003948 	 y= 0.000016 	 grad= 0.007896
+Iter: 238 	 x= 0.003791 	 y= 0.000014 	 grad= 0.007582
+Iter: 239 	 x= 0.003639 	 y= 0.000013 	 grad= 0.007278
+Iter: 240 	 x= 0.003493 	 y= 0.000012 	 grad= 0.006985
+Iter: 241 	 x= 0.003351 	 y= 0.000011 	 grad= 0.006703
+Iter: 242 	 x= 0.003215 	 y= 0.000010 	 grad= 0.006430
+Iter: 243 	 x= 0.003084 	 y= 0.000010 	 grad= 0.006167
+Iter: 244 	 x= 0.002957 	 y= 0.000009 	 grad= 0.005914
+Iter: 245 	 x= 0.002835 	 y= 0.000008 	 grad= 0.005670
+Iter: 246 	 x= 0.002717 	 y= 0.000007 	 grad= 0.005435
+Iter: 247 	 x= 0.002604 	 y= 0.000007 	 grad= 0.005208
+Iter: 248 	 x= 0.002495 	 y= 0.000006 	 grad= 0.004990
+Iter: 249 	 x= 0.002390 	 y= 0.000006 	 grad= 0.004780
+Iter: 250 	 x= 0.002289 	 y= 0.000005 	 grad= 0.004578
+Iter: 251 	 x= 0.002191 	 y= 0.000005 	 grad= 0.004383
+Iter: 252 	 x= 0.002098 	 y= 0.000004 	 grad= 0.004195
+Iter: 253 	 x= 0.002007 	 y= 0.000004 	 grad= 0.004015
+Iter: 254 	 x= 0.001921 	 y= 0.000004 	 grad= 0.003841
+Iter: 255 	 x= 0.001837 	 y= 0.000003 	 grad= 0.003674
+Iter: 256 	 x= 0.001757 	 y= 0.000003 	 grad= 0.003514
+Iter: 257 	 x= 0.001680 	 y= 0.000003 	 grad= 0.003360
+Iter: 258 	 x= 0.001606 	 y= 0.000003 	 grad= 0.003211
+Iter: 259 	 x= 0.001534 	 y= 0.000002 	 grad= 0.003069
+Iter: 260 	 x= 0.001466 	 y= 0.000002 	 grad= 0.002932
+Iter: 261 	 x= 0.001400 	 y= 0.000002 	 grad= 0.002800
+Iter: 262 	 x= 0.001337 	 y= 0.000002 	 grad= 0.002674
+Iter: 263 	 x= 0.001276 	 y= 0.000002 	 grad= 0.002552
+Iter: 264 	 x= 0.001218 	 y= 0.000001 	 grad= 0.002436
+Iter: 265 	 x= 0.001162 	 y= 0.000001 	 grad= 0.002324
+Iter: 266 	 x= 0.001108 	 y= 0.000001 	 grad= 0.002217
+Iter: 267 	 x= 0.001057 	 y= 0.000001 	 grad= 0.002114
+Iter: 268 	 x= 0.001008 	 y= 0.000001 	 grad= 0.002015
+Iter: 269 	 x= 0.000960 	 y= 0.000001 	 grad= 0.001921
+Iter: 270 	 x= 0.000915 	 y= 0.000001 	 grad= 0.001830
+Iter: 271 	 x= 0.000872 	 y= 0.000001 	 grad= 0.001743
+Iter: 272 	 x= 0.000830 	 y= 0.000001 	 grad= 0.001660
+Iter: 273 	 x= 0.000790 	 y= 0.000001 	 grad= 0.001580
+Iter: 274 	 x= 0.000752 	 y= 0.000001 	 grad= 0.001504
+Iter: 275 	 x= 0.000715 	 y= 0.000001 	 grad= 0.001431
+Iter: 276 	 x= 0.000680 	 y= 0.000000 	 grad= 0.001361
+Iter: 277 	 x= 0.000647 	 y= 0.000000 	 grad= 0.001294
+Iter: 278 	 x= 0.000615 	 y= 0.000000 	 grad= 0.001229
+Iter: 279 	 x= 0.000584 	 y= 0.000000 	 grad= 0.001168
+Iter: 280 	 x= 0.000555 	 y= 0.000000 	 grad= 0.001110
+Iter: 281 	 x= 0.000527 	 y= 0.000000 	 grad= 0.001053
+Iter: 282 	 x= 0.000500 	 y= 0.000000 	 grad= 0.001000
 </pre></div>
 </div>
 </div>

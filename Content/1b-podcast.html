@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>8. Best linear unbiased estimator and the bias-variance decomposition &#8212; Math 637 Mathematical Techniques in Data Science</title>
+    <title>Podcast &#8212; Math 637 Mathematical Techniques in Data Science</title>
   
   
   
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -68,9 +68,7 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Content/9-BLUE';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Content/1b-podcast';</script>
     <script src="../_static/language_data.js?v=d4673a71"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
@@ -88,8 +86,8 @@
     <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?v=4e4fcec4"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="9. Lab 3: Gradient descent" href="10-Lab3-gradient-descent.html" />
-    <link rel="prev" title="7. Lab 2: Training vs testing error" href="8-Lab2-train-test.html" />
+    <link rel="next" title="1. Setting up Python" href="2-Python.html" />
+    <link rel="prev" title="Introduction" href="1-intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -207,10 +205,10 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="1b-podcast.html">Podcast</a></li>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Podcast</a></li>
 </ul>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
@@ -218,7 +216,7 @@
 <li class="toctree-l1"><a class="reference internal" href="6-Lab-Cars.html">5. Lab 1: Linear regression and the cars data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="7-Learning-outside-training.html">6. Learning outside the training set</a></li>
 <li class="toctree-l1"><a class="reference internal" href="8-Lab2-train-test.html">7. Lab 2: Training vs testing error</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Best linear unbiased estimator and the bias-variance decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9-BLUE.html">8. Best linear unbiased estimator and the bias-variance decomposition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="10-Lab3-gradient-descent.html">9. Lab 3: Gradient descent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="11-Shrinkage-methods.html">10. Improving linear regression</a></li>
 <li class="toctree-l1"><a class="reference internal" href="12-Model-selection.html">11. Model selection</a></li>
@@ -296,7 +294,7 @@
       
       
       
-      <li><a href="../_sources/Content/9-BLUE.md" target="_blank"
+      <li><a href="../_sources/Content/1b-podcast.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -367,9 +365,7 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -380,20 +376,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Best linear unbiased estimator and the bias-variance decomposition</h1>
+    <h1>Podcast</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gauss-markov-theorem">8.1. The Gauss-Markov theorem</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bias-variance-decomposition">8.2. The bias-variance decomposition</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -403,97 +390,31 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="best-linear-unbiased-estimator-and-the-bias-variance-decomposition">
-<h1><span class="section-number">8. </span>Best linear unbiased estimator and the bias-variance decomposition<a class="headerlink" href="#best-linear-unbiased-estimator-and-the-bias-variance-decomposition" title="Link to this heading">#</a></h1>
-<section id="the-gauss-markov-theorem">
-<h2><span class="section-number">8.1. </span>The Gauss-Markov theorem<a class="headerlink" href="#the-gauss-markov-theorem" title="Link to this heading">#</a></h2>
-<p>As we saw in <a class="reference internal" href="5-Linear-regression.html#sec-finding-optimal-coefficients"><span class="std std-ref">Finding the optimal coefficients</span></a>, for <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> and <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>, and assuming <span class="math notranslate nohighlight">\(X^TX\)</span> is invertible, the optimal regression coefficients <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> for predicting <span class="math notranslate nohighlight">\(y\)</span> using the columns of <span class="math notranslate nohighlight">\(X\)</span> are given by:</p>
-<div class="math notranslate nohighlight">
-\[
-\widehat{\beta}_\textrm{LS} = (X^T X)^{-1} X^T y. 
-\]</div>
-<p>They are optimal in the sense that they minimize the mean squared error (MSE) <span class="math notranslate nohighlight">\(\frac{1}{n}\|y-X\beta\|_2^2\)</span>.</p>
-<p>As we briefly explain in this chapter, <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> has another optimality property: it is the Best Linear Unbiased Estimator (BLUE) for the coefficients. This result is known as the Gauss-Markov theorem.</p>
-<div class="admonition-review-from-probability-theory admonition">
-<p class="admonition-title">Review from probability theory</p>
-<p>Let <span class="math notranslate nohighlight">\(X, Y\)</span> be random variables. Recall that</p>
-<ol class="arabic simple">
-<li><p><span class="math notranslate nohighlight">\(E(X)\)</span> is the <em>expected value</em> (or mean value) of <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\textrm{Var}(X) = E((X-E(X))^2)\)</span> is the <em>variance</em> of <span class="math notranslate nohighlight">\(X\)</span>. It measures how far <span class="math notranslate nohighlight">\(X\)</span> is from its average, on average.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\textrm{Cov}(X,Y) = E((X-E(X))(Y-E(Y)))\)</span> is the <em>covariance</em> between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. Covariance can be thought of as a measure of <em>linear association</em>. For example, if <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> tend to take values greater than their means at the same time, and values smaller than their means at the same time, then <span class="math notranslate nohighlight">\(\textrm{Cov}(X,Y) &gt; 0\)</span>.</p></li>
-</ol>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/covariance.png"><img alt="../_images/covariance.png" src="../_images/covariance.png" style="width: 500px;" />
-</a>
-</figure>
+  <section class="tex2jax_ignore mathjax_ignore" id="podcast">
+<h1>Podcast<a class="headerlink" href="#podcast" title="Link to this heading">#</a></h1>
+<p>To help you learn the material, please listen to the Math 637 podcast!</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Episode</p></th>
+<th class="head"><p>Chapters covered</p></th>
+<th class="head"><p>Topics</p></th>
+<th class="head"><p>Link</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>3–4</p></td>
+<td><p>Supervised/unsupervised learning, curse of dimensionality</p></td>
+<td><p><a class="reference download internal" download="" href="../_downloads/fed9cc2eb7ec19918b3c8f2234eb3286/Math637_Data_Science_Podcast_Episode_01.mp3"><span class="xref download myst">Listen</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>5–6</p></td>
+<td><p>Training/testing sets, overfitting, K-fold CV</p></td>
+<td><p><a class="reference download internal" download="" href="../_downloads/0d4b57ea056d81a7b83ca52d5e2302b4/Math637_Data_Science_Podcast_Episode_02.mp3"><span class="xref download myst">Listen</span></a></p></td>
+</tr>
+</tbody>
+</table>
 </div>
-<p>Observe that <span class="math notranslate nohighlight">\(\textrm{Var}(X) = \textrm{Cov}(X,X)\)</span>. Also, one can show that when <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are <em>independent</em>, then <span class="math notranslate nohighlight">\(\textrm{Cov}(X,Y) = 0\)</span>. The converse is false in general. When <span class="math notranslate nohighlight">\(\textrm{Cov}(X, Y) = 0\)</span>, we say <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are <em>uncorrelated</em>. This is weaker than assuming <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are independent.</p>
-<hr style="border: none; height: 2px; background-color: black;">
-<p>We make the following assumptions on our data: assume <span class="math notranslate nohighlight">\({\bf X}\)</span> is fixed and <span class="math notranslate nohighlight">\({\bf Y} = {\bf X} \beta + {\bf \epsilon}\)</span>, where <span class="math notranslate nohighlight">\({\bf \epsilon} \in \mathbb{R}^n\)</span> is random and satisfies:</p>
-<ol class="arabic simple">
-<li><p><span class="math notranslate nohighlight">\(E(\epsilon_i) = 0\)</span>.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\textrm{Var}(\epsilon_i) = \sigma^2 &lt; \infty\)</span>.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\textrm{Cov}(\epsilon_i, \epsilon_j) = 0\)</span> for all <span class="math notranslate nohighlight">\(i \ne j\)</span>.</p></li>
-</ol>
-<p>These can be summarized by saying that <span class="math notranslate nohighlight">\(Y\)</span> really has a linear relationship with <span class="math notranslate nohighlight">\(X\)</span>, but with some “noise” <span class="math notranslate nohighlight">\(\epsilon\)</span> added. The noise has mean <span class="math notranslate nohighlight">\(0\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>, and the noise between samples is uncorrelated. We need two more definitions to state the Gauss-Markov theorem.</p>
-<p>A <em>linear estimator</em> of <span class="math notranslate nohighlight">\(\beta\)</span> is an estimator of the form <span class="math notranslate nohighlight">\(\widehat{\beta} = C {\bf Y}\)</span>, where <span class="math notranslate nohighlight">\(C = (c_{ij}) \in \mathbb{R}^{p \times n}\)</span> is a matrix, and</p>
-<div class="math notranslate nohighlight">
-\[
-c_{ij} = c_{ij}(\bf{X}).
-\]</div>
-<p>Thus, <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> is a linear combination of <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span>, where the coefficients can depend on <span class="math notranslate nohighlight">\(\mathbf{X}\)</span> (in a possibly non-linear way). Notice that our estimator <span class="math notranslate nohighlight">\(\widehat{\beta}_{\textrm{LS}} = ({\bf X}^T {\bf X})^{-1} {\bf X}^T {\bf Y}\)</span> is a linear estimator with <span class="math notranslate nohighlight">\(C = ({\bf X}^T {\bf X})^{-1} {\bf X}^T\)</span>.</p>
-<p>Finally, we say that an estimator is <em>unbiased</em> if <span class="math notranslate nohighlight">\(E(\widehat{\beta}) = \beta\)</span>, i.e., on average, <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> returns the correct value of <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
-<div class="admonition-theorem-gauss-markov admonition">
-<p class="admonition-title">Theorem: (Gauss-Markov)</p>
-<p>Suppose <span class="math notranslate nohighlight">\({\bf Y} = {\bf X} \beta + \epsilon\)</span> where <span class="math notranslate nohighlight">\(\epsilon\)</span> satisfies the previous assumptions. Let <span class="math notranslate nohighlight">\(\widehat{\beta} = C {\bf Y}\)</span> be a linear unbiased estimator of <span class="math notranslate nohighlight">\(\beta\)</span>. Then for all <span class="math notranslate nohighlight">\(a \in \mathbb{R}^p\)</span>,</p>
-<div class="math notranslate nohighlight">
-\[
-\textrm{MSE}(a^T \widehat{\beta}_{\textrm{LS}}) \leq \textrm{MSE}(a^T \widehat{\beta}), 
-\]</div>
-<p>where</p>
-<div class="math notranslate nohighlight">
-\[
-\textrm{MSE}(a^T \widehat{\beta}) = E\left[\left(\sum_{i=1}^p a_i (\widehat{\beta}_i - \beta_i)\right)^2\right] \qquad (a \in \mathbb{R}^p).
-\]</div>
-</div>
-<p>Intuitively, the theorem says that, under our assumptions, the least-squares estimator has no larger variance than any other linear unbiased estimator, for every linear combination <span class="math notranslate nohighlight">\(a^T\beta\)</span> of the coefficients. The least squares estimator thus has strong theoretical properties. The assumption that <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> is unbiased is very natural (on average, the estimator is correct). However, as we will see in future chapters, one can sometimes get smaller error by working with biased estimators.</p>
-</section>
-<section id="the-bias-variance-decomposition">
-<span id="s-bias-variance"></span><h2><span class="section-number">8.2. </span>The bias-variance decomposition<a class="headerlink" href="#the-bias-variance-decomposition" title="Link to this heading">#</a></h2>
-<p>Recall that in the Gauss-Markov theorem, we only examined <em>unbiased</em> estimators. We will now show that the error of an estimator can be decomposed as a sum of two “types” of error (bias-squared and variance). This is known as the <em>bias-variance decomposition</em>.</p>
-<p>Let <span class="math notranslate nohighlight">\(\widehat{Z}\)</span> be a random variable trying to predict the value of <span class="math notranslate nohighlight">\(z\)</span> (non-random). Then:</p>
-<ul class="simple">
-<li><p>The <em>bias</em> of <span class="math notranslate nohighlight">\(\widehat{Z}\)</span> is defined by <span class="math notranslate nohighlight">\(\textrm{bias}(\widehat{Z}) = E(\widehat{Z})-z\)</span> and measures the difference between the true value <span class="math notranslate nohighlight">\(z\)</span>, and the average value predicted by <span class="math notranslate nohighlight">\(\widehat{Z}\)</span>.</p></li>
-<li><p>The <em>variance</em> <span class="math notranslate nohighlight">\(\textrm{Var}(\widehat{Z})\)</span> measures how much <span class="math notranslate nohighlight">\(\widehat{Z}\)</span> varies around its mean.</p></li>
-<li><p>The <span class="math notranslate nohighlight">\(\textrm{MSE}(\widehat{Z}-z) = E((\widehat{Z}-z)^2)\)</span> measures the average squared error made by <span class="math notranslate nohighlight">\(\widehat{Z}\)</span> in estimating <span class="math notranslate nohighlight">\(z\)</span>.</p></li>
-</ul>
-<div class="admonition-theorem-bias-variance-decomposition admonition">
-<p class="admonition-title">Theorem: (Bias-variance decomposition)</p>
-<p>We have</p>
-<div class="math notranslate nohighlight">
-\[
-\textrm{MSE}(\widehat{Z}-z) = \textrm{bias}(\widehat{Z})^2 + \textrm{Var}(\widehat{Z}).
-\]</div>
-</div>
-<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">Proof</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<p class="sd-card-text">We have</p>
-<div class="amsmath math notranslate nohighlight">
-\[\begin{align*}
-\textrm{MSE}(\widehat{Z}-z) &amp;= E((\widehat{Z}-z)^2) = E(z^2 - 2 z \hat{Z} + \hat{Z}^2) \\
-&amp;= E(z^2) - 2 E(z \hat{Z}) + E(\hat{Z}^2) \\
-&amp;= z^2 - 2 z E(\hat{Z}) + \textrm{Var}(\hat{Z}) + E(\hat{Z})^2 \\
-&amp;= \underbrace{(E(\hat{Z})-z)^2}_{\textrm{bias}^2} + \underbrace{\textrm{Var}(\hat{Z})}_{\textrm{variance}}.
-\end{align*}\]</div>
-</div>
-</details><p>Thus, the theorem indicates two sources of error for an estimator: its bias and its variance. The figure below illustrates this idea.</p>
-<figure class="align-default">
-<a class="reference internal image-reference" href="../_images/bias-variance.png"><img alt="../_images/bias-variance.png" src="../_images/bias-variance.png" style="width: 400px;" />
-</a>
-</figure>
-<p>In the figure, the red dot represents the target value <span class="math notranslate nohighlight">\(z\)</span>. Ideally, we would want an estimator with low bias and low variance (top left). Such estimators have the smallest error. Observe, however, that an estimator with small bias and low variance may be preferable to an estimator with no bias but large variance. One can thus sometimes make a <em>trade-off</em> between bias and variance to obtain an estimator with lower error (MSE).</p>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -527,20 +448,20 @@ c_{ij} = c_{ij}(\bf{X}).
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="8-Lab2-train-test.html"
+       href="1-intro.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Lab 2: Training vs testing error</p>
+        <p class="prev-next-title">Introduction</p>
       </div>
     </a>
     <a class="right-next"
-       href="10-Lab3-gradient-descent.html"
+       href="2-Python.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">9. </span>Lab 3: Gradient descent</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Setting up Python</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -550,22 +471,6 @@ c_{ij} = c_{ij}(\bf{X}).
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gauss-markov-theorem">8.1. The Gauss-Markov theorem</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bias-variance-decomposition">8.2. The bias-variance decomposition</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>

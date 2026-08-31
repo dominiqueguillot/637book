@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -207,7 +207,10 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1b-podcast.html">Podcast</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
@@ -440,11 +443,11 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Parameter containing:
-tensor([[-0.1996, -0.0269],
-        [-0.1217, -0.0781],
-        [ 0.1877, -0.0742]], requires_grad=True)
+tensor([[-0.2066,  0.0982],
+        [ 0.1150, -0.3541],
+        [ 0.6557,  0.5800]], requires_grad=True)
 Parameter containing:
-tensor([ 0.2286,  0.5655, -0.1309], requires_grad=True)
+tensor([-0.3833,  0.5183,  0.5950], requires_grad=True)
 </pre></div>
 </div>
 </div>
@@ -460,7 +463,7 @@ tensor([ 0.2286,  0.5655, -0.1309], requires_grad=True)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.227152481675148
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.2948967218399048
 </pre></div>
 </div>
 </div>
@@ -575,13 +578,15 @@ tensor([ 0.2286,  0.5655, -0.1309], requires_grad=True)
 Epoch [200/1000], Loss: 0.0520
 Epoch [300/1000], Loss: 0.0383
 Epoch [400/1000], Loss: 0.0337
-Epoch [500/1000], Loss: 0.0316
-Epoch [600/1000], Loss: 0.0299
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [700/1000], Loss: 0.0284
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [500/1000], Loss: 0.0316
+Epoch [600/1000], Loss: 0.0299
+Epoch [700/1000], Loss: 0.0284
 Epoch [800/1000], Loss: 0.0274
-Epoch [900/1000], Loss: 0.0265
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [900/1000], Loss: 0.0265
 Epoch [1000/1000], Loss: 0.0257
 </pre></div>
 </div>
