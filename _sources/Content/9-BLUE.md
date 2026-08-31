@@ -2,7 +2,7 @@
 
 ## The Gauss-Markov theorem
 
-As we saw in [](sec-finding-optimal-coefficients), for $X \in \mathbb{R}^{n \times p}$ and $y \in \mathbb{R}^n$, the optimal regression coefficients $\widehat{\beta}$ for predicting $y$ using the columns of $X$ are given by:
+As we saw in [](sec-finding-optimal-coefficients), for $X \in \mathbb{R}^{n \times p}$ and $y \in \mathbb{R}^n$, and assuming $X^TX$ is invertible, the optimal regression coefficients $\widehat{\beta}$ for predicting $y$ using the columns of $X$ are given by:
 
 $$
 \widehat{\beta}_\textrm{LS} = (X^T X)^{-1} X^T y. 
@@ -15,7 +15,7 @@ As we briefly explain in this chapter, $\widehat{\beta}$ has another optimality 
 ```{admonition} Review from probability theory
 Let $X, Y$ be random variables. Recall that
 1. $E(X)$ is the *expected value* (or mean value) of $X$. 
-2. $\textrm{Var}(X) = E((X-E(X))^2)$ is the *variance* of $X$. It measures how far is $X$ from its average, on average. 
+2. $\textrm{Var}(X) = E((X-E(X))^2)$ is the *variance* of $X$. It measures how far $X$ is from its average, on average. 
 3. $\textrm{Cov}(X,Y) = E((X-E(X))(Y-E(Y)))$ is the *covariance* between $X$ and $Y$. Covariance can be thought of as a measure of *linear association*. For example, if $X$ and $Y$ tend to take values greater than their means at the same time, and values smaller than their means at the same time, then $\textrm{Cov}(X,Y) > 0$. 
 
 ```{figure} images/covariance.png
@@ -24,18 +24,18 @@ width: 500 px
 ---
 ```
 
-Observe that $\textrm{Var}(X) = \textrm{Cov}(X,X)$. Also, one can show that when $X$ and $Y$ are *independent*, then $\textrm{Cov}(X,Y) = 0$. The converse if false in general. When $\textrm{Cov}(X, Y) = 0$, we say $X$ and $Y$ are *uncorreleated*. This is weaker than assuming $X$ and $Y$ are independent. 
+Observe that $\textrm{Var}(X) = \textrm{Cov}(X,X)$. Also, one can show that when $X$ and $Y$ are *independent*, then $\textrm{Cov}(X,Y) = 0$. The converse is false in general. When $\textrm{Cov}(X, Y) = 0$, we say $X$ and $Y$ are *uncorrelated*. This is weaker than assuming $X$ and $Y$ are independent. 
 
 <hr style="border: none; height: 2px; background-color: black;">
 
-We make the following assumptions on our data: ${\bf Y} = {\bf X} \beta + {\bf \epsilon}$, where ${\bf \epsilon} \in \mathbb{R}^n$ with:
+We make the following assumptions on our data: assume ${\bf X}$ is fixed and ${\bf Y} = {\bf X} \beta + {\bf \epsilon}$, where ${\bf \epsilon} \in \mathbb{R}^n$ is random and satisfies:
 1. $E(\epsilon_i) = 0$.
 2. $\textrm{Var}(\epsilon_i) = \sigma^2 < \infty$.
 3. $\textrm{Cov}(\epsilon_i, \epsilon_j) = 0$ for all $i \ne j$.
 
-These can be summarized by saying that $Y$ really has a linear relationship with $X$, but with some "noise" $\epsilon$ added. The noise has mean $0$ and variance $\sigma^2$, and the noise between samples is uncorrelated (weakly independent). We need two more definitions to state the Gauss-Markov theorem.
+These can be summarized by saying that $Y$ really has a linear relationship with $X$, but with some "noise" $\epsilon$ added. The noise has mean $0$ and variance $\sigma^2$, and the noise between samples is uncorrelated. We need two more definitions to state the Gauss-Markov theorem.
 
-A *linear estimator* of $\beta$, is an estimator of the form $\widehat{\beta} = C {\bf Y}$, where $C = (c_{ij}) \in \mathbb{R}^{p \times n}$ is a matrix, and 
+A *linear estimator* of $\beta$ is an estimator of the form $\widehat{\beta} = C {\bf Y}$, where $C = (c_{ij}) \in \mathbb{R}^{p \times n}$ is a matrix, and 
 
 $$
 c_{ij} = c_{ij}(\bf{X}).
@@ -55,11 +55,11 @@ $$
 where 
 
 $$
-\textrm{MSE}(a^T \widehat{\beta}) = E\left[\left(\sum_{i=1}^n a_i (\widehat{\beta}_i - \beta_i)\right)^2\right] \qquad (a \in \mathbb{R}^p).
+\textrm{MSE}(a^T \widehat{\beta}) = E\left[\left(\sum_{i=1}^p a_i (\widehat{\beta}_i - \beta_i)\right)^2\right] \qquad (a \in \mathbb{R}^p).
 $$
 ```
 
-Intuitively, the theorem says that, under our assumptions, the least squares estimator yields smaller mean square error than any other linear unbiased estimator of $\beta$. The least squares estimator thus has strong theoretical properties. The assumption that $\widehat{\beta}$ is unbiased is very natural (on average, the estimator is correct). However, as we will see in future chapters, one can sometimes get smaller error with working with biased estimators. 
+Intuitively, the theorem says that, under our assumptions, the least-squares estimator has no larger variance than any other linear unbiased estimator, for every linear combination $a^T\beta$ of the coefficients. The least squares estimator thus has strong theoretical properties. The assumption that $\widehat{\beta}$ is unbiased is very natural (on average, the estimator is correct). However, as we will see in future chapters, one can sometimes get smaller error by working with biased estimators. 
 
 (S-bias-variance)=
 ## The bias-variance decomposition
@@ -67,9 +67,9 @@ Intuitively, the theorem says that, under our assumptions, the least squares est
 Recall that in the Gauss-Markov theorem, we only examined *unbiased* estimators. We will now show that the error of an estimator can be decomposed as a sum of two "types" of error (bias-squared and variance). This is known as the *bias-variance decomposition*. 
 
 Let $\widehat{Z}$ be a random variable trying to predict the value of $z$ (non-random). Then:
-* The *bias* of $\widehat{Z}$ is defined by $\textrm{bias}(\widehat{Z}) = z - E(\widehat{Z})$ and measures the difference between the true value $z$, and the average value predicted by $\widehat{Z}$. 
+* The *bias* of $\widehat{Z}$ is defined by $\textrm{bias}(\widehat{Z}) = E(\widehat{Z})-z$ and measures the difference between the true value $z$, and the average value predicted by $\widehat{Z}$. 
 * The *variance* $\textrm{Var}(\widehat{Z})$ measures how much $\widehat{Z}$ varies around its mean. 
-* The $\textrm{MSE}(\widehat{Z}-z) = E(\widehat{(Z}-z)^2)$ measures that average squared error made by $\widehat{Z}$ in estimating $z$. 
+* The $\textrm{MSE}(\widehat{Z}-z) = E((\widehat{Z}-z)^2)$ measures the average squared error made by $\widehat{Z}$ in estimating $z$. 
 
 ```{admonition} Theorem: (Bias-variance decomposition)
 
@@ -84,10 +84,10 @@ $$
 We have 
 
 \begin{align*}
-\textrm{MSE}(\widehat{Z}-z) &= E(\widehat{(Z}-z)^2) = E(z^2 - 2 z \hat{Z} + \hat{Z}^2) \\
+\textrm{MSE}(\widehat{Z}-z) &= E((\widehat{Z}-z)^2) = E(z^2 - 2 z \hat{Z} + \hat{Z}^2) \\
 &= E(z^2) - 2 E(z \hat{Z}) + E(\hat{Z}^2) \\
 &= z^2 - 2 z E(\hat{Z}) + \textrm{Var}(\hat{Z}) + E(\hat{Z})^2 \\
-&= \underbrace{(z-E(\hat{Z}))^2}_{\textrm{bias}^2} + \underbrace{\textrm{Var}(\hat{Z})}_{\textrm{variance}}.
+&= \underbrace{(E(\hat{Z})-z)^2}_{\textrm{bias}^2} + \underbrace{\textrm{Var}(\hat{Z})}_{\textrm{variance}}.
 \end{align*}
 
 ```

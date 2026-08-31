@@ -404,7 +404,7 @@ document.write(`
 <h1><span class="section-number">8. </span>Best linear unbiased estimator and the bias-variance decomposition<a class="headerlink" href="#best-linear-unbiased-estimator-and-the-bias-variance-decomposition" title="Link to this heading">#</a></h1>
 <section id="the-gauss-markov-theorem">
 <h2><span class="section-number">8.1. </span>The Gauss-Markov theorem<a class="headerlink" href="#the-gauss-markov-theorem" title="Link to this heading">#</a></h2>
-<p>As we saw in <a class="reference internal" href="5-Linear-regression.html#sec-finding-optimal-coefficients"><span class="std std-ref">Finding the optimal coefficients</span></a>, for <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> and <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>, the optimal regression coefficients <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> for predicting <span class="math notranslate nohighlight">\(y\)</span> using the columns of <span class="math notranslate nohighlight">\(X\)</span> are given by:</p>
+<p>As we saw in <a class="reference internal" href="5-Linear-regression.html#sec-finding-optimal-coefficients"><span class="std std-ref">Finding the optimal coefficients</span></a>, for <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> and <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>, and assuming <span class="math notranslate nohighlight">\(X^TX\)</span> is invertible, the optimal regression coefficients <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> for predicting <span class="math notranslate nohighlight">\(y\)</span> using the columns of <span class="math notranslate nohighlight">\(X\)</span> are given by:</p>
 <div class="math notranslate nohighlight">
 \[
 \widehat{\beta}_\textrm{LS} = (X^T X)^{-1} X^T y. 
@@ -416,7 +416,7 @@ document.write(`
 <p>Let <span class="math notranslate nohighlight">\(X, Y\)</span> be random variables. Recall that</p>
 <ol class="arabic simple">
 <li><p><span class="math notranslate nohighlight">\(E(X)\)</span> is the <em>expected value</em> (or mean value) of <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\textrm{Var}(X) = E((X-E(X))^2)\)</span> is the <em>variance</em> of <span class="math notranslate nohighlight">\(X\)</span>. It measures how far is <span class="math notranslate nohighlight">\(X\)</span> from its average, on average.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\textrm{Var}(X) = E((X-E(X))^2)\)</span> is the <em>variance</em> of <span class="math notranslate nohighlight">\(X\)</span>. It measures how far <span class="math notranslate nohighlight">\(X\)</span> is from its average, on average.</p></li>
 <li><p><span class="math notranslate nohighlight">\(\textrm{Cov}(X,Y) = E((X-E(X))(Y-E(Y)))\)</span> is the <em>covariance</em> between <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. Covariance can be thought of as a measure of <em>linear association</em>. For example, if <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> tend to take values greater than their means at the same time, and values smaller than their means at the same time, then <span class="math notranslate nohighlight">\(\textrm{Cov}(X,Y) &gt; 0\)</span>.</p></li>
 </ol>
 <figure class="align-default">
@@ -424,16 +424,16 @@ document.write(`
 </a>
 </figure>
 </div>
-<p>Observe that <span class="math notranslate nohighlight">\(\textrm{Var}(X) = \textrm{Cov}(X,X)\)</span>. Also, one can show that when <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are <em>independent</em>, then <span class="math notranslate nohighlight">\(\textrm{Cov}(X,Y) = 0\)</span>. The converse if false in general. When <span class="math notranslate nohighlight">\(\textrm{Cov}(X, Y) = 0\)</span>, we say <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are <em>uncorreleated</em>. This is weaker than assuming <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are independent.</p>
+<p>Observe that <span class="math notranslate nohighlight">\(\textrm{Var}(X) = \textrm{Cov}(X,X)\)</span>. Also, one can show that when <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are <em>independent</em>, then <span class="math notranslate nohighlight">\(\textrm{Cov}(X,Y) = 0\)</span>. The converse is false in general. When <span class="math notranslate nohighlight">\(\textrm{Cov}(X, Y) = 0\)</span>, we say <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are <em>uncorrelated</em>. This is weaker than assuming <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are independent.</p>
 <hr style="border: none; height: 2px; background-color: black;">
-<p>We make the following assumptions on our data: <span class="math notranslate nohighlight">\({\bf Y} = {\bf X} \beta + {\bf \epsilon}\)</span>, where <span class="math notranslate nohighlight">\({\bf \epsilon} \in \mathbb{R}^n\)</span> with:</p>
+<p>We make the following assumptions on our data: assume <span class="math notranslate nohighlight">\({\bf X}\)</span> is fixed and <span class="math notranslate nohighlight">\({\bf Y} = {\bf X} \beta + {\bf \epsilon}\)</span>, where <span class="math notranslate nohighlight">\({\bf \epsilon} \in \mathbb{R}^n\)</span> is random and satisfies:</p>
 <ol class="arabic simple">
 <li><p><span class="math notranslate nohighlight">\(E(\epsilon_i) = 0\)</span>.</p></li>
 <li><p><span class="math notranslate nohighlight">\(\textrm{Var}(\epsilon_i) = \sigma^2 &lt; \infty\)</span>.</p></li>
 <li><p><span class="math notranslate nohighlight">\(\textrm{Cov}(\epsilon_i, \epsilon_j) = 0\)</span> for all <span class="math notranslate nohighlight">\(i \ne j\)</span>.</p></li>
 </ol>
-<p>These can be summarized by saying that <span class="math notranslate nohighlight">\(Y\)</span> really has a linear relationship with <span class="math notranslate nohighlight">\(X\)</span>, but with some “noise” <span class="math notranslate nohighlight">\(\epsilon\)</span> added. The noise has mean <span class="math notranslate nohighlight">\(0\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>, and the noise between samples is uncorrelated (weakly independent). We need two more definitions to state the Gauss-Markov theorem.</p>
-<p>A <em>linear estimator</em> of <span class="math notranslate nohighlight">\(\beta\)</span>, is an estimator of the form <span class="math notranslate nohighlight">\(\widehat{\beta} = C {\bf Y}\)</span>, where <span class="math notranslate nohighlight">\(C = (c_{ij}) \in \mathbb{R}^{p \times n}\)</span> is a matrix, and</p>
+<p>These can be summarized by saying that <span class="math notranslate nohighlight">\(Y\)</span> really has a linear relationship with <span class="math notranslate nohighlight">\(X\)</span>, but with some “noise” <span class="math notranslate nohighlight">\(\epsilon\)</span> added. The noise has mean <span class="math notranslate nohighlight">\(0\)</span> and variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>, and the noise between samples is uncorrelated. We need two more definitions to state the Gauss-Markov theorem.</p>
+<p>A <em>linear estimator</em> of <span class="math notranslate nohighlight">\(\beta\)</span> is an estimator of the form <span class="math notranslate nohighlight">\(\widehat{\beta} = C {\bf Y}\)</span>, where <span class="math notranslate nohighlight">\(C = (c_{ij}) \in \mathbb{R}^{p \times n}\)</span> is a matrix, and</p>
 <div class="math notranslate nohighlight">
 \[
 c_{ij} = c_{ij}(\bf{X}).
@@ -450,19 +450,19 @@ c_{ij} = c_{ij}(\bf{X}).
 <p>where</p>
 <div class="math notranslate nohighlight">
 \[
-\textrm{MSE}(a^T \widehat{\beta}) = E\left[\left(\sum_{i=1}^n a_i (\widehat{\beta}_i - \beta_i)\right)^2\right] \qquad (a \in \mathbb{R}^p).
+\textrm{MSE}(a^T \widehat{\beta}) = E\left[\left(\sum_{i=1}^p a_i (\widehat{\beta}_i - \beta_i)\right)^2\right] \qquad (a \in \mathbb{R}^p).
 \]</div>
 </div>
-<p>Intuitively, the theorem says that, under our assumptions, the least squares estimator yields smaller mean square error than any other linear unbiased estimator of <span class="math notranslate nohighlight">\(\beta\)</span>. The least squares estimator thus has strong theoretical properties. The assumption that <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> is unbiased is very natural (on average, the estimator is correct). However, as we will see in future chapters, one can sometimes get smaller error with working with biased estimators.</p>
+<p>Intuitively, the theorem says that, under our assumptions, the least-squares estimator has no larger variance than any other linear unbiased estimator, for every linear combination <span class="math notranslate nohighlight">\(a^T\beta\)</span> of the coefficients. The least squares estimator thus has strong theoretical properties. The assumption that <span class="math notranslate nohighlight">\(\widehat{\beta}\)</span> is unbiased is very natural (on average, the estimator is correct). However, as we will see in future chapters, one can sometimes get smaller error by working with biased estimators.</p>
 </section>
 <section id="the-bias-variance-decomposition">
 <span id="s-bias-variance"></span><h2><span class="section-number">8.2. </span>The bias-variance decomposition<a class="headerlink" href="#the-bias-variance-decomposition" title="Link to this heading">#</a></h2>
 <p>Recall that in the Gauss-Markov theorem, we only examined <em>unbiased</em> estimators. We will now show that the error of an estimator can be decomposed as a sum of two “types” of error (bias-squared and variance). This is known as the <em>bias-variance decomposition</em>.</p>
 <p>Let <span class="math notranslate nohighlight">\(\widehat{Z}\)</span> be a random variable trying to predict the value of <span class="math notranslate nohighlight">\(z\)</span> (non-random). Then:</p>
 <ul class="simple">
-<li><p>The <em>bias</em> of <span class="math notranslate nohighlight">\(\widehat{Z}\)</span> is defined by <span class="math notranslate nohighlight">\(\textrm{bias}(\widehat{Z}) = z - E(\widehat{Z})\)</span> and measures the difference between the true value <span class="math notranslate nohighlight">\(z\)</span>, and the average value predicted by <span class="math notranslate nohighlight">\(\widehat{Z}\)</span>.</p></li>
+<li><p>The <em>bias</em> of <span class="math notranslate nohighlight">\(\widehat{Z}\)</span> is defined by <span class="math notranslate nohighlight">\(\textrm{bias}(\widehat{Z}) = E(\widehat{Z})-z\)</span> and measures the difference between the true value <span class="math notranslate nohighlight">\(z\)</span>, and the average value predicted by <span class="math notranslate nohighlight">\(\widehat{Z}\)</span>.</p></li>
 <li><p>The <em>variance</em> <span class="math notranslate nohighlight">\(\textrm{Var}(\widehat{Z})\)</span> measures how much <span class="math notranslate nohighlight">\(\widehat{Z}\)</span> varies around its mean.</p></li>
-<li><p>The <span class="math notranslate nohighlight">\(\textrm{MSE}(\widehat{Z}-z) = E(\widehat{(Z}-z)^2)\)</span> measures that average squared error made by <span class="math notranslate nohighlight">\(\widehat{Z}\)</span> in estimating <span class="math notranslate nohighlight">\(z\)</span>.</p></li>
+<li><p>The <span class="math notranslate nohighlight">\(\textrm{MSE}(\widehat{Z}-z) = E((\widehat{Z}-z)^2)\)</span> measures the average squared error made by <span class="math notranslate nohighlight">\(\widehat{Z}\)</span> in estimating <span class="math notranslate nohighlight">\(z\)</span>.</p></li>
 </ul>
 <div class="admonition-theorem-bias-variance-decomposition admonition">
 <p class="admonition-title">Theorem: (Bias-variance decomposition)</p>
@@ -478,10 +478,10 @@ c_{ij} = c_{ij}(\bf{X}).
 <p class="sd-card-text">We have</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-\textrm{MSE}(\widehat{Z}-z) &amp;= E(\widehat{(Z}-z)^2) = E(z^2 - 2 z \hat{Z} + \hat{Z}^2) \\
+\textrm{MSE}(\widehat{Z}-z) &amp;= E((\widehat{Z}-z)^2) = E(z^2 - 2 z \hat{Z} + \hat{Z}^2) \\
 &amp;= E(z^2) - 2 E(z \hat{Z}) + E(\hat{Z}^2) \\
 &amp;= z^2 - 2 z E(\hat{Z}) + \textrm{Var}(\hat{Z}) + E(\hat{Z})^2 \\
-&amp;= \underbrace{(z-E(\hat{Z}))^2}_{\textrm{bias}^2} + \underbrace{\textrm{Var}(\hat{Z})}_{\textrm{variance}}.
+&amp;= \underbrace{(E(\hat{Z})-z)^2}_{\textrm{bias}^2} + \underbrace{\textrm{Var}(\hat{Z})}_{\textrm{variance}}.
 \end{align*}\]</div>
 </div>
 </details><p>Thus, the theorem indicates two sources of error for an estimator: its bias and its variance. The figure below illustrates this idea.</p>
