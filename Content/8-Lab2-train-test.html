@@ -415,7 +415,7 @@ document.write(`
 <section id="training-vs-testing-error">
 <h2><span class="section-number">7.1. </span>Training vs testing error<a class="headerlink" href="#training-vs-testing-error" title="Link to this heading">#</a></h2>
 <p>Recall that when we train a model, we select its parameters in order to minimize the prediction error on a training set. In order to measure how well the model will do on new data, we can evaluate it on a testing set (a part of the data that the model has not seen during training).</p>
-<p>We are going to work with the <em>diabetes</em> dataset (see the <a href="https://scikit-learn.org/stable/datasets/toy_dataset.html#diabetes-dataset" target="_blank">documentation</a>)</p>
+<p>We are going to work with the <em>diabetes</em> dataset (see the <a href="https://scikit-learn.org/stable/datasets/toy_dataset.html#diabetes-dataset" target="_blank">documentation</a>).</p>
 <p>Let us load the dataset and create more features using polynomial transformations:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -431,7 +431,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Note: NumPy has two types of n-dimensional vectors: those with shape (n,) and those with shape (n,1). When loaded, the variables y is of (n,) type. The <em>StandardScaler</em> that we will use later works with (n,1) vectors. The <em>reshape</em> command brings the vector to the (n,1) format to make sure we do not run into problems later.</p>
+<p>Note: NumPy has two types of n-dimensional vectors: those with shape (n,) and those with shape (n,1). When loaded, the variables y is of shape (n,). The <em>StandardScaler</em> that we will use later works with (n,1) vectors. The <em>reshape</em> command brings the vector to the (n,1) format to make sure we do not run into problems later.</p>
 <p>Let us display the dimension of the transformed dataset:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -445,7 +445,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>We can now split the data into a training and a testing set. (Note: the <em>random_state</em> is used for initializing the the random number generator that decides which samples go to the training and the testing sets. Setting it to a fixed value ensures the code will always produce the same results when run again.)</p>
+<p>We can now split the data into a training and a testing set. (Note: the <em>random_state</em> is used for initializing the random number generator that decides which samples go to the training and the testing sets. Setting it to a fixed value ensures the code will always produce the same results when run again.)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
@@ -474,20 +474,12 @@ document.write(`
 
 <span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
 <span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-
-<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 <span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-
-<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
-<span class="n">y_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
-
-<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
-<span class="n">y_test_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Let us now compare the training and the test errors made by a linear regression model using (1) only the first 10 variables, and (2) using all variables.</p>
+<p>Let us now compare the training and test <span class="math notranslate nohighlight">\(R^2\)</span> scores made by a linear regression model using (1) only the first 10 variables, and (2) using all variables.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
@@ -530,16 +522,16 @@ document.write(`
 <p>Notice how the model does a much better job at modeling values on the training set. This is because we are including significantly more variables. However, the <span class="math notranslate nohighlight">\(R^2\)</span> is <strong>negative</strong> on the test set, meaning that the test MSE of the model is worse than a constant prediction equal to the mean y value of the test set. This strongly suggests that the model is <a class="reference internal" href="6-Lab-Cars.html#s-overfitting"><span class="std std-ref">overfitting</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>As we saw before, when training a linear regression model, the MSE of the model will always be less than the MSE of a constant model (as long as we are including an intercept in the linear model). This implies <span class="math notranslate nohighlight">\(R^2 \geq 0\)</span>. However, when testing, there is no such guarantee anymore: the model was trained on a different dataset so its performance could be worse than a constant prediction, resulting in a negative <span class="math notranslate nohighlight">\(R^2\)</span>.</p>
+<p>As we saw before, when training a linear regression model, the MSE of the model will always be less than or equal the MSE of a constant model (as long as we are including an intercept in the linear model). This implies <span class="math notranslate nohighlight">\(R^2 \geq 0\)</span>. However, when testing, there is no such guarantee anymore: the model was trained on a different dataset so its performance could be worse than a constant prediction, resulting in a negative <span class="math notranslate nohighlight">\(R^2\)</span>.</p>
 </div>
 <div class="admonition-exercise admonition">
 <p class="admonition-title">Exercise</p>
 <p>Use a <em>loop</em> to fit the linear regression model to the first <span class="math notranslate nohighlight">\(k\)</span> variables, for <span class="math notranslate nohighlight">\(k=1,\dots, 285\)</span>. For each model, save the training and test <span class="math notranslate nohighlight">\(R^2\)</span>. Finally, use <em>matplotlib</em> to make a plot of the training and test <span class="math notranslate nohighlight">\(R^2\)</span> as a function of <span class="math notranslate nohighlight">\(k\)</span>.</p>
-<p>You should observe that the training <span class="math notranslate nohighlight">\(R^2\)</span> always increases, but the testing <span class="math notranslate nohighlight">\(R^2\)</span> increases and then start decreasing as the model begins to overfit.</p>
+<p>You should observe that the training <span class="math notranslate nohighlight">\(R^2\)</span> never decreases, while the test <span class="math notranslate nohighlight">\(R^2\)</span> tends to improve initially and then deteriorates as the model begins to overfit.</p>
 </div>
 <div class="admonition-exercise admonition">
 <p class="admonition-title">Exercise</p>
-<p>Consider the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html#sklearn.datasets.fetch_california_housing" target="_blank">California Housing dataset</a> available with Scikit-learn. As above, split the samples into a training and testing set. Construct different linear models to predict the price of the houses using the 8 features and measure their performance on your test set.</p>
+<p>Consider the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html#sklearn.datasets.fetch_california_housing" target="_blank">California Housing dataset</a> available with Scikit-learn. As above, split the samples into a training and testing set. Construct different linear models using the eight features to predict the median house value and measure their performance on your test set.</p>
 </div>
 </section>
 </section>
