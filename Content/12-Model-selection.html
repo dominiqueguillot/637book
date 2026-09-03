@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -407,14 +407,14 @@ document.write(`
 <h1><span class="section-number">11. </span>Model selection<a class="headerlink" href="#model-selection" title="Link to this heading">#</a></h1>
 <section id="selecting-parameters-using-cross-validation">
 <h2><span class="section-number">11.1. </span>Selecting parameters using cross-validation<a class="headerlink" href="#selecting-parameters-using-cross-validation" title="Link to this heading">#</a></h2>
-<p>As we saw, both Ridge and LASSO regression depend on a parameter <span class="math notranslate nohighlight">\(\lambda &gt; 0\)</span>. In general, models for data can depend on millions or even billions of parameters. <a class="reference internal" href="7-Learning-outside-training.html#sec-cross-validation"><span class="std std-ref">Cross-validation</span></a> is typically used in the training phase to select parameters.</p>
-<p>Let <span class="math notranslate nohighlight">\(f_\lambda\)</span> be some model that depends on a parameter <span class="math notranslate nohighlight">\(\lambda\)</span>. For example, <span class="math notranslate nohighlight">\(f_\lambda\)</span> could be Ridge regression with penalty <span class="math notranslate nohighlight">\(\lambda\)</span>. Assume we are given training data <span class="math notranslate nohighlight">\((y_1, \mathbf{x_1}), (y_2, \mathbf{x_2}), \dots (y_n, \mathbf{x_n})\)</span>. Our goal is to choose <span class="math notranslate nohighlight">\(\lambda\)</span> in a good way so that <span class="math notranslate nohighlight">\(f_\lambda(\mathbf{x_i}) \approx y_i\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>. Let <span class="math notranslate nohighlight">\(L(y,\hat{y})\)</span> be a loss function to measure the error made by the model. For example, if our prediction is a one-dimensional real number, we could pick <span class="math notranslate nohighlight">\(L(y,y_i) = |y-y_i|^2\)</span>. One possible option to choose <span class="math notranslate nohighlight">\(\lambda\)</span> would be to pick the parameter that minimizes the average error, i.e.,</p>
+<p>Many models depend on one or more hyperparameters that control the training procedure. For example, Ridge and LASSO regression depend on a penalty parameter <span class="math notranslate nohighlight">\(\lambda&gt;0\)</span>. <a class="reference internal" href="7-Learning-outside-training.html#sec-cross-validation"><span class="std std-ref">Cross-validation</span></a> is commonly used to select such hyperparameters.</p>
+<p>Let <span class="math notranslate nohighlight">\(f_\lambda\)</span> be some model that depends on a parameter <span class="math notranslate nohighlight">\(\lambda\)</span>. For example, <span class="math notranslate nohighlight">\(f_\lambda\)</span> could be Ridge regression with penalty <span class="math notranslate nohighlight">\(\lambda\)</span>. Assume we are given training data <span class="math notranslate nohighlight">\((y_1, \mathbf{x}_1), (y_2, \mathbf{x}_2), \dots (y_n, \mathbf{x}_n)\)</span>. Our goal is to choose <span class="math notranslate nohighlight">\(\lambda\)</span> in a good way so that <span class="math notranslate nohighlight">\(f_\lambda(\mathbf{x_i}) \approx y_i\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>. Let <span class="math notranslate nohighlight">\(L(y,\hat{y})\)</span> be a loss function to measure the error made by the model. For example, if our prediction is a one-dimensional real number, we could pick <span class="math notranslate nohighlight">\(L(y,y_i) = |y-y_i|^2\)</span>. One possible option to choose <span class="math notranslate nohighlight">\(\lambda\)</span> would be to pick the parameter that minimizes the average error, i.e.,</p>
 <div class="math notranslate nohighlight">
 \[
 \widehat{\lambda} = \mathop{\textrm{argmin}}_\lambda \frac{1}{n} \sum_{i=1}^n L(y_i, f_\lambda(\mathbf{x_i})) = \mathop{\textrm{argmin}}_\lambda \frac{1}{n} \sum_{i=1}^n |y_i - f_\lambda(\mathbf{x_i})|^2. 
 \]</div>
 <p>The problem with that approach is that the model learns to predict the training data well, but may not generalize well to new data. Instead, we use a cross-validation approach to pick the parameter <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
-<p>Recall that in <span class="math notranslate nohighlight">\(K\)</span>-folds cross-validation, the training data is split into <span class="math notranslate nohighlight">\(K\)</span> folds <span class="math notranslate nohighlight">\(F_1, \dots, F_K\)</span>.</p>
+<p>Recall that in <span class="math notranslate nohighlight">\(K\)</span>-fold cross-validation, the training data is split into <span class="math notranslate nohighlight">\(K\)</span> folds <span class="math notranslate nohighlight">\(F_1, \dots, F_K\)</span>.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/cv.png"><img alt="../_images/cv.png" src="../_images/cv.png" style="width: 500px;" />
 </a>
@@ -422,9 +422,9 @@ document.write(`
 <p>Let <span class="math notranslate nohighlight">\(f_\lambda^{-k}({\bf x})\)</span> be the model fitted on the training data, excluding the <span class="math notranslate nohighlight">\(k\)</span>-th fold. We define the <em>cross-validation error</em> to be the average error made by the model on folds <span class="math notranslate nohighlight">\(F_1, F_2, \dots, F_K\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-\textrm{CV}(\lambda) := \frac{1}{K} \sum_{k=1}^K  \frac{1}{|F_k|}\sum_{i \in F_k} L(y_i, f_\lambda^{-i}({\bf x}_i))
+\textrm{CV}(\lambda) := \frac{1}{K} \sum_{k=1}^K  \frac{1}{|F_k|}\sum_{i \in F_k} L(y_i, f_\lambda^{-k}({\bf x}_i))
 \]</div>
-<p>The cross-validation error much better measures how the model with parameter <span class="math notranslate nohighlight">\(\lambda\)</span> generalizes to new data. We therefore pick <span class="math notranslate nohighlight">\(\lambda\)</span> to minimize that error:</p>
+<p>The cross-validation error provides a much better measure how the model with parameter <span class="math notranslate nohighlight">\(\lambda\)</span> generalizes to new data. We therefore pick <span class="math notranslate nohighlight">\(\lambda\)</span> to minimize that error:</p>
 <div class="math notranslate nohighlight">
 \[
 \widehat{\lambda}_\textrm{CV} = \mathop{\textrm{argmin}}_\lambda\ \textrm{CV}(\lambda).
@@ -441,8 +441,8 @@ document.write(`
 <p><span class="caption-number">Fig. 11.1 </span><span class="caption-text">A cross-validation curve used to select an optimal parameter <span class="math notranslate nohighlight">\(\lambda\)</span>.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Let us see explicitely how cross-validation can be used to select the penalty parameter in Ridge regression. Note that sklearn has a <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeCV.html" target="_blank">RidgeCV</a> object that can be used to choose the penalty parameter using cross-validation automatically. We will not use that object here to demonstrate how cross-validation can be performed in general.</p>
-<p>For this particular exercise, let us generate data at random. Recall that Ridge regression is useful to regularize the linear regression problem when the number of samples <span class="math notranslate nohighlight">\(n\)</span> is smaller than the number of predictors <span class="math notranslate nohighlight">\(p\)</span>. Let us therefore generate data in that “sample-starved” setting.</p>
+<p>Let us see explicitly how cross-validation can be used to select the penalty parameter in Ridge regression. Note that scikit-learn has a <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.RidgeCV.html" target="_blank">RidgeCV</a> object that can be used to choose the penalty parameter using cross-validation automatically. We will not use that object here to demonstrate how cross-validation can be performed in general.</p>
+<p>For this particular exercise, let us generate data at random. Recall that Ridge regression is particularly useful to regularize the linear regression problem when the number of samples <span class="math notranslate nohighlight">\(n\)</span> is smaller than the number of predictors <span class="math notranslate nohighlight">\(p\)</span>. Let us therefore generate data in that “sample-starved” setting.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -452,7 +452,7 @@ document.write(`
 <span class="n">p</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Number of variables</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># Normally distributed features</span>
 <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Regression coefficients</span>
-<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Noise</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Noise</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="nd">@beta</span> <span class="o">+</span> <span class="n">epsilon</span>
 </pre></div>
 </div>
@@ -512,24 +512,24 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best alpha: 8.5636
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best alpha: 8.9667
 </pre></div>
 </div>
-<img alt="../_images/e1b179a274fec666ef723f308902ca029251cee6b75b41451887db3fdd46e626.png" src="../_images/e1b179a274fec666ef723f308902ca029251cee6b75b41451887db3fdd46e626.png" />
+<img alt="../_images/05d80a65f9d542820c8365a533d5790aa557363e682420098909f9d20b9e1cb5.png" src="../_images/05d80a65f9d542820c8365a533d5790aa557363e682420098909f9d20b9e1cb5.png" />
 </div>
 </div>
-<p>Here, the cross-validation curve has a very clear minimum (note that this does not always happen). This is the value we should use for our Ridge parameter.</p>
+<p>Here, the cross-validation curve has a very clear minimum (note that this does not always happen). This is the value we should use for our Ridge parameter. After selecting the hyperparameter using cross-validation, we refit the model on the entire training set using the selected value of the hyperparameter. We then evaluate this final model on the test set.</p>
 </section>
 <section id="model-assessment">
 <h2><span class="section-number">11.2. </span>Model assessment<a class="headerlink" href="#model-assessment" title="Link to this heading">#</a></h2>
-<p>The above cross-validation procedure can be used to select a model that will generalize well to new data. Having chosen a final model, we often want to estimate its prediction error (generalization error) on new data. Generally speaking, the cross-validation error provides a good estimate of the prediction error. However, when enough data is available, a good practice is to keep some data completely separate for final testing.</p>
+<p>The above cross-validation procedure can be used to select a model that will generalize well to new data. Having chosen a final model, we often want to estimate its prediction error (generalization error) on new data. Generally speaking, the cross-validation error provides a good estimate of the prediction error. Because cross-validation is also used to select the model, the minimum cross-validation error can be somewhat optimistic as an estimate of the final model’s prediction error.When enough data is available, a good practice is to keep some data completely separate for final testing.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/train-test.jpg"><img alt="../_images/train-test.jpg" src="../_images/train-test.jpg" style="width: 500px;" />
 </a>
 </figure>
 <div class="admonition-important admonition">
 <p class="admonition-title">Important</p>
-<p>Whenever possible, one should split the dataset into a training and a testing set. Cross-validation can be performed on the training set to select an optimal model. After training, one can then evaluate the final model on the test set to get a better idea of its generalization error on data that has never been seen before. Extra care should be taken to make sure the training and test samples are chosen uniformly at random. Similarly, the folds used during cross-validation should be chosen at random.</p>
+<p>Whenever possible, one should split the dataset into a training and a testing set. Cross-validation can be performed on the training set to select an optimal model. After training, one can then evaluate the final model on the test set to get a better idea of its generalization error on data that has never been seen before. For i.i.d. data, extra care should be taken to make sure the training and test samples are chosen uniformly at random. Similarly, the folds used during cross-validation should be chosen at random.</p>
 </div>
 </section>
 </section>
