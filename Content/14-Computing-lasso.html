@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -416,12 +416,13 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="computing-the-lasso-solution">
 <h1><span class="section-number">13. </span>Computing the LASSO solution<a class="headerlink" href="#computing-the-lasso-solution" title="Link to this heading">#</a></h1>
-<p>The LASSO if often used in high-dimensional problems. As we saw, cross-validation involves solving many lasso problems so it is important to be able to solve the LASSO problem effectively. We will now discuss possible strategies to compute the solution. Recall that the LASSO problem is:</p>
+<p>The LASSO is often used in high-dimensional problems. As we saw, cross-validation involves solving many LASSO problems so it is important to be able to solve the LASSO problem efficiently. We will now discuss possible strategies to compute the solution. Recall that the LASSO problem is:</p>
 <div class="math notranslate nohighlight">
 \[
-\widehat{\beta}_\textrm{LASSO} = \mathop{\textrm{argmin}}_{\beta \in \mathbb{R}^p} \|y - X\beta\|_2^2 + \alpha \|\beta\|_1.
+\widehat{\beta}_\textrm{LASSO} = \mathop{\textrm{argmin}}_{\beta \in \mathbb{R}^p} \|y - X\beta\|_2^2 + \lambda \|\beta\|_1.
 \]</div>
-<p>Notice that the objective function to optimize is not differentiable. As a result, a simple gradient descent cannot be used.</p>
+<p>For simplicity, we assume here that the data have been centered so that no intercept is required. When an intercept is included, it is typically left unpenalized.</p>
+<p>Since the objective is not differentiable everywhere, ordinary gradient descent is not directly applicable.</p>
 <section id="coordinate-descent">
 <span id="s-coordinate-descent"></span><h2><span class="section-number">13.1. </span>Coordinate descent<a class="headerlink" href="#coordinate-descent" title="Link to this heading">#</a></h2>
 <p>A popular approach that is often used to compute the LASSO solution is to use coordinate descent.</p>
@@ -443,7 +444,7 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 <p><span class="caption-number">Fig. 13.1 </span><span class="caption-text">An illustration of the coordinate descent process. Source: Wikipedia (Nicoguaro)</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Unfortunately, coordinate descent does <strong>not</strong> always converge. For example, in the example below, observe that if one starts with the initial guess <span class="math notranslate nohighlight">\((-2,-2)\)</span>, then coordinate descent immediately stops since the function is minimized at that point with respect to the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> axis directions. However, <span class="math notranslate nohighlight">\((-2,-2)\)</span> is not a local minimum of the function.</p>
+<p>Unfortunately, coordinate descent does <strong>not</strong> always converge to a local minimum of an arbitrary nonsmooth objective. In the example below, observe that if one starts with the initial guess <span class="math notranslate nohighlight">\((-2,-2)\)</span>, then coordinate descent immediately stops since the function is minimized at that point with respect to the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> axis directions. However, <span class="math notranslate nohighlight">\((-2,-2)\)</span> is not a local minimum of the function.</p>
 <figure class="align-default" id="id2">
 <a class="reference internal image-reference" href="../_images/Nonsmooth_coordinate_descent.png"><img alt="../_images/Nonsmooth_coordinate_descent.png" src="../_images/Nonsmooth_coordinate_descent.png" style="width: 500px;" />
 </a>
@@ -451,7 +452,7 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 <p><span class="caption-number">Fig. 13.2 </span><span class="caption-text">An example where coordinate descent does not converge to a local minimum. Source: Wikipedia (Nicoguaro)</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>However, under supplementary assumptions, one can show that coordinate descent converges to a local minimum of the objective function. To explain the context where it works, we first briefly discuss convex functions.</p>
+<p>Under additional assumptions, however, coordinate descent can be shown to converge to a global minimizer. To explain the context where it works, we first briefly discuss convex functions.</p>
 </section>
 <section id="digression-convex-functions">
 <h2><span class="section-number">13.2. </span>Digression: convex functions<a class="headerlink" href="#digression-convex-functions" title="Link to this heading">#</a></h2>
@@ -462,7 +463,7 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 \[
 tx + (1-t)y \in \Omega.
 \]</div>
-<p>Equivalently, given any two points in <span class="math notranslate nohighlight">\(\Omega\)</span>, the line joining them is entirely contained in <span class="math notranslate nohighlight">\(\Omega\)</span>.</p>
+<p>Equivalently, given any two points in <span class="math notranslate nohighlight">\(\Omega\)</span>, the line segment joining them is entirely contained in <span class="math notranslate nohighlight">\(\Omega\)</span>.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/convex-set.png"><img alt="../_images/convex-set.png" src="../_images/convex-set.png" style="width: 500px;" />
 </a>
@@ -488,6 +489,7 @@ f(t x + (1-t) y) \leq t \cdot f(x) + (1-t) \cdot f(y).
 \textrm{epi}(f) := \{(x, y) \in \Omega \times \mathbb{R} : y \geq f(x)\}
 \]</div>
 <p>is a convex set.</p>
+<p>For the next results, assume <span class="math notranslate nohighlight">\(\Omega\)</span> is convex and open.</p>
 <p><strong>Theorem.</strong> A differentiable function <span class="math notranslate nohighlight">\(f\)</span> is convex if and only if</p>
 <div class="math notranslate nohighlight">
 \[
@@ -507,7 +509,7 @@ f \textrm{ is convex} \iff f''(x) \geq 0 \qquad \forall x \in (a,b).
 <li><p>If <span class="math notranslate nohighlight">\(f: \mathbb{R}^n \to \mathbb{R}\)</span> is convex and <span class="math notranslate nohighlight">\(g: \mathbb{R} \to \mathbb{R}\)</span> is convex and non-decreasing, then <span class="math notranslate nohighlight">\(g(f(x))\)</span> is convex.</p></li>
 <li><p>If <span class="math notranslate nohighlight">\(f_1, \dots, f_n\)</span> are convex, then <span class="math notranslate nohighlight">\(\max_{i=1}^n f_i\)</span> is convex.</p></li>
 </ol>
-<p><strong>Reference:</strong> For more details about convex sets and functions, please see Boyd &amp; Vandenberghe. <a href="https://stanford.edu/~boyd/cvxbook/" target="_blank">Convex optimization</a>, Cambridge university press, 2004 (available for free).</p>
+<p><strong>Reference:</strong> For more details about convex sets and functions, please see Boyd &amp; Vandenberghe. <a href="https://stanford.edu/~boyd/cvxbook/" target="_blank">Convex optimization</a>, Cambridge University Press, 2004 (available for free).</p>
 </section>
 <section id="sufficient-condition-for-the-convergence-of-coordinate-descent">
 <h3><span class="section-number">13.2.3. </span>Sufficient condition for the convergence of coordinate descent<a class="headerlink" href="#sufficient-condition-for-the-convergence-of-coordinate-descent" title="Link to this heading">#</a></h3>
@@ -515,7 +517,7 @@ f \textrm{ is convex} \iff f''(x) \geq 0 \qquad \forall x \in (a,b).
 <p><strong>Theorem.</strong> (See Tseng, 2001). Suppose</p>
 <div class="math notranslate nohighlight">
 \[
-f(x_1, \dots, x_p) = f_0(x_1, \dots, x_p) + \sum_{i=1}^p f_i(x_i) \qquad (f \in \mathbb{R}^p)
+f(x_1, \dots, x_p) = f_0(x_1, \dots, x_p) + \sum_{i=1}^p f_i(x_i) \qquad (x \in \mathbb{R}^p)
 \]</div>
 <p>satisfies</p>
 <ol class="arabic simple">
@@ -524,24 +526,24 @@ f(x_1, \dots, x_p) = f_0(x_1, \dots, x_p) + \sum_{i=1}^p f_i(x_i) \qquad (f \in 
 <li><p>The set <span class="math notranslate nohighlight">\(X^0 := \{x \in \mathbb{R}^p : f(x) \leq f(x^0)\}\)</span> is compact.</p></li>
 <li><p><span class="math notranslate nohighlight">\(f\)</span> is continuous on <span class="math notranslate nohighlight">\(X^0\)</span>.</p></li>
 </ol>
-<p>Then every limit point of the sequence <span class="math notranslate nohighlight">\((x^{(k)})_{k \geq 1}\)</span> generated by cyclic coordinate descent converges to a global minimum of <span class="math notranslate nohighlight">\(f\)</span>.</p>
-<p>Observe that the theorem makes the assumption that the non-differentiable part of the objective is <em>separable</em>, i.e., it can be written as a sum of functions that depend only on one of the variables. This is the case of the LASSO objective (take <span class="math notranslate nohighlight">\(f_i(x) = |x_i|\)</span>).</p>
+<p>Then every cluster point of the iterates generated by cyclic coordinate descent is a global minimizer of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>Observe that the theorem makes the assumption that the non-differentiable part of the objective is <em>separable</em>, i.e., it can be written as a sum of functions that depend only on one of the variables. This is the case of the LASSO objective (take <span class="math notranslate nohighlight">\(f_i(x) = \lambda |x_i|\)</span>).</p>
 <p>As a consequence of the theorem, we obtain that coordinate descent converges to a global minimum for the LASSO problem.</p>
-<p><strong>Corollary.</strong> For the LASSO problem, the coordinate descent iterations converge to a global minimum of the objective function.</p>
+<p><strong>Corollary.</strong> For the LASSO problem, every cluster point of the coordinate-descent iterates is a global minimizer; in particular, the objective values converge to the global minimum. If the minimizer is unique, then the iterates themselves converge to it.</p>
 <p>It remains to see how the coordinate-wise LASSO problem can be efficiently solved.</p>
 </section>
 <section id="the-coordinate-wise-lasso-problem">
 <h3><span class="section-number">13.2.4. </span>The coordinate-wise LASSO problem<a class="headerlink" href="#the-coordinate-wise-lasso-problem" title="Link to this heading">#</a></h3>
-<p>In order to be able to minimize the LASSO objective using coordinate descent, we need to be able to minimize the objective efficiently each coordinate at a time. Recall that the LASSO objective is:</p>
+<p>In order to be able to minimize the LASSO objective using coordinate descent, we need to be able to minimize the objective efficiently one coordinate at a time. Recall that the LASSO objective is:</p>
 <div class="math notranslate nohighlight">
 \[
 \|y - X\beta\|_2^2 + \lambda \|\beta\|_1. 
 \]</div>
-<p>Choose <span class="math notranslate nohighlight">\(1 \leq i \leq p\)</span>. Fix <span class="math notranslate nohighlight">\(x_j\)</span> for all <span class="math notranslate nohighlight">\(j \ne i\)</span>. We want to optimize the differentiable part of the objective over <span class="math notranslate nohighlight">\(x_i\)</span>:</p>
+<p>Choose <span class="math notranslate nohighlight">\(1 \leq i \leq p\)</span>. Fix <span class="math notranslate nohighlight">\(\beta_j\)</span> for all <span class="math notranslate nohighlight">\(j \ne i\)</span>. We want to optimize the differentiable part of the objective over <span class="math notranslate nohighlight">\(\beta_i\)</span>:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-&amp;\min_{x_i} \|y - X\beta\|_2^2 + \lambda \sum_{k=1}^p |\beta_k| \\ 
-&amp;=\min_{x_i} \sum_{l=1}^n \left(y_l - \sum_{m=1}^p X_{lm} \beta_m\right)^2 + \lambda \sum_{k=1}^p |\beta_k|.
+&amp;\min_{\beta_i} \|y - X\beta\|_2^2 + \lambda \sum_{k=1}^p |\beta_k| \\ 
+&amp;=\min_{\beta_i} \sum_{l=1}^n \left(y_l - \sum_{m=1}^p X_{lm} \beta_m\right)^2 + \lambda \sum_{k=1}^p |\beta_k|.
 \end{align*}\]</div>
 <p>We first address the case of the differentiable part <span class="math notranslate nohighlight">\(\|y-X\beta\|_2^2\)</span>.</p>
 <section id="minimizing-the-differentiable-part">
@@ -549,7 +551,7 @@ f(x_1, \dots, x_p) = f_0(x_1, \dots, x_p) + \sum_{i=1}^p f_i(x_i) \qquad (f \in 
 <p>Let us first evaluate the gradient of the differentiable part of the objective:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-\frac{\partial}{\partial x_i}  \sum_{l=1}^n \left(y_l - \sum_{m=1}^p X_{lm} \beta_m\right)^2 &amp;=  \sum_{l=1}^n 2 \left(y_l - \sum_{m=1}^p X_{lm} \beta_m\right) \times (-X_{li}) \\
+\frac{\partial}{\partial \beta_i}  \sum_{l=1}^n \left(y_l - \sum_{m=1}^p X_{lm} \beta_m\right)^2 &amp;=  \sum_{l=1}^n 2 \left(y_l - \sum_{m=1}^p X_{lm} \beta_m\right) \times (-X_{li}) \\
 &amp;= 2 X_i^T (X \beta-y) \\
 &amp;= 2 X_i^T (X_{-i} \beta_{-i}-y) + 2 X_i^T X_i \beta_i.
 \end{align*}\]</div>
@@ -582,39 +584,39 @@ f(y) \geq f(x) + g^T (y-x) \qquad \forall y.
 <p><span class="caption-number">Fig. 13.4 </span><span class="caption-text">Boyd, lecture notes.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>We define</p>
+<p>The set of all subgradients at <span class="math notranslate nohighlight">\(x\)</span> is called the <strong>subdifferential</strong> and is denoted</p>
 <div class="math notranslate nohighlight">
 \[
 \partial f(x) := \{\textrm{all subgradients of } f \textrm{ at } x\}.
 \]</div>
-<p>The subgradient generalizes the usual gradient (derivative) for convex functions that are not necessarily differentiable.</p>
+<p>The subdifferential generalizes the usual gradient (derivative) for convex functions that are not necessarily differentiable.</p>
 <ol class="arabic simple">
 <li><p><span class="math notranslate nohighlight">\(\partial f(x)\)</span> is a closed convex set (can be empty).</p></li>
 <li><p><span class="math notranslate nohighlight">\(\partial f(x) = \{\nabla f(x)\}\)</span> if <span class="math notranslate nohighlight">\(f\)</span> is differentiable at <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
 <li><p>If <span class="math notranslate nohighlight">\(\partial f(x) = \{g\}\)</span>, then <span class="math notranslate nohighlight">\(f\)</span> is differentiable at <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(\nabla f(x) = g\)</span>.</p></li>
 </ol>
-<p>In particular, when <span class="math notranslate nohighlight">\(f\)</span> is differentiable at <span class="math notranslate nohighlight">\(x\)</span>, observe that the subgradient <span class="math notranslate nohighlight">\(\partial f(x)\)</span> is the set <span class="math notranslate nohighlight">\(\{\nabla f(x)\}\)</span> that contains only the gradient of <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x\)</span>. However, when <span class="math notranslate nohighlight">\(f\)</span> is not differentiable at <span class="math notranslate nohighlight">\(x\)</span>, its subgradient can contain more than one point.</p>
-<p>The subgradient behaves as expected with respect to rescaling and adding functions:</p>
+<p>In particular, when <span class="math notranslate nohighlight">\(f\)</span> is differentiable at <span class="math notranslate nohighlight">\(x\)</span>, observe that the subdifferential <span class="math notranslate nohighlight">\(\partial f(x)\)</span> is the set <span class="math notranslate nohighlight">\(\{\nabla f(x)\}\)</span> that contains only the gradient of <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x\)</span>. However, when <span class="math notranslate nohighlight">\(f\)</span> is not differentiable at <span class="math notranslate nohighlight">\(x\)</span>, its subdifferential can contain more than one point.</p>
+<p>The subdifferential behaves as expected with respect to rescaling and adding functions:</p>
 <ol class="arabic simple">
-<li><p><span class="math notranslate nohighlight">\(\partial (\alpha f) = \alpha \partial f\)</span> if <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span>.</p></li>
-<li><p><span class="math notranslate nohighlight">\(\partial(f_1 + f_2) = \partial f_1 + \partial f_2\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\partial (\alpha f)(x) = \alpha \partial f(x)\)</span> if <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\partial(f_1 + f_2)(x) = \partial f_1(x) + \partial f_2(x)\)</span>.</p></li>
 </ol>
-<p><strong>Example:</strong> Let us compute the subgradient of the absolute value function.</p>
+<p><strong>Example:</strong> Let us compute the subdifferential of the absolute value function.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/abs.png"><img alt="../_images/abs.png" src="../_images/abs.png" style="width: 300px;" />
 </a>
 </figure>
-<p>When <span class="math notranslate nohighlight">\(x \ne 0\)</span>, the function is differentiable and so the subgradient contains only the value of the derivative. At <span class="math notranslate nohighlight">\(x=0\)</span> however, any slope between <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(1\)</span> yields a line that remains under the curve. We therefore have:</p>
+<p>When <span class="math notranslate nohighlight">\(x \ne 0\)</span>, the function is differentiable and so the subdifferential contains only the value of the derivative. At <span class="math notranslate nohighlight">\(x=0\)</span>, however, any slope between <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(1\)</span> yields a line that remains under the curve. We therefore have:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \partial f(x) = \begin{cases} \{-1\} &amp; \textrm{ if } x &lt; 0 \\ [-1,1] &amp; \textrm{ if } x = 0 \\ \{1\} &amp; \textrm{ if } x &gt; 0. \end{cases}
 \end{split}\]</div>
-<p>Now, derivatives provide a very powerful tools to locate the minima of a function. Indeed, recall that if <span class="math notranslate nohighlight">\(f\)</span> is convex and differentiable, then</p>
+<p>Now, derivatives provide a very powerful tool to locate the minima of a function. Indeed, recall that if <span class="math notranslate nohighlight">\(f\)</span> is convex and differentiable, then</p>
 <div class="math notranslate nohighlight">
 \[
 f(x^\star) = \min_x f(x) \Leftrightarrow 0 = \nabla f(x^\star).
 \]</div>
-<p>The subdifferential calculus allows us to use a similar approach to location the minimum of convex (not necessarily differentiable) functions.</p>
+<p>The subdifferential calculus allows us to use a similar approach to locate the minimum of convex (not necessarily differentiable) functions.</p>
 <p><strong>Theorem.</strong> Let <span class="math notranslate nohighlight">\(f\)</span> be a (not necessarily differentiable) convex function. Then</p>
 <div class="math notranslate nohighlight">
 \[
@@ -634,7 +636,7 @@ f(y) \geq f(x^\star) + 0 \cdot (y-x^\star).
 <p>The function</p>
 <div class="math notranslate nohighlight">
 \[
-f(x_i) := \|y - X\beta\|_2^2 + \alpha \sum_{k=1}^p |\beta_k|
+f(x_i) := \|y - X\beta\|_2^2 + \lambda \sum_{k=1}^p |\beta_k|
 \]</div>
 <p>is convex. Its minimum is obtained if <span class="math notranslate nohighlight">\(0 \in \partial f(x^\star)\)</span>.</p>
 <p>Let</p>
@@ -651,7 +653,7 @@ g := \frac{\partial}{\partial x_i} \|y - X\beta\|_2^2=  2\left(X_i^T (X_{-i} \be
 \{g + \lambda\} &amp; \textrm{ if } \beta_i &gt; 0
 \end{cases}.
 \end{split}\]</div>
-<p>We will find out when each of the above conditions hold.</p>
+<p>We will find out when each of the above conditions holds.</p>
 <p>First,</p>
 <div class="math notranslate nohighlight">
 \[
@@ -691,7 +693,7 @@ g = 2\left(X_i^T (X_{-i} \beta_{-i}-y) + X_i^T X_i \beta_i\right).
 0 \in [g-\lambda, g+\lambda] &amp;\iff  g-\lambda \leq 0 \textrm{ and } g+\lambda \geq 0 \\
 &amp;\iff -\lambda \leq 2X_i^T (y-X_{-i} \beta_{-i}) \leq \lambda \\
 &amp;\iff  -\frac{\lambda}{2\|X_i\|_2^2} \leq \frac{ X_i^T (y-X_{-i} \beta_{-i})}{X_i^T X_i} \leq \frac{\lambda}{2\|X_i\|_2^2} \\
-&amp;= -\frac{\lambda}{2\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{2\|X_i\|_2^2}.
+&amp;\iff -\frac{\lambda}{2\|X_i\|_2^2} \leq g^\star \leq \frac{\lambda}{2\|X_i\|_2^2}.
 \end{align*}\]</div>
 <p><strong>Conclusion:</strong> <span class="math notranslate nohighlight">\(\beta_i = 0\)</span> and <span class="math notranslate nohighlight">\(0 \in [g-\lambda, g+\lambda]\)</span> hold precisely when</p>
 <div class="math notranslate nohighlight">
@@ -719,7 +721,7 @@ g^\star - \frac{\lambda}{2\|X_i\|_2^2} &amp; \textrm{ if } g^\star &gt; \frac{\l
 <p>In other words,</p>
 <div class="math notranslate nohighlight">
 \[
-x^\star = \eta^S_{\lambda/2\|X_i\|_2^2}(g^\star) = \eta^S_{\lambda/2\|X_i\|_2^2} \left(\frac{X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right), 
+x^\star = \eta^S_{\lambda/(2\|X_i\|_2^2)}(g^\star) = \eta^S_{\lambda/2\|X_i\|_2^2} \left(\frac{X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right), 
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\eta_\epsilon\)</span> is the <em>soft-thresholding</em> function given by</p>
 <div class="math notranslate nohighlight">
@@ -730,7 +732,7 @@ x + \epsilon &amp; \textrm{ if } x &lt; -\epsilon \\
 0 &amp; \textrm{ if } -\epsilon \leq x \leq \epsilon
 \end{cases}.
 \end{split}\]</div>
-<p>The soft-thresholding shrinks the value of <span class="math notranslate nohighlight">\(x\)</span> until it hits zero (and then leaves it at zero). This is in contrast to the hard-thresholding function that sets large elements to <span class="math notranslate nohighlight">\(0\)</span>.</p>
+<p>Soft thresholding sets values with <span class="math notranslate nohighlight">\(|x|\le\epsilon\)</span> to zero and shrinks all remaining values toward zero by <span class="math notranslate nohighlight">\(\epsilon\)</span>. In contrast, hard thresholding sets values with <span class="math notranslate nohighlight">\(|x|\le\epsilon\)</span> to zero but leaves values with <span class="math notranslate nohighlight">\(|x|&gt;\epsilon\)</span> unchanged.</p>
 <p><strong>Hard-thresholding:</strong></p>
 <div class="math notranslate nohighlight">
 \[
@@ -749,14 +751,14 @@ x + \epsilon &amp; \textrm{ if } x &lt; -\epsilon \\
 <a class="reference internal image-reference" href="../_images/fig_thres_soft.png"><img alt="../_images/fig_thres_soft.png" src="../_images/fig_thres_soft.png" style="width: 300px;" />
 </a>
 </figure>
-<p>In conclusion, to solve the lasso problem using coordinate descent:</p>
+<p>In conclusion, to solve the LASSO problem using coordinate descent:</p>
 <ol class="arabic simple">
 <li><p>Pick an initial point <span class="math notranslate nohighlight">\(\beta\)</span>.</p></li>
 <li><p>Cycle through the coordinates and perform the updates</p></li>
 </ol>
 <div class="math notranslate nohighlight">
 \[
-\beta_i \rightarrow \eta^S_{\lambda/2\|X_i\|_2^2} \left(\frac{ X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right).
+\beta_i \rightarrow \eta^S_{\lambda/(2\|X_i\|_2^2)} \left(\frac{ X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right).
 \]</div>
 <ol class="arabic simple" start="3">
 <li><p>Continue until convergence (i.e., stop when the coordinates vary less than some threshold).</p></li>

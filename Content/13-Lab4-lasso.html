@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -417,12 +417,12 @@ document.write(`
 </ul>
 <section id="selecting-relevant-predictors-using-the-lasso">
 <h2><span class="section-number">12.1. </span>Selecting relevant predictors using the LASSO<a class="headerlink" href="#selecting-relevant-predictors-using-the-lasso" title="Link to this heading">#</a></h2>
-<p>In this lab, we will examine how the LASSO can be used to select relevant predictors and to construct better linear models. Here, by <em>better</em>, we mean models with a better testing error. In order to select an optimal LASSO parameter, we will use cross-validation. Scikit-learn has an object that can perform cross-validation directly for us.</p>
+<p>In this lab, we will examine how the LASSO can be used to select relevant predictors and to construct better linear models. Here, by <em>better</em>, we mean models with a lower test error. In order to select an optimal LASSO parameter, we will use cross-validation. Scikit-learn has an object that can perform cross-validation directly for us.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LassoCV</span>
 </pre></div>
 </div>
-<p>The file <a class="reference download internal" download="" href="../_downloads/7d8bd83b47e14d408355796e37e3e3aa/assay.csv"><span class="xref download myst">assay.csv</span></a> contains gene expression data (<span class="math notranslate nohighlight">\(p = 7129\)</span> genes) for <span class="math notranslate nohighlight">\(n = 49\)</span> breast cancer tumor samples. The file <a class="reference download internal" download="" href="../_downloads/e86d5f0daea095280e82b684da304591/pheno.csv"><span class="xref download myst">pheno.csv</span></a> contains a binary response variable for each sample (whether the sample tested positive or negative for cancer). Our goal is to build a good linear regression model to predict whether a given gene expression profile is likely associated to cancer.</p>
-<p>Let us first try a basic linear regression model.</p>
+<p>The file <a class="reference download internal" download="" href="../_downloads/7d8bd83b47e14d408355796e37e3e3aa/assay.csv"><span class="xref download myst">assay.csv</span></a> contains gene expression data (<span class="math notranslate nohighlight">\(p = 7129\)</span> genes) for <span class="math notranslate nohighlight">\(n = 49\)</span> breast cancer tumor samples. The file <a class="reference download internal" download="" href="../_downloads/e86d5f0daea095280e82b684da304591/pheno.csv"><span class="xref download myst">pheno.csv</span></a> contains a binary response variable describing the lymph-node status of each patient. Our goal is to predict lymph-node status from the gene-expression profile.</p>
+<p>Although the response is binary and logistic regression would be a more standard choice, here we will use linear regression with a <span class="math notranslate nohighlight">\(0.5\)</span> threshold so that we can apply the LASSO methods developed in the preceding chapters.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -480,7 +480,8 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LassoCV</span>
 
-<span class="c1"># Creating a LASSO cross-validation model with 200 parameters and 10-folds cross-validation.</span>
+<span class="c1"># Creating a LASSO cross-validation model with 200 penalty values and 10-folds cross-validation.</span>
+<span class="c1"># Note: depending of your package version, you may need to replace &quot;n_alphas&quot; by &quot;alphas&quot;</span>
 <span class="n">lasso_model</span> <span class="o">=</span> <span class="n">LassoCV</span><span class="p">(</span><span class="n">n_alphas</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>  
 
 <span class="c1"># Fitting model by cross-validation. This automatically selects a good penalty parameter.</span>
@@ -496,7 +497,7 @@ document.write(`
 	<span class="n">lin_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">[:,</span><span class="n">predictors</span><span class="p">],</span><span class="n">y_train</span><span class="p">)</span>
 	<span class="n">pred</span> <span class="o">=</span> <span class="n">lin_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span><span class="n">predictors</span><span class="p">])</span> 
 <span class="k">else</span><span class="p">:</span> 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LASSO selected no predictor.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LASSO selected no predictors.&quot;</span><span class="p">)</span>
 
 <span class="n">pred</span><span class="p">[</span><span class="n">pred</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">pred</span><span class="p">[</span><span class="n">pred</span> <span class="o">&lt;=</span> <span class="mf">0.5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
@@ -516,10 +517,10 @@ Percentage of test samples correctly predicted by LASSO: 69.23%
 </div>
 </div>
 </div>
-<p>In that case, using the LASSO yields a significant increase in precision!</p>
+<p>For this particular train/test split, the LASSO model has higher test accuracy!</p>
 <div class="admonition-exercise admonition">
 <p class="admonition-title">Exercise</p>
-<p>Modify the above codes to use <span class="math notranslate nohighlight">\(N = 100\)</span> train/test sets selected at random. Compute the average accuracy of each model and its standard deviation.</p>
+<p>Modify the above code to use <span class="math notranslate nohighlight">\(N = 100\)</span> train/test sets selected at random. Compute the average accuracy of each model and its standard deviation.</p>
 </div>
 <div class="admonition-exercise admonition">
 <p class="admonition-title">Exercise</p>
@@ -528,7 +529,7 @@ Percentage of test samples correctly predicted by LASSO: 69.23%
 </section>
 <section id="the-one-sd-rule">
 <h2><span class="section-number">12.2. </span>The one-SD rule<a class="headerlink" href="#the-one-sd-rule" title="Link to this heading">#</a></h2>
-<p>Recall that, when performing cross-validation, we recorded the average error on the different folds for each parameter. Another useful information to record is the standard deviation of the error over the different folds. The following code displays the cross-validation curve along with a one standard derivation band around the error.</p>
+<p>Recall that, when performing cross-validation, we recorded the average error on the different folds for each parameter. Another useful quantity to record is the standard deviation of the error over the different folds. The following code displays the cross-validation curve along with a one standard deviation band around the error.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the CV curve</span>
