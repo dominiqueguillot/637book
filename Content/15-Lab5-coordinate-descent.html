@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -414,10 +414,10 @@ x^{(k+1)}_3 &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, x, x_4
 &amp;\vdots \\
 x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots , x_{p-1}^{(k+1)}, x).
 \end{align*}\]</div>
-<p>Under certain conditions, this process converges to a local minimum of the function <span class="math notranslate nohighlight">\(f\)</span>. To illustrate how this work with Python, let us solve the linear regression problem using coordinate descent.</p>
+<p>Under suitable conditions, coordinate descent converges. For convex problems such as least squares and LASSO, its limit points are global minimizers. To illustrate how this works with Python, let us solve the linear regression problem using coordinate descent.</p>
 <section id="linear-regression-via-coordinate-descent">
 <h2><span class="section-number">14.1. </span>Linear regression via coordinate descent<a class="headerlink" href="#linear-regression-via-coordinate-descent" title="Link to this heading">#</a></h2>
-<p>Consider the least square problem</p>
+<p>Consider the least-squares problem</p>
 <div class="math notranslate nohighlight">
 \[
 \min_{\beta \in \mathbb{R}^p} \|y-X\beta\|_2^2, 
@@ -425,7 +425,7 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 <p>where <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span> and <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> are fixed. In order to solve this problem via coordinate descent, we need to solve the one-variable problem</p>
 <div class="math notranslate nohighlight">
 \[
-\min_{\beta_i \in \mathbb{R}^p} \|y-X\beta\|_2^2.
+\min_{\beta_i \in \mathbb{R}} \|y-X\beta\|_2^2.
 \]</div>
 <p>We will do so by computing the derivative of <span class="math notranslate nohighlight">\(\|y-X\beta\|_2^2\)</span> with respect to <span class="math notranslate nohighlight">\(\beta_i\)</span> and setting it to <span class="math notranslate nohighlight">\(0\)</span>. Recall from <a class="reference internal" href="5-Linear-regression.html#sec-finding-optimal-coefficients"><span class="std std-ref">Finding the Optimal Coefficients</span></a> that</p>
 <div class="math notranslate nohighlight">
@@ -443,25 +443,26 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 \frac{\partial}{\partial \beta_i} \|y-X\beta\|_2^2 &amp;= -2 X_i^T (y-X_{-i}\beta_{-i} - \beta_i X_i) \\
 &amp;= -2(X_i^T y - X_i^T X_{-i} \beta_{-i} - \beta_iX_i^T X_i).
 \end{align*}\]</div>
-<p>Setting the gradient to <span class="math notranslate nohighlight">\(0\)</span> and solving for <span class="math notranslate nohighlight">\(\beta_i\)</span>, we obtain:</p>
+<p>Setting this partial derivative to <span class="math notranslate nohighlight">\(0\)</span> and solving for <span class="math notranslate nohighlight">\(\beta_i\)</span>, we obtain:</p>
 <div class="math notranslate nohighlight">
 \[
-\beta_i^* = \mathop{\rm argmin}_{\beta_i \in \mathbb{R}} \|y-X\beta\|_2^2 = \frac{X_i^T(y-X_{-i}\beta{-i})}{X_i^T X_i}.
+\beta_i^* = \mathop{\rm argmin}_{\beta_i \in \mathbb{R}} \|y-X\beta\|_2^2 = \frac{X_i^T(y-X_{-i}\beta_{-i})}{X_i^T X_i}.
 \]</div>
 <p>We can therefore solve the linear regression via coordinate descent as follows.</p>
 <div class="admonition-linear-regression-coordinate-descent admonition">
 <p class="admonition-title">Linear regression - coordinate descent</p>
-<p><strong>Input</strong>: <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>, <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span>, initial guess <span class="math notranslate nohighlight">\(\beta^{(0)}\)</span>, tolerence <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>.</p>
+<p><strong>Input</strong>: <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>, <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span>, initial guess <span class="math notranslate nohighlight">\(\beta^{(0)}\)</span>, tolerance <span class="math notranslate nohighlight">\(\epsilon &gt; 0\)</span>.</p>
 <p>Set <span class="math notranslate nohighlight">\(k = 0\)</span>.</p>
 <p>while <span class="math notranslate nohighlight">\(\|\left(\nabla \|y-X\beta^{(k)}\|_2^2\right)\|_2 &gt; \epsilon\)</span>:</p>
 <ol class="arabic simple">
 <li><p><span class="math notranslate nohighlight">\(\beta^{(k+1)} = \beta^{(k)}\)</span>.</p></li>
-<li><p>For <span class="math notranslate nohighlight">\(i=1,\dots,p\)</span>:</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(i=1,\dots,p\)</span>, replace:</p></li>
 </ol>
 <div class="math notranslate nohighlight">
 \[
-\beta_i^{(k+1)} = \frac{X_i^T(y-X_{-i}\beta{-i}^{(k+1)})}{X_i^T X_i}. 
+\beta_i \leftarrow \frac{X_i^T(y-X_{-i}\beta_{-i})}{X_i^T X_i}. 
 \]</div>
+<p>using the most recently updated values of all the other coordinates.</p>
 <ol class="arabic simple" start="3">
 <li><p>Set <span class="math notranslate nohighlight">\(k = k+1\)</span>.</p></li>
 </ol>
@@ -482,7 +483,7 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 <span class="k">def</span><span class="w"> </span><span class="nf">least_squares</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">beta0</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
 	<span class="p">[</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
 	
-	<span class="k">if</span> <span class="n">beta0</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># No initial guess was provided. Generate one at random.</span>
+	<span class="k">if</span> <span class="n">beta0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># No initial guess was provided. Generate one at random.</span>
 		<span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 	<span class="k">else</span><span class="p">:</span>
 		<span class="n">beta</span> <span class="o">=</span> <span class="n">beta0</span>
@@ -491,10 +492,9 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 	<span class="n">grad</span> <span class="o">=</span> <span class="n">gradnorm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">beta</span><span class="p">)</span>
 	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iter </span><span class="se">\t</span><span class="s2"> Grad </span><span class="se">\t</span><span class="s2"> Err&quot;</span><span class="p">)</span>
 	<span class="k">while</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">maxit</span> <span class="ow">and</span> <span class="n">grad</span> <span class="o">&gt;</span> <span class="n">epsilon</span><span class="p">:</span>
-		<span class="n">beta_old</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
 		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
 			<span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-			<span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="c1"># ind now contains all indices in {1,...,p} except i.</span>
+			<span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="c1"># ind now contains all indices in {0,...,p-1} except i.</span>
 			<span class="n">Xi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span>
 			<span class="n">Xmi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span><span class="n">ind</span><span class="p">]</span>  <span class="c1"># All columns of X except the i-th.</span>
 			<span class="n">betami</span> <span class="o">=</span> <span class="n">beta</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
@@ -509,7 +509,7 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 </div>
 </div>
 </div>
-<p>Let us now test our code using random data and compare its solution with the solution of the problem obtained by Scikit-learn.</p>
+<p>Let us now test our code using random data and compare its solution with the solution of the problem obtained by scikit-learn.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>	
@@ -533,35 +533,23 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 	 Grad 	 Err
-1 	 1.532214 	 1.210433
-2 	 0.806451 	 1.077291
-3 	 0.420878 	 1.042410
-4 	 0.222065 	 1.034254
-5 	 0.122365 	 1.032337
-6 	 0.072544 	 1.031770
-7 	 0.046183 	 1.031526
-8 	 0.030597 	 1.031397
-9 	 0.020442 	 1.031329
-10 	 0.013526 	 1.031296
-11 	 0.008796 	 1.031280
-12 	 0.005608 	 1.031273
-13 	 0.003505 	 1.031270
-14 	 0.002147 	 1.031269
-15 	 0.001291 	 1.031269
-16 	 0.000761 	 1.031269
-17 	 0.000440 	 1.031269
-18 	 0.000250 	 1.031269
-19 	 0.000139 	 1.031269
-20 	 0.000076 	 1.031269
-21 	 0.000041 	 1.031269
-22 	 0.000021 	 1.031269
-23 	 0.000011 	 1.031269
-24 	 0.000006 	 1.031269
-25 	 0.000003 	 1.031269
-26 	 0.000002 	 1.031269
-27 	 0.000001 	 1.031269
-28 	 0.000001 	 1.031269
-[ 2.18448249e-07 -4.20259238e-07  1.67211568e-07]
+1 	 0.332833 	 0.845692
+2 	 0.188172 	 0.837635
+3 	 0.092188 	 0.835517
+4 	 0.039766 	 0.835069
+5 	 0.015273 	 0.834993
+6 	 0.005192 	 0.834983
+7 	 0.001533 	 0.834981
+8 	 0.000416 	 0.834981
+9 	 0.000172 	 0.834981
+10 	 0.000101 	 0.834981
+11 	 0.000054 	 0.834981
+12 	 0.000025 	 0.834981
+13 	 0.000010 	 0.834981
+14 	 0.000004 	 0.834981
+15 	 0.000001 	 0.834981
+16 	 0.000000 	 0.834981
+[ 1.80544438e-08 -7.14420538e-08  2.50674937e-08]
 </pre></div>
 </div>
 </div>
@@ -573,17 +561,17 @@ x^{(k+1)}_p &amp;= \mathop{\textrm{argmin}}_x f(x_1^{(k+1)}, x_2^{(k+1)}, \dots 
 <p>Let us now consider the LASSO problem</p>
 <div class="math notranslate nohighlight">
 \[
-\widehat{\beta}_\textrm{LASSO} = \mathop{\textrm{argmin}}_{\beta \in \mathbb{R}^p} \|y - X\beta\|_2^2 + \alpha \|\beta\|_1.
+\widehat{\beta}_\textrm{LASSO} = \mathop{\textrm{argmin}}_{\beta \in \mathbb{R}^p} \|y - X\beta\|_2^2 + \lambda \|\beta\|_1.
 \]</div>
-<p>Recall that the updated derived in <a class="reference internal" href="14-Computing-lasso.html#s-lasso-soln"><span class="std std-ref">Back to the LASSO solution</span></a> is</p>
+<p>Recall that the update derived in <a class="reference internal" href="14-Computing-lasso.html#s-lasso-soln"><span class="std std-ref">Back to the LASSO solution</span></a> is</p>
 <div class="math notranslate nohighlight">
 \[
-\beta_i \rightarrow \eta^S_{\lambda/2\|X_i\|_2^2} \left(\frac{X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right).
+\beta_i \rightarrow \eta^S_{\lambda/(2\|X_i\|_2^2)} \left(\frac{X_i^T (y-X_{-i} \beta_{-i}) }{X_i^T X_i}\right).
 \]</div>
 <p>This is almost the same update as in the linear regression problem.</p>
 <div class="admonition-exercise admonition">
 <p class="admonition-title">Exercise</p>
-<p>Modify the above code to solve the LASSO problem instead of linear regression. Compare your solution with Scikit-learn and make sure the two versions match. Note that the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html" target="_blank">Lasso object of Scikit-learn</a> solves a slightly different (but equivalent) LASSO problem</p>
+<p>Modify the above code to solve the LASSO problem instead of linear regression. Compare your solution with scikit-learn and make sure the two versions match. Note that the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html" target="_blank">Lasso object of scikit-learn</a> solves a slightly different (but equivalent) LASSO problem</p>
 <div class="math notranslate nohighlight">
 \[
 \min_{w \in \mathbb{R}^p} \frac{1}{2n}  ||y - Xw||^2_2 + \alpha  ||w||_1.
