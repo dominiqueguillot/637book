@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -399,7 +399,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-with-more-than-two-classes">18.3. Logistic regression with more than two classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generalized-linear-models">18.4. Generalized linear models</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penalized-logistic-regression">18.5. Penalized logistic regression</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-with-scikit-learn">18.6. Logistic regression with Scikit-learn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-with-scikit-learn">18.6. Logistic regression with scikit-learn</a></li>
 </ul>
             </nav>
         </div>
@@ -413,11 +413,11 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="logistic-regression">
 <span id="s-logistic"></span><h1><span class="section-number">18. </span>Logistic regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h1>
-<p>Consider a problem where we attempt to predict a <em>binary</em> output, i.e., the output variable <span class="math notranslate nohighlight">\(Y\)</span> can only take two possible values, say <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>. For example, we may want to determine if a customer should be approved for a loan using various information (e.g., current amount of debt, credit score, etc.). Here, a linear regression model is likely to yield poor results. Even if we interpret the linear model as outputing a probability of approving the customer for the loan, observe that doubling the value of all predictors doubles the predicted probability (assuming the model has no intercept). This does not seem like an appropriate behavior in our context.</p>
+<p>Consider a problem where we attempt to predict a <em>binary</em> output, i.e., the output variable <span class="math notranslate nohighlight">\(Y\)</span> can only take two possible values, say <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>. For example, we may want to determine if a customer should be approved for a loan using various information (e.g., current amount of debt, credit score, etc.). Here, a linear regression model is likely to yield poor results. Even if we interpret the linear model as outputting a probability of approving the customer for the loan, observe that doubling the value of all predictors doubles the predicted probability (assuming the model has no intercept). This does not seem like an appropriate behavior in our context. The predictions of a linear model are also not restricted to the interval <span class="math notranslate nohighlight">\([0,1]\)</span>.</p>
 <p>Logistic regression provides a different approach to the problem, with a focus on predicting the probability that <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>.</p>
 <section id="bernoulli-distribution-and-the-sigmoid-function">
 <h2><span class="section-number">18.1. </span>Bernoulli distribution and the sigmoid function<a class="headerlink" href="#bernoulli-distribution-and-the-sigmoid-function" title="Link to this heading">#</a></h2>
-<p>Recall that a random variable <span class="math notranslate nohighlight">\(Y\)</span> has a Bernouilli distribution with parameter <span class="math notranslate nohighlight">\(p \in [0,1]\)</span>, denoted <span class="math notranslate nohighlight">\(Y \sim \textrm{Bernouilli}(p)\)</span>, if</p>
+<p>Recall that a random variable <span class="math notranslate nohighlight">\(Y\)</span> has a Bernoulli distribution with parameter <span class="math notranslate nohighlight">\(p \in [0,1]\)</span>, denoted <span class="math notranslate nohighlight">\(Y \sim \textrm{Bernouilli}(p)\)</span>, if</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 P(Y = y) = \begin{cases}
@@ -440,7 +440,7 @@ P(Y=y) = p^y(1-p)^{1-y} \qquad (y \in \{0,1\}).
 <a class="reference internal image-reference" href="../_images/Logistic-curve.png"><img alt="../_images/Logistic-curve.png" src="../_images/Logistic-curve.png" style="width: 350px;" />
 </a>
 </figure>
-<p>In logistic regression, we make the assumption that</p>
+<p>To simplify the notation, we will assume below that our data contains a column of ones instead of explicitly adding an intercept. With that convention, the logistic regression model makes the assumption that</p>
 <div class="math notranslate nohighlight">
 \[
 P(Y = 1 | X = x) = \sigma(x^T \beta), 
@@ -457,7 +457,7 @@ P(Y=0 | X = x) &amp;= 1-P(Y=1 | X = x) = \frac{1}{1+e^{x^T\beta}}.
 \[
 y = \sigma(x) = \frac{e^x}{1+e^x} \iff x = \log\left(\frac{y}{1-y}\right).
 \]</div>
-<p>Here “log” is the logarithm in base <span class="math notranslate nohighlight">\(e\)</span>. Define the <em>logit</em> function by</p>
+<p>Here “log” is the logarithm in base <span class="math notranslate nohighlight">\(e\)</span> (natural logarithm). Define the <em>logit</em> function by</p>
 <div class="math notranslate nohighlight">
 \[
 \textrm{logit}(y) = \log\left(\frac{y}{1-y}\right).
@@ -482,12 +482,12 @@ y = \sigma(x) = \frac{e^x}{1+e^x} \iff x = \log\left(\frac{y}{1-y}\right).
 <p>Since in logistic regression, we are assuming we have a probability model for <span class="math notranslate nohighlight">\(Y\)</span>, it is natural to estimate the parameter <span class="math notranslate nohighlight">\(\beta\)</span> using <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation" target="_blank">maximum likelihood</a>.</p>
 <div class="admonition-maximum-likelihood-estimation-mle admonition">
 <p class="admonition-title">Maximum likelihood estimation (MLE)</p>
-<p>Suppose <span class="math notranslate nohighlight">\(X_1, X_2, \dots, X_n\)</span> are observations of a probability distribution that depends on a parameter <span class="math notranslate nohighlight">\(\theta\)</span>. For example, <span class="math notranslate nohighlight">\(X_1, X_2, \dots, X_n\)</span> could be the outcomes of flipping a coin. In that case, we would have <span class="math notranslate nohighlight">\(X_i \sim \textrm{Bernouilli}(p)\)</span>, where <span class="math notranslate nohighlight">\(\theta = p\)</span> is the parameter (the probability that the coin lands on heads). The likelihood function it the probability of observing the data that was observed:</p>
+<p>Suppose <span class="math notranslate nohighlight">\(X_1, X_2, \dots, X_n\)</span> are observations of a probability distribution that depends on a parameter <span class="math notranslate nohighlight">\(\theta\)</span>. For example, <span class="math notranslate nohighlight">\(X_1, X_2, \dots, X_n\)</span> could be the outcomes of flipping a coin. In that case, we would have <span class="math notranslate nohighlight">\(X_i \sim \textrm{Bernouilli}(p)\)</span>, where <span class="math notranslate nohighlight">\(\theta = p\)</span> is the parameter (the probability that the coin lands on heads). The likelihood function is the probability of observing the data that was observed:</p>
 <div class="math notranslate nohighlight">
 \[
 L(\theta) = P(X_1 = x_1, X_2 = x_2, \dots, X_n = x_n), 
 \]</div>
-<p>i.e., the probability that <span class="math notranslate nohighlight">\(X_1=x_1\)</span> and <span class="math notranslate nohighlight">\(X_2 = x_2\)</span> and <span class="math notranslate nohighlight">\(\dots\)</span> and <span class="math notranslate nohighlight">\(X_n = x_n\)</span>, where <span class="math notranslate nohighlight">\(x_1, x_2, \dots, x_n\)</span> is the actual data that was observed when the experiment was performed. Notice that this is a function of theta. For example, if the <span class="math notranslate nohighlight">\(X_i\)</span>s represent <span class="math notranslate nohighlight">\(n=100\)</span> coin flips, the probability of observing <span class="math notranslate nohighlight">\(49\)</span> heads and <span class="math notranslate nohighlight">\(51\)</span> tails is very low when <span class="math notranslate nohighlight">\(p\)</span> is close to <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>, but is very high when <span class="math notranslate nohighlight">\(p \approx 1/2\)</span>.</p>
+<p>i.e., the probability that <span class="math notranslate nohighlight">\(X_1=x_1\)</span> and <span class="math notranslate nohighlight">\(X_2 = x_2\)</span> and <span class="math notranslate nohighlight">\(\dots\)</span> and <span class="math notranslate nohighlight">\(X_n = x_n\)</span>, where <span class="math notranslate nohighlight">\(x_1, x_2, \dots, x_n\)</span> is the actual data that was observed when the experiment was performed. Notice that this is a function of <span class="math notranslate nohighlight">\(\theta\)</span>. For example, if the <span class="math notranslate nohighlight">\(X_i\)</span>s represent <span class="math notranslate nohighlight">\(n=100\)</span> coin flips, the probability of observing <span class="math notranslate nohighlight">\(49\)</span> heads and <span class="math notranslate nohighlight">\(51\)</span> tails is very low when <span class="math notranslate nohighlight">\(p\)</span> is close to <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>, but is very high when <span class="math notranslate nohighlight">\(p \approx 1/2\)</span>.</p>
 <p>The idea of the maximum likelihood estimation (MLE) method is to choose <span class="math notranslate nohighlight">\(\theta\)</span> to maximize the likelihood function, i.e., <span class="math notranslate nohighlight">\(\theta\)</span> is the value of the parameter that makes it the most likely to observe the data that was observed.</p>
 <p>In the case of the coin flip, it is not hard to show that the MLE for <span class="math notranslate nohighlight">\(p\)</span> is the ratio of the number of heads observed by the number of coin flips. This is, of course, very natural. For other probability distributions where an estimator may not be obvious to guess though, the MLE approach provides a rigorous and systematic way to estimate the parameters of a probability model.</p>
 </div>
@@ -498,7 +498,7 @@ L(\theta) = P(X_1 = x_1, X_2 = x_2, \dots, X_n = x_n),
 \[
 L(p) = P(Y_1 = y_1, \dots, Y_n = y_n) = \prod_{i=1}^n p^{y_i}(1-p)^{1-y_i} = p^{\sum_{i=1}^n y_i} (1-p)^{n-\sum_{i=1}^n y_i}. 
 \]</div>
-<p>Observe that <span class="math notranslate nohighlight">\(L(p)\)</span> and <span class="math notranslate nohighlight">\(l(p) := \log L(p)\)</span> are maximized at the same point since <span class="math notranslate nohighlight">\(\log\)</span> is an increasing function. The function <span class="math notranslate nohighlight">\(l(p)\)</span> is called the <em>log-likelihood</em> function. When working out the MLE, it is usually easier to maximze <span class="math notranslate nohighlight">\(l(p)\)</span> as logarithms convert products into sums. Here, we have</p>
+<p>Observe that <span class="math notranslate nohighlight">\(L(p)\)</span> and <span class="math notranslate nohighlight">\(l(p) := \log L(p)\)</span> are maximized at the same point since <span class="math notranslate nohighlight">\(\log\)</span> is an increasing function. The function <span class="math notranslate nohighlight">\(l(p)\)</span> is called the <em>log-likelihood</em> function. When working out the MLE, it is usually easier to maximize <span class="math notranslate nohighlight">\(l(p)\)</span> as logarithms convert products into sums. Here, we have</p>
 <div class="math notranslate nohighlight">
 \[
 l(p) = \left(\sum_{i=1}^n y_i\right) \log p + \left(n-\sum_{i=1}^n y_i \right) \log (1-p). 
@@ -517,7 +517,7 @@ l(p) = \left(\sum_{i=1}^n y_i\right) \log p + \left(n-\sum_{i=1}^n y_i \right) \
 \[
 p = p(x_i, \beta) = \frac{e^{x_i^T \beta}}{1+e^{x_i^T \beta}}. 
 \]</div>
-<p>The likelihood function for <span class="math notranslate nohighlight">\(\beta\)</span> is thus:</p>
+<p>Assuming the observations are independent, the likelihood function for <span class="math notranslate nohighlight">\(\beta\)</span> is thus:</p>
 <div class="math notranslate nohighlight">
 \[
 L(\beta) = \prod_{i=1}^n p(x_i, \beta)^{y_i} (1-p(x_i,\beta))^{1-y_i},  
@@ -563,20 +563,20 @@ P(Y=i | X=x) = \frac{e^{x^T \beta^{(i)}}}{\sum_{i=1}^K e^{x^T \beta^{(i)}}}.
 <li><p>A probability distribution for <span class="math notranslate nohighlight">\(Y | X=x\)</span> from the <a href="https://en.wikipedia.org/wiki/Exponential_family" target="_blank">exponential family</a>.</p></li>
 <li><p>A <em>link</em> function <span class="math notranslate nohighlight">\(g\)</span> such that <span class="math notranslate nohighlight">\(g(E(Y|X=x)) = x^T \beta\)</span>.</p></li>
 </ol>
-<p>Note that the exponential family is a large family of probability distributions. It includes most of the familiar probability distributions encountered in an undergraduate probability theory or statistics course (e.g., normal, exponential, log-normal, gamma, chi-squared, beta, Dirichlet, Bernoulli, categorical, Poisson, geometric, etc.). Generalized linear models can thus be used to construct models for data coming from all kind of distributions.</p>
+<p>Note that the exponential family is a large family of probability distributions. It includes most of the familiar probability distributions encountered in an undergraduate probability theory or statistics course (e.g., normal, exponential, log-normal, gamma, chi-squared, beta, Dirichlet, Bernoulli, categorical, Poisson, geometric, etc.). Generalized linear models can thus be used to construct models for data coming from all kinds of distributions.</p>
 </section>
 <section id="penalized-logistic-regression">
 <h2><span class="section-number">18.5. </span>Penalized logistic regression<a class="headerlink" href="#penalized-logistic-regression" title="Link to this heading">#</a></h2>
-<p>As for linear regression, penalized version (e.g., with <span class="math notranslate nohighlight">\(\ell_1\)</span> or <span class="math notranslate nohighlight">\(\ell_2\)</span> penalties) can be constructed for logistic regression in the same spirit as Ridge and LASSO regression. In that case, instead of maximizing the log-likelihood function, we can solve one of the following optimization problems:</p>
+<p>As for linear regression, penalized versions (e.g., with <span class="math notranslate nohighlight">\(\ell_1\)</span> or <span class="math notranslate nohighlight">\(\ell_2\)</span> penalties) can be constructed for logistic regression in the same spirit as Ridge and LASSO regression. In that case, instead of maximizing the log-likelihood function, we can solve one of the following optimization problems:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 &amp;\min_\beta -l(\beta) + \alpha \|\beta\|_1 \\
-&amp;\min_\beta -l(\beta) + \alpha \|\beta\|_2.
+&amp;\min_\beta -l(\beta) + \alpha \|\beta\|_2^2.
 \end{align*}\]</div>
 </section>
 <section id="logistic-regression-with-scikit-learn">
-<h2><span class="section-number">18.6. </span>Logistic regression with Scikit-learn<a class="headerlink" href="#logistic-regression-with-scikit-learn" title="Link to this heading">#</a></h2>
-<p>Constructing logistic regression models with Scikit-learn is very straightforward.</p>
+<h2><span class="section-number">18.6. </span>Logistic regression with scikit-learn<a class="headerlink" href="#logistic-regression-with-scikit-learn" title="Link to this heading">#</a></h2>
+<p>Constructing logistic regression models with scikit-learn is very straightforward. By default, scikit-learn fits a regularized version of logistic regression.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
@@ -604,14 +604,17 @@ P(Y=i | X=x) = \frac{e^{x^T \beta^{(i)}}}{\sum_{i=1}^K e^{x^T \beta^{(i)}}}.
 <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
 <span class="c1"># Predict the labels and measure the model fit</span>
-<span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:])</span>
-<span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:])</span>
-<span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9733333333333334
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0 0]
+[[9.84703167e-01 1.52967711e-02 6.20377714e-08]
+ [9.43549042e-01 5.64505708e-02 3.87066866e-07]]
+0.9733333333333334
 </pre></div>
 </div>
 </div>
@@ -697,7 +700,7 @@ P(Y=i | X=x) = \frac{e^{x^T \beta^{(i)}}}{\sum_{i=1}^K e^{x^T \beta^{(i)}}}.
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-with-more-than-two-classes">18.3. Logistic regression with more than two classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generalized-linear-models">18.4. Generalized linear models</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penalized-logistic-regression">18.5. Penalized logistic regression</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-with-scikit-learn">18.6. Logistic regression with Scikit-learn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression-with-scikit-learn">18.6. Logistic regression with scikit-learn</a></li>
 </ul>
   </nav></div>
 
