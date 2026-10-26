@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -413,7 +413,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="support-vector-machines">
 <h1><span class="section-number">19. </span>Support vector machines<a class="headerlink" href="#support-vector-machines" title="Link to this heading">#</a></h1>
-<p>When working with discrete data, we often want to build a classifier that separates data points of different classes.</p>
+<p>In classification problems, we often want to separate observations belonging to different classes.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/class-separation.png"><img alt="../_images/class-separation.png" src="../_images/class-separation.png" style="width: 300px;" />
 </a>
@@ -429,7 +429,7 @@ H = \{x \in \mathbb{R}^n : \beta^T x = 0\} = \textrm{span}(\beta)^\perp.
 <p>An <em>affine hyperplane</em> is a hyperplane that has been possibly translated:</p>
 <div class="math notranslate nohighlight">
 \[
-H = \{x \in \mathbb{R}^m : \beta_0 + \beta^T x = 0\}, 
+H = \{x \in \mathbb{R}^n : \beta_0 + \beta^T x = 0\}, 
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\beta_0 \in \mathbb{R}\)</span>, and <span class="math notranslate nohighlight">\(\beta \in \mathbb{R}^n\)</span>.</p>
 <figure class="align-default">
@@ -443,7 +443,7 @@ H = \{x \in \mathbb{R}^m : \beta_0 + \beta^T x = 0\},
 <p>In order to construct the optimization problem that we need to solve in SVM, we begin by computing the distance between a point and an affine hyperplane. Let</p>
 <div class="math notranslate nohighlight">
 \[
-H = \{x \in \mathbb{R} : \beta_0 + \beta^T x = 0\}.
+H = \{x \in \mathbb{R}^n : \beta_0 + \beta^T x = 0\}.
 \]</div>
 <p>The figure below illustrates the hyperplane <span class="math notranslate nohighlight">\(H\)</span> in dimension <span class="math notranslate nohighlight">\(2\)</span> (green). We would like to compute the shortest distance between some point <span class="math notranslate nohighlight">\(x\)</span> and a point in the hyperplane <span class="math notranslate nohighlight">\(H\)</span>.</p>
 <figure class="align-default">
@@ -465,7 +465,7 @@ H = \{x \in \mathbb{R} : \beta_0 + \beta^T x = 0\}.
 \[
 u \cdot v = u^T v = \sum_{i=1}^n u_i v_i = \|u\| \cdot \|v\| \cdot \cos \theta.
 \]</div>
-<p>The distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(H\)</span>, denoted <span class="math notranslate nohighlight">\(d(x,H)\)</span>, is therefore given by the dot product of <span class="math notranslate nohighlight">\(x-x_0\)</span> with a vector of length <span class="math notranslate nohighlight">\(1\)</span> pointing in the direction of <span class="math notranslate nohighlight">\(\beta\)</span>, i.e., <span class="math notranslate nohighlight">\(\beta/\|\beta\|\)</span>:</p>
+<p>The (signed) distance between <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(H\)</span>, denoted <span class="math notranslate nohighlight">\(d(x,H)\)</span>, is therefore given by the dot product of <span class="math notranslate nohighlight">\(x-x_0\)</span> with a vector of length <span class="math notranslate nohighlight">\(1\)</span> pointing in the direction of <span class="math notranslate nohighlight">\(\beta\)</span>, i.e., <span class="math notranslate nohighlight">\(\beta/\|\beta\|\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
 d(x,H) = \frac{\beta^T}{\|\beta\|} (x-x_0).
@@ -488,12 +488,12 @@ H = \{x = (x_1, x_2) \in \mathbb{R}^2 : \beta_0 + \beta^T x = 0\}.
 \[
 \beta_0 + \beta^T x = 0 \iff 1 + (0,1)^T (x_1, x_2) = 0 \iff 1 + x_2 = 0 \iff x_2 = -1. 
 \]</div>
-<p>This is the line “<span class="math notranslate nohighlight">\(y=-1\)</span>” in the usual cartesian plane. Consider the point x = (0,2). Clearly, it is at distance <span class="math notranslate nohighlight">\(3\)</span> from the line. Let us verify using the formula:</p>
+<p>This is the line “<span class="math notranslate nohighlight">\(y=-1\)</span>” in the usual Cartesian plane. Consider the point x = (0,2). Clearly, it is at distance <span class="math notranslate nohighlight">\(3\)</span> from the line. Let us verify using the formula:</p>
 <div class="math notranslate nohighlight">
 \[
 \beta_0 + \beta^T(0,2) = 1 + 2 = 3. 
 \]</div>
-<p>Notice that <span class="math notranslate nohighlight">\((0,2)\)</span> is on the side of the line towards which <span class="math notranslate nohighlight">\(\beta = (0,1)\)</span> points to. Now, consider the point <span class="math notranslate nohighlight">\((0,-2)\)</span> at distance <span class="math notranslate nohighlight">\(1\)</span> from <span class="math notranslate nohighlight">\(H\)</span>. We have</p>
+<p>Notice that <span class="math notranslate nohighlight">\((0,2)\)</span> is on the side of the line towards which <span class="math notranslate nohighlight">\(\beta = (0,1)\)</span> points. Now, consider the point <span class="math notranslate nohighlight">\((0,-2)\)</span> at distance <span class="math notranslate nohighlight">\(1\)</span> from <span class="math notranslate nohighlight">\(H\)</span>. We have</p>
 <div class="math notranslate nohighlight">
 \[
 \beta_0 + \beta^T (0,-2) = 1-2 = -1. 
@@ -503,12 +503,12 @@ H = \{x = (x_1, x_2) \in \mathbb{R}^2 : \beta_0 + \beta^T x = 0\}.
 </section>
 <section id="linearly-separable-data">
 <h2><span class="section-number">19.3. </span>Linearly separable data<a class="headerlink" href="#linearly-separable-data" title="Link to this heading">#</a></h2>
-<p>Consider the binary classification problem that we examined in the context of logistic regression. We are given data points <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> with <span class="math notranslate nohighlight">\(x_i \in \mathbb{R}^p\)</span> and <span class="math notranslate nohighlight">\(y_i \in \{0,1\}\)</span>. We say that the data is <strong>linearly separable</strong> if there exists a hyperplane <span class="math notranslate nohighlight">\(H\)</span> such that points of one category are all one one side of <span class="math notranslate nohighlight">\(H\)</span>, and points from the other category are all on the other side.</p>
+<p>Consider the binary classification problem that we examined in the context of logistic regression. We are given data points <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> with <span class="math notranslate nohighlight">\(x_i \in \mathbb{R}^p\)</span> and <span class="math notranslate nohighlight">\(y_i \in \{0,1\}\)</span>. We say that the data is <strong>linearly separable</strong> if there exists a hyperplane <span class="math notranslate nohighlight">\(H\)</span> such that points of one category are all on one side of <span class="math notranslate nohighlight">\(H\)</span>, and points from the other category are all on the other side.</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/lin-sep.png"><img alt="../_images/lin-sep.png" src="../_images/lin-sep.png" style="width: 300px;" />
 </a>
 </figure>
-<p>Suppose we relabel our data so that so that <span class="math notranslate nohighlight">\(y \in \{-1,1\}\)</span> instead of <span class="math notranslate nohighlight">\(\{0,1\}\)</span> (e.g., replace labels “0” by “-1”). If the data is linearly separable, there exists a hyperplane <span class="math notranslate nohighlight">\(H = \{x \in \mathbb{R}^p : \beta_0 + \beta^T x = 0\}\)</span> such that all data points with label <span class="math notranslate nohighlight">\(1\)</span> are on one side of <span class="math notranslate nohighlight">\(H\)</span>, and all data points with label <span class="math notranslate nohighlight">\(-1\)</span> are on the other side of <span class="math notranslate nohighlight">\(H\)</span>. Thus,</p>
+<p>Suppose we relabel our data so that <span class="math notranslate nohighlight">\(y \in \{-1,1\}\)</span> instead of <span class="math notranslate nohighlight">\(\{0,1\}\)</span> (e.g., replace labels “0” by “-1”). If the data is linearly separable, there exists a hyperplane <span class="math notranslate nohighlight">\(H = \{x \in \mathbb{R}^p : \beta_0 + \beta^T x = 0\}\)</span> such that all data points with label <span class="math notranslate nohighlight">\(1\)</span> are on one side of <span class="math notranslate nohighlight">\(H\)</span>, and all data points with label <span class="math notranslate nohighlight">\(-1\)</span> are on the other side of <span class="math notranslate nohighlight">\(H\)</span>. Thus,</p>
 <div class="math notranslate nohighlight">
 \[
 f(x) = \mathop{\rm sign} (\beta_0 + \beta^T x)
@@ -535,7 +535,7 @@ f(x) = \mathop{\rm sign} (\beta_0 + \beta^T x)
 </figcaption>
 </figure>
 <p>In that case, it makes sense to look for the hyperplane that separates the data with the largest possible <em>margin</em> (the size of the region with no data, or “no man’s land”).</p>
-<p>Recall that our data is of the form <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> with <span class="math notranslate nohighlight">\(x_i \in \mathbb{R}^p\)</span> and <span class="math notranslate nohighlight">\(y_i \{-1,1\}\)</span>. We want to classify points using <span class="math notranslate nohighlight">\(f(x) = \mathop{\rm sign}(\beta_0 + \beta^T x)\)</span> for some hyperplane <span class="math notranslate nohighlight">\(H\)</span> determined by <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. Without loss of generality, we can assume <span class="math notranslate nohighlight">\(\|\beta\| = 1\)</span>. Observe that</p>
+<p>Recall that our data is of the form <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> with <span class="math notranslate nohighlight">\(x_i \in \mathbb{R}^p\)</span> and <span class="math notranslate nohighlight">\(y_i \in \{-1,1\}\)</span>. We want to classify points using <span class="math notranslate nohighlight">\(f(x) = \mathop{\rm sign}(\beta_0 + \beta^T x)\)</span> for some hyperplane <span class="math notranslate nohighlight">\(H\)</span> determined by <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. Without loss of generality, we can assume <span class="math notranslate nohighlight">\(\|\beta\| = 1\)</span>. Observe that</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 y_i(\beta_0 + \beta^T x) &gt; 0 \implies \textrm{ the classification of $x_i$ is correct} \\
@@ -552,7 +552,7 @@ y_i(\beta_0 + \beta^T x) &lt; 0 \implies \textrm{ the classification of $x_i$ in
 \max_{
 \substack{
 \beta_0 \in \mathbb{R} \\
-\beta \in \mathbb{R}^p, \|\beta\| = 1}} M \qquad \textrm{ such that } y_i(\beta_0 + \beta^T x) \geq M \qquad (i=1,\dots,n). 
+\beta \in \mathbb{R}^p, \|\beta\| = 1}} M \qquad \textrm{ such that } y_i(\beta_0 + \beta^T x_i) \geq M \qquad (i=1,\dots,n). 
 \end{align*}\]</div>
 <p>We will transform this problem into its usual form used in optimization. First, we can remove <span class="math notranslate nohighlight">\(\|\beta\|=1\)</span> by replacing the constraint by</p>
 <div class="math notranslate nohighlight">
@@ -562,7 +562,7 @@ y_i(\beta_0 + \beta^T x) &lt; 0 \implies \textrm{ the classification of $x_i$ in
 <p>Next, we can always rescale <span class="math notranslate nohighlight">\((\beta, \beta_0)\)</span> so that <span class="math notranslate nohighlight">\(\|\beta\| = 1/M\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-\max_{\beta_0, \beta \in \mathbb{R}^p} \frac{1}{\|\beta\|} \quad \textrm{s.t.}\quad y_i(x_i^T \beta + \beta_0) \geq 1 \qquad (i=1,\dots,n).
+\max_{\beta_0 \in \mathbb{R}, \beta \in \mathbb{R}^p} \frac{1}{\|\beta\|} \quad \textrm{s.t.}\quad y_i(x_i^T \beta + \beta_0) \geq 1 \qquad (i=1,\dots,n).
 \]</div>
 <p>This problem is equivalent to:</p>
 <div class="math notranslate nohighlight">
@@ -589,7 +589,7 @@ y_i(\beta_0 + \beta^T x) \geq M(1-\xi_i), \quad \xi_i \geq 0.
 <p>Notice how the right-hand term relaxes the previous constraint. Instead of having each point at distance at least <span class="math notranslate nohighlight">\(M\)</span> from the hyperplane <span class="math notranslate nohighlight">\(H\)</span>, some points can now fall into the <span class="math notranslate nohighlight">\(M\)</span>-margin when <span class="math notranslate nohighlight">\(\xi_i &gt; 0\)</span>. For example, when <span class="math notranslate nohighlight">\(\xi_i = 1/2\)</span>, the <span class="math notranslate nohighlight">\(i\)</span>-th point is allowed to fall in the middle of the margin. When <span class="math notranslate nohighlight">\(\xi_i &gt; 1\)</span>, the sign of <span class="math notranslate nohighlight">\(M(1-\xi_i)\)</span> becomes negative and the point is allowed to be misclassified (i.e., to be on the wrong side of the hyperplane). In order to limit that kind of behavior, we add a supplementary constraint on how large the <span class="math notranslate nohighlight">\(\xi_i\)</span>s can be:</p>
 <div class="math notranslate nohighlight">
 \[
-\sum_{i=1}^n \xi_i \leq C \qquad \textrm{for some fixed constant } C &gt; 0.
+\sum_{i=1}^n \xi_i \leq B \qquad \textrm{for some fixed constant } B &gt; 0.
 \]</div>
 <p>Our new optimization problem is therefore:</p>
 <div class="amsmath math notranslate nohighlight">
@@ -597,7 +597,7 @@ y_i(\beta_0 + \beta^T x) \geq M(1-\xi_i), \quad \xi_i \geq 0.
 \tiny
 &amp;\max_{\substack{\beta_0 \in \mathbb{R} \\ \beta \in \mathbb{R}^p, \|\beta\|=1}} M \\
 &amp;\textrm{subject to } y_i(x_i^T \beta + \beta_0) \geq M(1-\xi_i) \\
-&amp;\xi_i \geq 0, \qquad \sum_{i=1}^n \xi_i \leq C.
+&amp;\xi_i \geq 0, \qquad \sum_{i=1}^n \xi_i \leq B.
 \end{align*}\]</div>
 <p>As before, we can transform the problem into its “standard” form:</p>
 <div class="amsmath math notranslate nohighlight">
@@ -605,9 +605,9 @@ y_i(\beta_0 + \beta^T x) \geq M(1-\xi_i), \quad \xi_i \geq 0.
 \tiny
 &amp;\min_{\beta_0, \beta} \frac{1}{2}\|\beta\|^2 \\
 &amp;\textrm{subject to } y_i(x_i^T \beta + \beta_0) \geq 1-\xi_i \\
-&amp;\xi_i \geq 0, \qquad \sum_{i=1}^n \xi_i \leq C, 
+&amp;\xi_i \geq 0, \qquad \sum_{i=1}^n \xi_i \leq B, 
 \end{align*}\]</div>
-<p>which can be solved using standard optimization solvers. This is the problem solved by <strong>support vector machines</strong>.</p>
+<p>which can be solved using standard optimization solvers. This is one formulation of the <strong>soft-margin support vector machine</strong>.</p>
 </section>
 <section id="working-with-multiple-classes">
 <h2><span class="section-number">19.6. </span>Working with multiple classes<a class="headerlink" href="#working-with-multiple-classes" title="Link to this heading">#</a></h2>

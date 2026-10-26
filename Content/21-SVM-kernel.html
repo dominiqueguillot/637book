@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -393,7 +393,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#digression-a-brief-introduction-to-duality-in-optimization">20.1. Digression: a brief introduction to duality in optimization</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-svms">20.2. Back to SVMs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transforming-data-and-the-kernel-trick">20.3. Transforming data and the kernel trick</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#positive-definite-kernels">20.4. Positive definite kernels</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#positive-semidefinite-kernels">20.4. Positive semidefinite kernels</a></li>
 </ul>
             </nav>
         </div>
@@ -407,27 +407,27 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="svm-the-kernel-trick">
 <h1><span class="section-number">20. </span>SVM: the kernel trick<a class="headerlink" href="#svm-the-kernel-trick" title="Link to this heading">#</a></h1>
-<p>We saw in the previous chapter how support vector machines provide a robust way of separating data using hyperplanes. Sometimes, when data is not linearly separable, we can map them into higher-dimensional space, where they become separable.</p>
+<p>We saw in the previous chapter how support vector machines provide a robust way of separating data using hyperplanes. Sometimes, when data is not linearly separable, we can map them into a higher-dimensional space, where they become separable.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/mapping.png"><img alt="../_images/mapping.png" src="../_images/mapping.png" style="width: 500px;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 20.1 </span><span class="caption-text">Illustration of how a non-linearly separable dataset becomes separable when mapped into higher-dimensional space.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 20.1 </span><span class="caption-text">Illustration of how a nonlinearly separable dataset becomes separable when mapped into higher-dimensional space.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>We will now examine a powerful approach to improve support vector machine that is commonly called the <em>kernel trick</em>. As we will see, this approach involves a minimal modification of our previous SVM approach, but provides more complicated non-linear decision boundaries. The approach is also equivalent to mapping data into a higher-dimensional space, and performing the classification there.</p>
+<p>We will now examine a powerful approach to improve support vector machines that is commonly called the <em>kernel trick</em>. As we will see, this approach involves a small modification of our previous SVM approach, but provides more complicated nonlinear decision boundaries. The approach is also equivalent to mapping data into a higher-dimensional space, and performing the classification there.</p>
 <p>Before we explain the kernel trick, we make a short digression into the concept of <em>duality</em> in convex optimization.</p>
 <section id="digression-a-brief-introduction-to-duality-in-optimization">
 <h2><span class="section-number">20.1. </span>Digression: a brief introduction to duality in optimization<a class="headerlink" href="#digression-a-brief-introduction-to-duality-in-optimization" title="Link to this heading">#</a></h2>
 <div class="admonition-infimum-and-supremum admonition">
 <p class="admonition-title">Infimum and Supremum</p>
 <p>In this section, we will use the notions of infimum (<span class="math notranslate nohighlight">\(\inf\)</span>) and supremum (<span class="math notranslate nohighlight">\(\sup\)</span>) of a set of real numbers. If you are not familiar with these notions, you can just think of <span class="math notranslate nohighlight">\(\inf\)</span> as <span class="math notranslate nohighlight">\(\min\)</span> and <span class="math notranslate nohighlight">\(\sup\)</span> as <span class="math notranslate nohighlight">\(\max\)</span>.</p>
-<p>The difference between <span class="math notranslate nohighlight">\(\min\)</span> and <span class="math notranslate nohighlight">\(\inf\)</span> is the following: in mathematics, when we say <span class="math notranslate nohighlight">\(\min S = 0\)</span>, we mean that <span class="math notranslate nohighlight">\(0 \in S\)</span> and <span class="math notranslate nohighlight">\(0\)</span> is the smallest element of of the set <span class="math notranslate nohighlight">\(S\)</span>. In contrast, consider the set <span class="math notranslate nohighlight">\(S = \{1/n : n \geq 1\} = \{1,1/2,1/3,1/4, \dots\}\)</span>. Observe that <span class="math notranslate nohighlight">\(S\)</span> contains elements that are as close as we want to <span class="math notranslate nohighlight">\(0\)</span>. However, <span class="math notranslate nohighlight">\(0 \not\in S\)</span>. As a result, <span class="math notranslate nohighlight">\(\min S\)</span> is not defined as the set does not contain a minimal element. However, we say <span class="math notranslate nohighlight">\(\inf S = 0\)</span> since <span class="math notranslate nohighlight">\(0\)</span> is the best “lower bound” on <span class="math notranslate nohighlight">\(S\)</span> (i.e., it is the <em>greatest lower bound</em>). We define <span class="math notranslate nohighlight">\(\sup\)</span> similarly as the <em>least upper bound</em> of the set. See <a href="https://en.wikipedia.org/wiki/Infimum_and_supremum" target="_blank">Wikipedia</a> for more details.</p>
+<p>The difference between <span class="math notranslate nohighlight">\(\min\)</span> and <span class="math notranslate nohighlight">\(\inf\)</span> is the following: in mathematics, when we say <span class="math notranslate nohighlight">\(\min S = 0\)</span>, we mean that <span class="math notranslate nohighlight">\(0 \in S\)</span> and <span class="math notranslate nohighlight">\(0\)</span> is the smallest element of the set <span class="math notranslate nohighlight">\(S\)</span>. In contrast, consider the set <span class="math notranslate nohighlight">\(S = \{1/n : n \geq 1\} = \{1,1/2,1/3,1/4, \dots\}\)</span>. Observe that <span class="math notranslate nohighlight">\(S\)</span> contains elements that are as close as we want to <span class="math notranslate nohighlight">\(0\)</span>. However, <span class="math notranslate nohighlight">\(0 \not\in S\)</span>. As a result, <span class="math notranslate nohighlight">\(\min S\)</span> is not defined as the set does not contain a minimal element. However, we say <span class="math notranslate nohighlight">\(\inf S = 0\)</span> since <span class="math notranslate nohighlight">\(0\)</span> is the best “lower bound” on <span class="math notranslate nohighlight">\(S\)</span> (i.e., it is the <em>greatest lower bound</em>). We define <span class="math notranslate nohighlight">\(\sup\)</span> similarly as the <em>least upper bound</em> of the set. See <a href="https://en.wikipedia.org/wiki/Infimum_and_supremum" target="_blank">Wikipedia</a> for more details.</p>
 </div>
 <p>Consider the following standard optimization problem, where a function needs to be minimized on some domain <span class="math notranslate nohighlight">\(\mathcal{D} \subseteq \mathbb{R}^d\)</span>, under some inequality and some equality constraints:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
-\min_{x \in \mathcal{D} \subseteq \mathbb{R}^n} \quad &amp;f_0(x) \\
+\min_{x \in \mathcal{D} \subseteq \mathbb{R}^d} \quad &amp;f_0(x) \\
 \textrm{subject to}\quad &amp;f_i(x) \leq 0, \qquad i=1,\dots, m \\
 &amp;h_i(x) = 0, \qquad i=1,\dots,p.
 \end{align*}\]</div>
@@ -437,7 +437,7 @@ document.write(`
 \[
 L(x, \lambda, \nu) := f_0(x) + \sum_{i=1}^m \lambda_i f_i(x) + \sum_{i=1}^p \nu_i h_i(x).
 \]</div>
-<p>This may reminisce you of the method of Lagrange multipliers, which is related. We then define the <em>Lagrange dual function</em> <span class="math notranslate nohighlight">\(g: \mathbb{R}^m \times \mathbb{R}^p \to \mathbb{R}\)</span> by</p>
+<p>This may remind you of the method of Lagrange multipliers, which is related. We then define the <em>Lagrange dual function</em> <span class="math notranslate nohighlight">\(g: \mathbb{R}^m \times \mathbb{R}^p \to \mathbb{R}\)</span> by</p>
 <div class="math notranslate nohighlight">
 \[
 g(\lambda, \nu) := \inf_{x \in \mathcal{D}} L(x, \lambda, \nu).
@@ -452,7 +452,7 @@ g(\lambda, \nu) := \inf_{x \in \mathcal{D}} L(x, \lambda, \nu).
 <p>Assume <span class="math notranslate nohighlight">\(\tilde{x}\)</span> satisfies the constraints (i.e., <span class="math notranslate nohighlight">\(f_i(\tilde{x}) \leq 0\)</span> and <span class="math notranslate nohighlight">\(h_i(\tilde{x}) = 0\)</span>) and <span class="math notranslate nohighlight">\(\lambda \geq 0\)</span>. Then</p>
 <div class="math notranslate nohighlight">
 \[
-f_0(\tilde{x}) \geq L(\tilde{x}, \lambda, \mu) \geq \inf_{x \in \mathcal{D}} L(x, \lambda, \nu) = g(\lambda, \mu).
+f_0(\tilde{x}) \geq L(\tilde{x}, \lambda, \mu) \geq \inf_{x \in \mathcal{D}} L(x, \lambda, \nu) = g(\lambda, \nu).
 \]</div>
 <p>The result follows by optimizing over <span class="math notranslate nohighlight">\(\tilde{x}\)</span>.</p>
 </div>
@@ -467,8 +467,8 @@ f_0(\tilde{x}) \geq L(\tilde{x}, \lambda, \mu) \geq \inf_{x \in \mathcal{D}} L(x
 \[
 \boxed{d^\star \leq p^\star.}
 \]</div>
-<p>This above inequality is called <em>weak duality</em>. In other words, solving the dual problem always gives you a lower bound on the optimal value of the primal problem. What is interesting is that, while <span class="math notranslate nohighlight">\(d^\star\)</span> and <span class="math notranslate nohighlight">\(p^\star\)</span> are not always equal, they often are in practice. When <span class="math notranslate nohighlight">\(d^\star = p^\star\)</span>, we say <strong>strong duality holds</strong>. In that case, one can solve the dual problem instead of the primal problem and still get the optimal value <span class="math notranslate nohighlight">\(p^\star\)</span>. This is particularly interesting when the dual problem is easier to solve than the primal problem.</p>
-<p>Many, additional assumptions that guarantee strong duality holds are known (see e.g., <a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank">Slater’s constraint qualification</a>).</p>
+<p>The above inequality is called <em>weak duality</em>. In other words, solving the dual problem always gives you a lower bound on the optimal value of the primal problem. What is interesting is that, while <span class="math notranslate nohighlight">\(d^\star\)</span> and <span class="math notranslate nohighlight">\(p^\star\)</span> are not always equal, they often are in practice. When <span class="math notranslate nohighlight">\(d^\star = p^\star\)</span>, we say <strong>strong duality holds</strong>. In that case, one can solve the dual problem instead of the primal problem and still get the optimal value <span class="math notranslate nohighlight">\(p^\star\)</span>. This is particularly interesting when the dual problem is easier to solve than the primal problem.</p>
+<p>Many additional assumptions that guarantee strong duality holds are known (see e.g., <a href="https://en.wikipedia.org/wiki/Slater%27s_condition" target="_blank">Slater’s constraint qualification</a>).</p>
 </section>
 <section id="back-to-svms">
 <h2><span class="section-number">20.2. </span>Back to SVMs<a class="headerlink" href="#back-to-svms" title="Link to this heading">#</a></h2>
@@ -514,16 +514,16 @@ L_D = \sum_{i=1}^n \alpha_i - \frac{1}{2} \sum_{i,j=1}^n \alpha_i \alpha_j y_i y
 \[
 K(x,x') = \langle h(x), h(x')\rangle.
 \]</div>
-<p>In mathematics, we often call such a function <span class="math notranslate nohighlight">\(K(x,x')\)</span> of two variables a <strong>kernel</strong>. The <em>kernel trick</em> for SVM involves specifying a kernel <span class="math notranslate nohighlight">\(K\)</span> and solving the above dual problem with that kernel. If you look at the scikit-learn <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" target="_blank">documentation</a>, the “kernel” argument is the kernel <span class="math notranslate nohighlight">\(K\)</span> above. As we will explain below, when the kernel is <em>positive semidefinite</em>, using a kernel is equivalent to mapping the data into a higher-dimensional space, and performing the usual SVM classification in that space. Doing so provides more flexibility to the SVM classifier and can yield an important increase in performance.</p>
+<p>In mathematics, we often call such a function <span class="math notranslate nohighlight">\(K(x,x')\)</span> of two variables a <strong>kernel</strong>. For it to correspond to an inner product in a feature space, <span class="math notranslate nohighlight">\(K\)</span> must satisfy a positive-semidefiniteness condition. The <em>kernel trick</em> for SVM involves specifying a kernel <span class="math notranslate nohighlight">\(K\)</span> and solving the above dual problem with that kernel. If you look at the scikit-learn <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" target="_blank">documentation</a>, the “kernel” argument is the kernel <span class="math notranslate nohighlight">\(K\)</span> above. As we will explain below, when the kernel is <em>positive semidefinite</em>, using a kernel is equivalent to mapping the data into a higher-dimensional space, and performing the usual SVM classification in that space. Doing so provides more flexibility to the SVM classifier and can yield an important increase in performance.</p>
 </section>
-<section id="positive-definite-kernels">
-<h2><span class="section-number">20.4. </span>Positive definite kernels<a class="headerlink" href="#positive-definite-kernels" title="Link to this heading">#</a></h2>
+<section id="positive-semidefinite-kernels">
+<h2><span class="section-number">20.4. </span>Positive semidefinite kernels<a class="headerlink" href="#positive-semidefinite-kernels" title="Link to this heading">#</a></h2>
 <p>We saw above that if the features are mapped into higher-dimensional space using a transformation <span class="math notranslate nohighlight">\(h(x_i) = (h_1(x_i), \dots, h_m(x_i))\)</span>, then solving the dual SVM problem is equivalent to introducing a kernel <span class="math notranslate nohighlight">\(K(x_i, x_j) = \langle h(x_i), h(x_j)\rangle\)</span> into the dual objective function. It is natural to ask if conversely, any kernel arises as</p>
 <div class="math notranslate nohighlight">
 \[
 K(x,x') = \langle h(x), h(x')\rangle
 \]</div>
-<p>for some function <span class="math notranslate nohighlight">\(h\)</span>. In other words, if we solve the dual SVM problem with an arbitrary kernel, is this process equivalent to mapping the data into a higher-dimensional space using a function <span class="math notranslate nohighlight">\(h\)</span>, and then performing SVM in the high-dimensional space? One can show that this is the case precisely when the kernel <span class="math notranslate nohighlight">\(K\)</span> is positive definite. Recall the notion of a positive semidefinite matrix, as discuss in the <a class="reference internal" href="11-Shrinkage-methods.html#s-ridge"><span class="std std-ref">Ridge regression section</span></a>.</p>
+<p>for some function <span class="math notranslate nohighlight">\(h\)</span>. In other words, if we solve the dual SVM problem with an arbitrary kernel, is this process equivalent to mapping the data into a higher-dimensional space using a function <span class="math notranslate nohighlight">\(h\)</span>, and then performing SVM in the high-dimensional space? One can show that this is the case precisely when the kernel <span class="math notranslate nohighlight">\(K\)</span> is positive semidefinite. Recall the notion of a positive semidefinite matrix, as discussed in the <a class="reference internal" href="11-Shrinkage-methods.html#s-ridge"><span class="std std-ref">Ridge regression section</span></a>.</p>
 <div class="admonition-definition-positive-semidefinite-kernel admonition">
 <p class="admonition-title">Definition (Positive semidefinite kernel)</p>
 <p>A kernel <span class="math notranslate nohighlight">\(K: \mathbb{R}^d \times \mathbb{R}^d \to \mathbb{R}\)</span> is said to be <em>positive semidefinite</em> if for any <span class="math notranslate nohighlight">\(n \geq 1\)</span> and any <span class="math notranslate nohighlight">\(x_1, \dots, x_n \in \mathbb{R}^d\)</span>, the matrix</p>
@@ -547,7 +547,7 @@ K(x,x') = \langle h(x), h(x')\rangle
 K(x,x') = \langle h(x), h(x')\rangle_\mathcal{H}.
 \]</div>
 </div>
-<p>In conclusion, positive semidefinite kernels arise from “taking the inner product” after mapping the data into a Hilbert space. It thus makes sense to use any positive semidefinite kernels in the SVM framework. As you can see in the scikit-learn <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" target="_blank">documentation</a>, several options are available for the kernel of the SVC object. Each kernel corresponds to mapping data in different spaces and can considerably improve the performance of the basic SVM classifier.</p>
+<p>In conclusion, positive semidefinite kernels arise from “taking the inner product” after mapping the data into a Hilbert space. It thus makes sense to use any positive semidefinite kernel in the SVM framework. As you can see in the scikit-learn <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" target="_blank">documentation</a>, several options are available for the kernel of the SVC object. Each kernel corresponds to mapping data into different spaces and can considerably improve the performance of the basic SVM classifier.</p>
 </section>
 </section>
 
@@ -618,7 +618,7 @@ K(x,x') = \langle h(x), h(x')\rangle_\mathcal{H}.
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#digression-a-brief-introduction-to-duality-in-optimization">20.1. Digression: a brief introduction to duality in optimization</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-svms">20.2. Back to SVMs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transforming-data-and-the-kernel-trick">20.3. Transforming data and the kernel trick</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#positive-definite-kernels">20.4. Positive definite kernels</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#positive-semidefinite-kernels">20.4. Positive semidefinite kernels</a></li>
 </ul>
   </nav></div>
 
