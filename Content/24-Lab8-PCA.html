@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -207,10 +207,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="1b-podcast.html">Podcast</a></li>
-</ul>
-<ul class="current nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
@@ -412,7 +409,7 @@ document.write(`
 </ul>
 <section id="reducing-dimension">
 <h2><span class="section-number">23.1. </span>Reducing dimension<a class="headerlink" href="#reducing-dimension" title="Link to this heading">#</a></h2>
-<p>We will first demonstrate how PCA can be used to compute a useful low-dimensional projection of a high-dimensinal dataset. In some cases, this can help understand what a dataset looks like. Let us begin by loading the digits dataset that we used several times before.</p>
+<p>We will first demonstrate how PCA can be used to compute a useful low-dimensional projection of a high-dimensional dataset. In some cases, this can help understand what a dataset looks like. Let us begin by loading the digits dataset that we used several times before.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_digits</span>
@@ -453,22 +450,22 @@ document.write(`
 <img alt="../_images/25a62a564e975105ef73911b5fbe4e96146578d20b3b14514edde7ee2187cbcc.png" src="../_images/25a62a564e975105ef73911b5fbe4e96146578d20b3b14514edde7ee2187cbcc.png" />
 </div>
 </div>
-<p>Observe that the percentage of explained variance drops rapidely with the number of principal components. This is a very common behavior. Such a sharp drop suggests that only a few principal components suffice to represent the data well.</p>
-<p>To better visualize the percentage of explained variance, let us plot the cummulative sum of the percentages of explained variance.</p>
+<p>Observe that the percentage of explained variance drops rapidly with the number of principal components. This is a very common behavior. Such a sharp drop suggests that only a few principal components suffice to represent the data well.</p>
+<p>To better visualize the percentage of explained variance, let us plot the cumulative sum of the percentages of explained variance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Percentage of explained variance by first k-th components&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Percentage of explained variance by first k components&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Percentage of explained variance by first k-th components&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Percentage of explained variance by first k components&#39;)
 </pre></div>
 </div>
-<img alt="../_images/2208b1de6d713190b9ff4917198c07578086458d9cba95f5b0bd67266ae445f3.png" src="../_images/2208b1de6d713190b9ff4917198c07578086458d9cba95f5b0bd67266ae445f3.png" />
+<img alt="../_images/3e64b13c719ec368a62c87622c899a6950adab1a8e2a33555deccb22e3df11a0.png" src="../_images/3e64b13c719ec368a62c87622c899a6950adab1a8e2a33555deccb22e3df11a0.png" />
 </div>
 </div>
 <p>Observe that the first 9 PCs already explain more than 70% of the variance of the dataset.</p>
@@ -500,8 +497,8 @@ document.write(`
 </section>
 <section id="feature-engineering">
 <h2><span class="section-number">23.2. </span>Feature engineering<a class="headerlink" href="#feature-engineering" title="Link to this heading">#</a></h2>
-<p>Recall that principal components are linear combinations of the original features, constructed to capture the variability in the data. In practice, they can be viewed as a form of <em>engineered features</em> that facilitate the exploration and visualization of datasets. Similarly, in fields like economics and engineering, composite indices are often used to summarize complex systems. For example, an engineer might combine multiple measurements of a road’s condition into a single score that determines whether or not maintenance is needed. Principal components serve a similar purpose: they combine features into summary variables, with the goal to capture as much of the total variance of the data as possible.</p>
-<p>Principal components can also be directly used in further modeling steps. For example, recall the classical <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set" target="_blank">Iris dataset</a> where the goal is to predict the type of Iris flower species using four measurements (the length and the width of the sepals and petals). Let us explore whether the first principal component is enough to summarize the four measurements and make an educated guess on the type of Iris.</p>
+<p>Recall that principal components are linear combinations of the original features, constructed to capture the variability in the data. In practice, they can be viewed as a form of <em>engineered features</em> that facilitate the exploration and visualization of datasets. Similarly, in fields like economics and engineering, composite indices are often used to summarize complex systems. For example, an engineer might combine multiple measurements of a road’s condition into a single score that determines whether or not maintenance is needed. Principal components serve a similar purpose: they combine features into summary variables, with the goal of capturing as much of the total variance of the data as possible.</p>
+<p>Principal components can also be directly used in further modeling steps. For example, recall the classical <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set" target="_blank">Iris dataset</a> where the goal is to predict the type of Iris species using four measurements (the length and the width of the sepals and petals). Let us explore whether the first principal component is enough to summarize the four measurements and make an educated guess on the type of Iris. Here we apply PCA to the original measurements without standardizing them. Consequently, variables with greater variability have a larger influence on the principal components.</p>
 <p>We begin by loading packages and the dataset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -547,7 +544,7 @@ document.write(`
 <img alt="../_images/d48320480c8c815249282113b207f0672024908b655ee70bba784dd801d1bbec.png" src="../_images/d48320480c8c815249282113b207f0672024908b655ee70bba784dd801d1bbec.png" />
 </div>
 </div>
-<p>As in the digits example above, it seems like the first two PCs do a very good job at predicting the type of Iris. While not perfect, the first PC also seems to summarize the data very well. Let us examine the percentage of explained variance of the first two PCs:</p>
+<p>As in the digits example above, it seems like the first two PCs provide a representation in which the three Iris species are fairly well separated. Let us examine the percentage of explained variance of the first two PCs:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span>
@@ -560,7 +557,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Indeed, the first PC already explains about 92% of the variance! It therefore summarizes the data very well. Let us try to use a logictic regression on the first PC to predict the labels.</p>
+<p>Indeed, the first PC already explains about 92% of the variance! It therefore summarizes the data very well. This does not automatically mean that PC1 will predict the species well, since PCA does not use the species labels. Let us test whether it does in this particular dataset using a logistic regression.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use only the first PC to predict the class</span>
@@ -587,7 +584,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>The accuracy is very good. For that particular problem, we can therefore reduce the four measurements to one new “feature” that captures the species of the Iris well.</p>
+<p>The accuracy is very good. For this particular problem, we can therefore reduce the four measurements to one new “feature” that captures the species of the Iris well.</p>
 <p><strong>Exercise:</strong> We saw that the first principal component is an excellent indicator of the Iris species. Suppose someone in the field wants to use that information to identify Irises. Assume they measure the length and the width of the sepals and petals. Can you provide:</p>
 <p>(1) The coefficients of the linear combination needed to compute the first principal component?</p>
 <p>(2) A simple test that can be computed by hand to approximately identify a new Iris (e.g., if the range of the first PC is between a1 and b1, then the iris is a <em>Versicolor</em>, if instead…)?</p>

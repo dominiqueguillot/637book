@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -207,10 +207,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="1b-podcast.html">Podcast</a></li>
-</ul>
-<ul class="current nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
@@ -415,7 +412,7 @@ document.write(`
 <section id="artificial-dataset">
 <h2><span class="section-number">21.1. </span>Artificial dataset<a class="headerlink" href="#artificial-dataset" title="Link to this heading">#</a></h2>
 <p>To illustrate how SVMs work, let us create an artificial dataset that is linearly separable. If you are not familiar with the multivariate normal distribution, please take a look at the following <a href="https://en.wikipedia.org/wiki/Multivariate_normal_distribution" target="_blank">Wikipedia</a> page.</p>
-<p>Using <a href="https://numpy.org/doc/2.3/reference/random/generated/numpy.random.multivariate_normal.html" target="_blank">numpy.random.multivariate_normal</a>, generate a 2-dimensional dataset <span class="math notranslate nohighlight">\(X\)</span> containing two separated clusters of points. Create an associated vector <span class="math notranslate nohighlight">\(y\)</span> with entries <span class="math notranslate nohighlight">\(+1\)</span> and <span class="math notranslate nohighlight">\(−1\)</span> indicating into which cluster each point belongs. For example, you may want to use the union of two multivariate normal samples with two different mean vectors, and identity covariance matrices. Display your dataset using the <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html" target="_blank">matplotlib.pyplot.scatter</a>. You should obtain a figure that looks as follows.</p>
+<p>Using <a href="https://numpy.org/doc/2.3/reference/random/generated/numpy.random.multivariate_normal.html" target="_blank">numpy.random.multivariate_normal</a>, generate a 2-dimensional dataset <span class="math notranslate nohighlight">\(X\)</span> containing two separated clusters of points. Choose the mean vectors sufficiently far apart so that the generated sample is linearly separable. Create an associated vector <span class="math notranslate nohighlight">\(y\)</span> with entries <span class="math notranslate nohighlight">\(+1\)</span> and <span class="math notranslate nohighlight">\(−1\)</span> indicating which cluster each point belongs to. For example, you may want to use the union of two multivariate normal samples with two different mean vectors, and identity covariance matrices. Display your dataset using <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html" target="_blank">matplotlib.pyplot.scatter</a>. You should obtain a figure that looks as follows.</p>
 <figure class="align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/figure-lab7.png"><img alt="../_images/figure-lab7.png" src="../_images/figure-lab7.png" style="width: 500px;" />
 </a>
@@ -423,11 +420,11 @@ document.write(`
 <p><span class="caption-number">Fig. 21.1 </span><span class="caption-text">Linearly separable dataset with two clusters, and estimated SVM separating line.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Next, use <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" target="_blank">sklearn.svm.SVC</a> to train a support vector machine classifier on your dataset. Use “linear” for the kernel argument. Display the line estimated using your support vector machine model. The line should separate the two clusters with a “large” margin as on the figure above.</p>
+<p>Next, use <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html" target="_blank">sklearn.svm.SVC</a> to train a support vector machine classifier on your dataset. Use “linear” for the kernel argument. Display the decision boundary obtained using your support vector machine model. The line should separate the two clusters with a “large” margin as on the figure above.</p>
 </section>
 <section id="testing-svms-on-handwritten-digits">
 <h2><span class="section-number">21.2. </span>Testing SVMs on handwritten digits<a class="headerlink" href="#testing-svms-on-handwritten-digits" title="Link to this heading">#</a></h2>
-<p>Let us examine the performance of SVMs for classifying handwritten digits. Let us first load the <a href="https://scikit-learn.org/stable/datasets/toy_dataset.html#digits-dataset" target="_blank">digits dataset</a> from Scikit-learn.</p>
+<p>Let us examine the performance of SVMs for classifying handwritten digits. Let us first load the <a href="https://scikit-learn.org/stable/datasets/toy_dataset.html#digits-dataset" target="_blank">digits dataset</a> from scikit-learn.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_digits</span>
@@ -441,7 +438,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>Using <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html" target="_blank">train_test_split</a>, split the dataset into a training (80%) and a test set (20%). Then,</p>
+<p>Using <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html" target="_blank">train_test_split</a>, split the dataset into a training set (80%) and a test set (20%). Then,</p>
 <ol class="arabic simple">
 <li><p>Train a SVC model on the training set. Use cross-validation to find an appropriate parameter “C”.</p></li>
 <li><p>Measure the accuracy of the model selected with cross-validation on the test set.</p></li>

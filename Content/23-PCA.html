@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -207,10 +207,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="1b-podcast.html">Podcast</a></li>
-</ul>
-<ul class="current nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="2-Python.html">1. Setting up Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3-Basic-Python.html">2. Basic Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4-Supervised-Unsupervised.html">3. Supervised vs Unsupervised learning</a></li>
@@ -390,7 +387,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-direction-having-most-variance">22.1. The direction having most variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-direction-of-maximum-variance">22.1. The direction of maximum variance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rayleigh-quotients">22.2. Rayleigh quotients</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-pca">22.3. Back to PCA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-principal-components">22.4. Using principal components</a></li>
@@ -413,14 +410,14 @@ document.write(`
 </a>
 </figure>
 <p>In this chapter, we will see how Principal Component Analysis (PCA) can be used to discover such structure in data.</p>
-<section id="the-direction-having-most-variance">
-<h2><span class="section-number">22.1. </span>The direction having most variance<a class="headerlink" href="#the-direction-having-most-variance" title="Link to this heading">#</a></h2>
+<section id="the-direction-of-maximum-variance">
+<h2><span class="section-number">22.1. </span>The direction of maximum variance<a class="headerlink" href="#the-direction-of-maximum-variance" title="Link to this heading">#</a></h2>
 <p>Let <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> be a feature matrix whose rows consist of <span class="math notranslate nohighlight">\(n\)</span> observations <span class="math notranslate nohighlight">\(x_1, \dots, x_n\)</span> in <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span>. Assume data is <em>centered</em> so that each column of <span class="math notranslate nohighlight">\(X\)</span> has mean zero, i.e.,</p>
 <div class="math notranslate nohighlight">
 \[
 \sum_{i=1}^n x_i = {\bf 0}_{1 \times p}.
 \]</div>
-<p>We would like to find a direction (i.e., a vector in <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span>) with the property that the data varies as much as possible in that direction. For example, in the above figure, we observe that the data approximately forms an ellipse inside a <span class="math notranslate nohighlight">\(2\)</span>-dimensional plane. The direction with the most variance would be a vector pointing in the direction of the big axis of the ellipse (indicated in red on the figure below).</p>
+<p>We would like to find a direction (i.e., a vector in <span class="math notranslate nohighlight">\(\mathbb{R}^p\)</span>) with the property that the data varies as much as possible in that direction. For example, in the above figure, we observe that the data approximately form an ellipse inside a <span class="math notranslate nohighlight">\(2\)</span>-dimensional plane. The direction with the most variance would be a vector pointing in the direction of the big axis of the ellipse (indicated in red on the figure below).</p>
 <figure class="align-default">
 <a class="reference internal image-reference" href="../_images/data_hyperplane-2.png"><img alt="../_images/data_hyperplane-2.png" src="../_images/data_hyperplane-2.png" style="width: 300px;" />
 </a>
@@ -469,7 +466,7 @@ w^* = \mathop{\rm argmax}_{\|w\|_2 = 1} w^T X^T X w.
 \[
 A = UDU^T = \sum_{i=1}^p \lambda_i v_i v_i^T. 
 \]</div>
-<p>The above is called the <strong>eigen decomposition</strong> of <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>The above is called the <strong>eigendecomposition</strong> of <span class="math notranslate nohighlight">\(A\)</span>.</p>
 </div>
 <p>The <em>Rayleigh quotient</em> associated to a symmetric matrix <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{p \times p}\)</span> is</p>
 <div class="math notranslate nohighlight">
@@ -484,7 +481,7 @@ R(A,x) = \frac{x^T A x}{x^T x} = \frac{\langle Ax, x\rangle}{\langle x, x\rangle
 \[\begin{split}
 \sup_{x \in \mathbb{R}^p \setminus \{{\bf 0}_{p \times 1}\}} R(A,x) = \sup_{\substack{x \in \mathbb{R}^p \\ \|x\|=1}} x^T A x = \lambda_1.
 \end{split}\]</div>
-<p>Moreover, the maximum is achived at the eigenvector <span class="math notranslate nohighlight">\(v_1\)</span> corresponding to <span class="math notranslate nohighlight">\(\lambda_1\)</span>.</p>
+<p>Moreover, the maximum is achieved at the eigenvector <span class="math notranslate nohighlight">\(v_1\)</span> corresponding to <span class="math notranslate nohighlight">\(\lambda_1\)</span>.</p>
 </div>
 <p><strong>Proof.</strong></p>
 <p>First observe that</p>
@@ -500,7 +497,7 @@ R(A,x) = \frac{x^T A x}{x^T x} = \frac{x^T A x}{\|x\|^2}  = \left(\frac{x}{\|x\|
 <p>Next, let <span class="math notranslate nohighlight">\(v_1\)</span> be an eigenvector associated to <span class="math notranslate nohighlight">\(\lambda_1\)</span>, i.e., <span class="math notranslate nohighlight">\(A v_1 = \lambda_1 v_1\)</span>. Then</p>
 <div class="math notranslate nohighlight">
 \[
-R(A,v_p) = \frac{v_1^T A v_1}{v_1^T v_1} = \frac{\lambda_1 v_1^T v_1}{v_1^T v_1} = \lambda_1.
+R(A,v_1) = \frac{v_1^T A v_1}{v_1^T v_1} = \frac{\lambda_1 v_1^T v_1}{v_1^T v_1} = \lambda_1.
 \]</div>
 <p>Thus,</p>
 <div class="math notranslate nohighlight">
@@ -552,15 +549,15 @@ R(A,x) \leq \frac{\lambda_1 x_1^2 + \dots + \lambda_1 x_p^2}{x_1^2 + \dots + x_p
 \[\begin{align*}
 \sup_{x \in \mathbb{R}^p \setminus \{{\bf 0}_{p \times 1}\}} R(A,x) = \lambda_1&amp; \\ &amp;\qquad \Box
 \end{align*}\]</div>
-<p>Using a similar approach, if we maximize the Rayleigh quotient on the orthogonal complement the span of the eigenvectors corresponding to the largest <span class="math notranslate nohighlight">\(k-1\)</span> eigenvalues, then we obtain <span class="math notranslate nohighlight">\(\lambda_{k}\)</span>.</p>
+<p>Using a similar approach, if we maximize the Rayleigh quotient on the orthogonal complement of the span of the eigenvectors corresponding to the largest <span class="math notranslate nohighlight">\(k-1\)</span> eigenvalues, then we obtain <span class="math notranslate nohighlight">\(\lambda_{k}\)</span>.</p>
 <div class="admonition-theorem admonition">
 <p class="admonition-title">Theorem.</p>
-<p>Let <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{p \times p}\)</span> be a symmetric matrix with eigenvalues <span class="math notranslate nohighlight">\(\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_p\)</span> and associated eigenvectors <span class="math notranslate nohighlight">\(v_1, v_2, \dots, v_p \in \mathbb{R}^p\)</span>. Then for any <span class="math notranslate nohighlight">\(0 \leq k \leq p-1\)</span>,</p>
+<p>Let <span class="math notranslate nohighlight">\(A \in \mathbb{R}^{p \times p}\)</span> be a symmetric matrix with eigenvalues <span class="math notranslate nohighlight">\(\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_p\)</span> and associated eigenvectors <span class="math notranslate nohighlight">\(v_1, v_2, \dots, v_p \in \mathbb{R}^p\)</span>. Then for any <span class="math notranslate nohighlight">\(1 \leq k \leq p\)</span>,</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \sup_{x \in \textrm{span}(v_1, v_2, \dots, v_{k-1})^\perp \setminus \{{\bf 0}_{p \times 1}\}} R(A,x) = \sup_{\substack{x \in \textrm{span}(v_1, v_2, \dots, v_{k-1})^\perp \\ \|x\| = 1}} x^TAx = \lambda_k.
 \end{split}\]</div>
-<p>Moreover, the maximum is achived at the eigenvector <span class="math notranslate nohighlight">\(v_k\)</span>.</p>
+<p>Moreover, the maximum is achieved at the eigenvector <span class="math notranslate nohighlight">\(v_k\)</span>.</p>
 </div>
 </section>
 <section id="back-to-pca">
@@ -575,7 +572,7 @@ w^* = \mathop{\rm argmax}_{\|w\|_2 = 1} w^T X^T X w.
 \[
 \sum_{i=1}^p w^{(1)}_i X_i
 \]</div>
-<p>of the predictors the <strong>first princicipal component</strong>. It is the linear combination that has the “most variance”. To find the second principal component, we look for a direction orthogonal to <span class="math notranslate nohighlight">\(w^{(1)}\)</span> that has maximal variance. In other words, we solve</p>
+<p>of the predictors the <strong>first principal component</strong>. It is the linear combination that has the “most variance”. To find the second principal component, we look for a direction orthogonal to <span class="math notranslate nohighlight">\(w^{(1)}\)</span> that has maximal variance. In other words, we solve</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 w^{(2)} := \mathop{\rm argmax}_{\substack{\|w\|_2 = 1 \\ w \perp w^{(1)}}} \sum_{i=1}^n (x_i^T w)^2 = \mathop{\rm argmax}_{\substack{\|w\|_2 = 1 \\ w \perp w^{(1)}}} w^T X^T X w.
@@ -592,7 +589,7 @@ w^{(k+1)} := \mathop{\rm argmax}_{\substack{\|w\|_2 = 1 \\ w \perp w^{(1)}, w^{(
 \[
 X^TX = UDU^T
 \]</div>
-<p>be the eigen decomposition of <span class="math notranslate nohighlight">\(X^TX\)</span>, i.e., <span class="math notranslate nohighlight">\(D\)</span> is a diagonal matrix containing the eigenvalues <span class="math notranslate nohighlight">\(\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_p\)</span> of <span class="math notranslate nohighlight">\(X^TX\)</span> on its diagonal, and <span class="math notranslate nohighlight">\(U\)</span> is a matrix whose columns <span class="math notranslate nohighlight">\(v_1, v_2, \dots, v_p\)</span> are orthogonal eigenvectors of <span class="math notranslate nohighlight">\(X^TX\)</span>. Observe that the <span class="math notranslate nohighlight">\(k\)</span>-th column of <span class="math notranslate nohighlight">\(XU\)</span> is the linear combination of the columns of <span class="math notranslate nohighlight">\(X\)</span> whose coefficients are <span class="math notranslate nohighlight">\(v_k\)</span>. Thus, <strong>the <span class="math notranslate nohighlight">\(k\)</span>-th column of <span class="math notranslate nohighlight">\(XU\)</span> contains the <span class="math notranslate nohighlight">\(k\)</span>-th principal components of <span class="math notranslate nohighlight">\(X\)</span></strong>. Moreover, the variance of the <span class="math notranslate nohighlight">\(k\)</span>-th principal component is</p>
+<p>be the eigendecomposition of <span class="math notranslate nohighlight">\(X^TX\)</span>, i.e., <span class="math notranslate nohighlight">\(D\)</span> is a diagonal matrix containing the eigenvalues <span class="math notranslate nohighlight">\(\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_p\)</span> of <span class="math notranslate nohighlight">\(X^TX\)</span> on its diagonal, and <span class="math notranslate nohighlight">\(U\)</span> is a matrix whose columns <span class="math notranslate nohighlight">\(v_1, v_2, \dots, v_p\)</span> are orthonormal eigenvectors of <span class="math notranslate nohighlight">\(X^TX\)</span>. Observe that the <span class="math notranslate nohighlight">\(k\)</span>-th column of <span class="math notranslate nohighlight">\(XU\)</span> is the linear combination of the columns of <span class="math notranslate nohighlight">\(X\)</span> whose coefficients are <span class="math notranslate nohighlight">\(v_k\)</span>. Thus, <strong>the <span class="math notranslate nohighlight">\(k\)</span>-th column of <span class="math notranslate nohighlight">\(XU\)</span> contains the <span class="math notranslate nohighlight">\(k\)</span>-th principal component of <span class="math notranslate nohighlight">\(X\)</span></strong>. Moreover, the variance of the <span class="math notranslate nohighlight">\(k\)</span>-th principal component is</p>
 <div class="math notranslate nohighlight">
 \[
 (Xv_k)^T(Xv_k) = v_k^T X^TXv_k = \lambda_k v_k^T v_k = \lambda_k. 
@@ -600,7 +597,7 @@ X^TX = UDU^T
 <p>Let us summarize the above as a theorem.</p>
 <div class="admonition-theorem admonition">
 <p class="admonition-title">Theorem.</p>
-<p>Let <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> and let <span class="math notranslate nohighlight">\(X^TX = UDU^T\)</span> be the eigen decomposition of <span class="math notranslate nohighlight">\(X^TX\)</span>, where <span class="math notranslate nohighlight">\(D = \textrm{diag}(\lambda_1, \dots, \lambda_p)\)</span> and <span class="math notranslate nohighlight">\(\lambda_1 \geq \dots \geq \lambda_p\)</span> are the eigenvalues of <span class="math notranslate nohighlight">\(X^TX\)</span>. Then the <span class="math notranslate nohighlight">\(k\)</span>-th column of <span class="math notranslate nohighlight">\(XU\)</span> contains the <span class="math notranslate nohighlight">\(k\)</span>-th principal component of <span class="math notranslate nohighlight">\(X\)</span>. Moreover, the variance of the <span class="math notranslate nohighlight">\(k\)</span>-th principal component is <span class="math notranslate nohighlight">\(\lambda_k\)</span>.</p>
+<p>Let <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times p}\)</span> and let <span class="math notranslate nohighlight">\(X^TX = UDU^T\)</span> be the eigendecomposition of <span class="math notranslate nohighlight">\(X^TX\)</span>, where <span class="math notranslate nohighlight">\(D = \textrm{diag}(\lambda_1, \dots, \lambda_p)\)</span> and <span class="math notranslate nohighlight">\(\lambda_1 \geq \dots \geq \lambda_p\)</span> are the eigenvalues of <span class="math notranslate nohighlight">\(X^TX\)</span>. Then the <span class="math notranslate nohighlight">\(k\)</span>-th column of <span class="math notranslate nohighlight">\(XU\)</span> contains the <span class="math notranslate nohighlight">\(k\)</span>-th principal component of <span class="math notranslate nohighlight">\(X\)</span>. Moreover, the variance of the <span class="math notranslate nohighlight">\(k\)</span>-th principal component is <span class="math notranslate nohighlight">\(\lambda_k\)</span>.</p>
 </div>
 <p>Finally, we say that the first <span class="math notranslate nohighlight">\(k\)</span> principal components of <span class="math notranslate nohighlight">\(X\)</span> explain</p>
 <div class="math notranslate nohighlight">
@@ -614,9 +611,10 @@ X^TX = UDU^T
 <p>In practice, we use principal components as follows: given an acceptable percentage <span class="math notranslate nohighlight">\(s\)</span> of explained variance (e.g., <span class="math notranslate nohighlight">\(s = 90\%\)</span>),</p>
 <ol class="arabic simple">
 <li><p>Compute the first <span class="math notranslate nohighlight">\(k\)</span> principal components explaining at least <span class="math notranslate nohighlight">\(s\)</span> percent of the variance of <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
-<li><p>Replace the features of <span class="math notranslate nohighlight">\(X\)</span> by the first <span class="math notranslate nohighlight">\(k\)</span> principal components, i.e., replace <span class="math notranslate nohighlight">\(X\)</span> by the first <span class="math notranslate nohighlight">\(k\)</span> columns of <span class="math notranslate nohighlight">\(XU\)</span>, where <span class="math notranslate nohighlight">\(X^TX = UDU^T\)</span> is the eigen decomposition of <span class="math notranslate nohighlight">\(X^TX\)</span> as above.</p></li>
+<li><p>Replace the features of <span class="math notranslate nohighlight">\(X\)</span> by the first <span class="math notranslate nohighlight">\(k\)</span> principal components, i.e., replace <span class="math notranslate nohighlight">\(X\)</span> by the first <span class="math notranslate nohighlight">\(k\)</span> columns of <span class="math notranslate nohighlight">\(XU\)</span>, where <span class="math notranslate nohighlight">\(X^TX = UDU^T\)</span> is the eigendecomposition of <span class="math notranslate nohighlight">\(X^TX\)</span> as above.</p></li>
 </ol>
-<p>In practice, it often happens that a small number <span class="math notranslate nohighlight">\(k\)</span> of principal components explain a large fraction of the variance of a dataset with <span class="math notranslate nohighlight">\(p\)</span> features. As a result of replacing the features by the <span class="math notranslate nohighlight">\(k\)</span> first principal components, the new dataset now has only <span class="math notranslate nohighlight">\(k\)</span> variables, with <span class="math notranslate nohighlight">\(k\)</span> much smaller than <span class="math notranslate nohighlight">\(p\)</span>. Effectively, this reduces the number of variables of the problem from <span class="math notranslate nohighlight">\(p\)</span> to <span class="math notranslate nohighlight">\(k\)</span>. Assuming the percentage of explained variance of the first <span class="math notranslate nohighlight">\(k\)</span> principal components is large enough, the resulting dataset still captures the original one well. Applying machine learning algorithms on the smaller dataset can yield a significant improvement in performance since the dimension of the problem is much smaller and the sample size remains the same.</p>
+<p>In practice, it often happens that a small number <span class="math notranslate nohighlight">\(k\)</span> of principal components explain a large fraction of the variance of a dataset with <span class="math notranslate nohighlight">\(p\)</span> features. As a result of replacing the features by the first <span class="math notranslate nohighlight">\(k\)</span> principal components, the new dataset now has only <span class="math notranslate nohighlight">\(k\)</span> variables, with <span class="math notranslate nohighlight">\(k\)</span> much smaller than <span class="math notranslate nohighlight">\(p\)</span>. Effectively, this reduces the number of variables of the problem from <span class="math notranslate nohighlight">\(p\)</span> to <span class="math notranslate nohighlight">\(k\)</span>. Assuming the percentage of explained variance of the first <span class="math notranslate nohighlight">\(k\)</span> principal components is large enough, the resulting dataset still captures the original one well. Applying machine-learning algorithms to the lower-dimensional representation can reduce computational cost and, in some problems, improve statistical performance by reducing noise and overfitting. However, PCA does not use the response variable, so directions with large variance are not necessarily the directions most useful for prediction.</p>
+<p>Note that PCA is sensitive to the scale of the predictors. When predictors are measured in very different units, it is common to standardize each feature to have mean zero and variance one before applying PCA. Whether standardization is appropriate depends on the application.</p>
 </section>
 </section>
 
@@ -684,7 +682,7 @@ X^TX = UDU^T
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-direction-having-most-variance">22.1. The direction having most variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-direction-of-maximum-variance">22.1. The direction of maximum variance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rayleigh-quotients">22.2. Rayleigh quotients</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-pca">22.3. Back to PCA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-principal-components">22.4. Using principal components</a></li>
